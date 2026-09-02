@@ -9,6 +9,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
 <style>
 :root{--bg:#f3f5f7;--card:#fff;--text:#17212b;--muted:#697586;--line:#dfe5eb;--accent:#1f5eff;--good:#168a55;--warn:#b87500;--bad:#c23838}
@@ -35,6 +36,8 @@ h2{font-size:19px;margin:0 0 15px}
 .record{border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:10px;background:#fff}.recordtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.pill{padding:5px 9px;border-radius:99px;background:#eaf8f1;color:var(--good);font-size:12px;font-weight:800}
 .items-status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:6px;background:#fff;padding:8px 12px;border-radius:8px;border:1px solid #edf2f7}
 .user-bar{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+.photo-preview-container{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.photo-thumb{width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer}
 #auth-card{max-width:400px;margin:60px auto}
 @media(max-width:800px){.grid,.grid-4,.dashboard{grid-template-columns:1fr 1fr}.checkgrid{grid-template-columns:1fr}.check{grid-template-columns:1fr 130px}}
 @media(max-width:520px){.container{padding:13px}.grid,.grid-4,.dashboard,.items-status-grid{grid-template-columns:1fr}header{display:block}}
@@ -88,12 +91,12 @@ h2{font-size:19px;margin:0 0 15px}
   </div>
 
   <div class="card">
-  <h2>2. Estado, Faltantes y Observaciones por Unidad</h2>
+  <h2>2. Estado, Faltantes, Fotos y Observaciones por Unidad</h2>
   <div id="units"></div>
   </div>
 
   <div class="actions">
-  <button class="btn primary" onclick="guardar()">Guardar cambio de guardia</button>
+  <button id="btn-guardar" class="btn primary" onclick="guardar()">Guardar cambio de guardia</button>
   <button class="btn secondary" onclick="limpiar()">Limpiar formulario</button>
   </div>
   </section>
@@ -129,6 +132,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 const unidades=["PAA 327","PEQ 519","AF676BF"];
 const items=["Limpieza exterior","Limpieza interior","Carga de la batería de los equipos","Nivel de oxígeno","Residuos patogénicos","Tubo de oxígeno adicional","Tubo de taqueo"];
@@ -212,6 +216,11 @@ function init(){
    </div>
 
    <div class="field" style="margin-top:14px">
+     <label>Adjuntar fotos del móvil (opcional)</label>
+     <input type="file" id="u${ui}_fotos" accept="image/*" multiple style="padding:8px">
+   </div>
+
+   <div class="field" style="margin-top:14px">
      <label>Observaciones de ${u}</label>
      <textarea id="uo${ui}" placeholder="Dejar constancia de faltantes, daños o novedades de este móvil..."></textarea>
    </div>
@@ -232,31 +241,59 @@ async function guardar(){
 
  if(!fechaVal||!choferVal){alert("Completá la fecha y el nombre del chofer.");return}
 
- const data={
-  uid: user.uid,
-  fecha: fechaVal,
-  chofer: choferVal,
-  creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
-  unidades: unidades.map((u,ui)=>({
-    nombre:u,
-    operativo:document.getElementById(`u${ui}_operativo`).value,
-    estados:items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
-    faltantes:{
-      med:document.getElementById(`u${ui}_med`).value,
-      ins:document.getElementById(`u${ui}_ins`).value,
-      acople:document.getElementById(`u${ui}_acople`).value,
-      llave:document.getElementById(`u${ui}_llave`).value
-    },
-    obs:document.getElementById(`uo${ui}`).value.trim()
-  }))
- };
+ const btnGuardar = document.getElementById("btn-guardar");
+ btnGuardar.disabled = true;
+ btnGuardar.textContent = "Subiendo fotos y guardando...";
 
  try {
+   const unidadesData = [];
+
+   for(let ui=0; ui < unidades.length; ui++) {
+     const uNombre = unidades[ui];
+     const inputFotos = document.getElementById(`u${ui}_fotos`);
+     const fotosUrls = [];
+
+     if (inputFotos && inputFotos.files.length > 0) {
+       for(let f=0; f < inputFotos.files.length; f++) {
+         const file = inputFotos.files[f];
+         const ref = storage.ref(`guardias/${user.uid}/${Date.now()}_${ui}_${file.name}`);
+         await ref.put(file);
+         const url = await ref.getDownloadURL();
+         fotosUrls.push(url);
+       }
+     }
+
+     unidadesData.push({
+       nombre: uNombre,
+       operativo: document.getElementById(`u${ui}_operativo`).value,
+       estados: items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
+       faltantes: {
+         med: document.getElementById(`u${ui}_med`).value,
+         ins: document.getElementById(`u${ui}_ins`).value,
+         acople: document.getElementById(`u${ui}_acople`).value,
+         llave: document.getElementById(`u${ui}_llave`).value
+       },
+       fotos: fotosUrls,
+       obs: document.getElementById(`uo${ui}`).value.trim()
+     });
+   }
+
+   const data={
+    uid: user.uid,
+    fecha: fechaVal,
+    chofer: choferVal,
+    creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+    unidades: unidadesData
+   };
+
    await db.collection("guardias").add(data);
    alert("Cambio de guardia guardado en la nube correctamente.");
    limpiar();
  } catch(err) {
    alert("Error al guardar: " + err.message);
+ } finally {
+   btnGuardar.disabled = false;
+   btnGuardar.textContent = "Guardar cambio de guardia";
  }
 }
 
@@ -294,7 +331,7 @@ async function cargarHistorial(){
 
  document.getElementById("total").textContent = docs.length;
  document.getElementById("unidades").textContent = docs.length * unidades.length;
- document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || Object.values(u.faltantes||{}).some(v => v === "Sí"))).length;
+ document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || (u.fotos && u.fotos.length) || Object.values(u.faltantes||{}).some(v => v === "Sí"))).length;
  
  let cntNoOp = 0;
  docs.forEach(x => {
@@ -335,6 +372,15 @@ async function cargarHistorial(){
          ? `<span style="padding:3px 8px;border-radius:6px;background:#eaf8f1;color:var(--good);font-weight:700;font-size:11px">OPERATIVO</span>`
          : `<span style="padding:3px 8px;border-radius:6px;background:#fdeaea;color:var(--bad);font-weight:700;font-size:11px">NO OPERATIVO</span>`;
 
+       const fotosHtml = (u.fotos && u.fotos.length) 
+         ? `<div style="margin-top:8px">
+              <strong style="font-size:12px;color:var(--muted)">FOTOS ADJUNTAS:</strong>
+              <div class="photo-preview-container">
+                ${u.fotos.map(f => `<a href="${f}" target="_blank"><img src="${f}" class="photo-thumb" alt="Foto unidad"></a>`).join("")}
+              </div>
+            </div>`
+         : '';
+
        return `
        <div style="margin-top:8px;padding:10px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;font-size:13px">
          <div style="display:flex;justify-content:space-between;align-items:center">
@@ -350,6 +396,7 @@ async function cargarHistorial(){
 
          ${faltantesTxt.length ? `<div style="margin-top:6px"><strong>Faltantes:</strong> ${faltantesTxt.join(" | ")}</div>` : ''}
          ${u.obs ? `<div style="margin-top:6px"><strong>Observaciones:</strong> ${u.obs}</div>` : ''}
+         ${fotosHtml}
        </div>`;
      }).join("")}
    </div>
