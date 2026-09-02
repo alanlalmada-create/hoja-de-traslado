@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de Cambio de Guardia</title>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<style>
+:root{--bg:#f3f5f7;--card:#fff;--text:#17212b;--muted:#697586;--line:#dfe5eb;--accent:#1f5eff;--good:#168a55;--warn:#b87500;--bad:#c23838}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.container{max-width:1250px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px;flex-wrap:wrap}h1{margin:0 0 5px;font-size:28px}.sub{color:var(--muted)}
+.tabs{display:flex;gap:8px;margin-bottom:18px}.tab{border:1px solid var(--line);background:#fff;padding:11px 16px;border-radius:10px;cursor:pointer;font-weight:700}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 7px 25px rgba(20,30,40,.06);margin-bottom:16px}
+h2{font-size:19px;margin:0 0 15px}
+.section-title{font-size:14px;font-weight:700;color:var(--muted);margin:16px 0 10px;text-transform:uppercase;letter-spacing:0.5px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;font-weight:700;color:var(--muted)}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;background:#fff;color:var(--text);font:inherit}textarea{min-height:80px;resize:vertical}
+.unit{border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:14px;background:#fff}
+.unit-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;flex-wrap:wrap;gap:10px}
+.unit-header h3{margin:0;color:var(--accent)}
+.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:grid;grid-template-columns:1fr 145px;gap:10px;align-items:center;padding:10px;background:#fafbfc;border-radius:9px;border:1px solid #edf0f3}
+.check span{font-size:14px;font-weight:600}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:#e9edf2;color:var(--text)}.danger{background:#fdeaea;color:var(--bad)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
+.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{padding:17px;border:1px solid var(--line);border-radius:12px;background:#fff}.metric small{display:block;color:var(--muted);font-weight:700}.metric strong{font-size:26px;display:block;margin-top:5px}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.empty{padding:35px;text-align:center;color:var(--muted)}
+.record{border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:10px;background:#fff}.recordtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.pill{padding:5px 9px;border-radius:99px;background:#eaf8f1;color:var(--good);font-size:12px;font-weight:800}
+.items-status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:6px;background:#fff;padding:8px 12px;border-radius:8px;border:1px solid #edf2f7}
+.user-bar{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+#auth-card{max-width:400px;margin:60px auto}
+@media(max-width:800px){.grid,.grid-4,.dashboard{grid-template-columns:1fr 1fr}.checkgrid{grid-template-columns:1fr}.check{grid-template-columns:1fr 130px}}
+@media(max-width:520px){.container{padding:13px}.grid,.grid-4,.dashboard,.items-status-grid{grid-template-columns:1fr}header{display:block}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div>
+    <h1>Control de Cambio de Guardia</h1>
+    <div class="sub">Gestión de unidades y reportes en la nube</div>
+  </div>
+  <div id="user-info" class="user-bar" style="display:none">
+    <span id="user-email"></span>
+    <button class="btn secondary btn-sm" onclick="logout()">Cerrar sesión</button>
+  </div>
+</header>
+
+<!-- PANTALLA DE LOGIN -->
+<div id="auth-card" class="card">
+  <h2>Iniciar Sesión</h2>
+  <div class="field" style="margin-bottom:12px">
+    <label>Correo Electrónico</label>
+    <input type="email" id="auth-email" placeholder="chofer@empresa.com">
+  </div>
+  <div class="field" style="margin-bottom:18px">
+    <label>Contraseña</label>
+    <input type="password" id="auth-pass" placeholder="******">
+  </div>
+  <div class="actions">
+    <button class="btn primary" onclick="login()" style="width:100%">Ingresar</button>
+    <button class="btn secondary" onclick="register()" style="width:100%;margin-top:5px">Registrarse</button>
+  </div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div id="main-app" style="display:none">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('cargar',this)">Cargar guardia</button>
+    <button class="tab" onclick="showTab('historial',this)">Mis Guardias</button>
+  </div>
+
+  <section id="cargar">
+  <div class="card">
+  <h2>1. Datos de la guardia</h2>
+  <div class="grid">
+    <div class="field"><label>Fecha</label><input id="fecha" type="date"></div>
+    <div class="field" style="grid-column: span 2"><label>Chofer</label><input id="chofer" placeholder="Nombre y apellido del chofer"></div>
+  </div>
+  </div>
+
+  <div class="card">
+  <h2>2. Estado, Faltantes y Observaciones por Unidad</h2>
+  <div id="units"></div>
+  </div>
+
+  <div class="actions">
+  <button class="btn primary" onclick="guardar()">Guardar cambio de guardia</button>
+  <button class="btn secondary" onclick="limpiar()">Limpiar formulario</button>
+  </div>
+  </section>
+
+  <section id="historial" style="display:none">
+  <div class="card">
+  <h2>Mi Resumen</h2>
+  <div class="dashboard">
+  <div class="metric"><small>Guardias registradas</small><strong id="total">0</strong></div>
+  <div class="metric"><small>Unidades revisadas</small><strong id="unidades">0</strong></div>
+  <div class="metric"><small>Con observaciones</small><strong class="warn" id="conObs">0</strong></div>
+  <div class="metric"><small>Móviles No Operativos</small><strong class="bad" id="noOperativos">0</strong></div>
+  </div>
+  </div>
+  <div id="records"></div>
+  </section>
+</div>
+
+</div>
+
+<script>
+// Configuración de tu proyecto traslados-b4628
+const firebaseConfig = {
+  apiKey: "AIzaSyAW7vN0udDac3JKf20UEQuGDs9c0b_eJ-k",
+  authDomain: "traslados-b4628.firebaseapp.com",
+  projectId: "traslados-b4628",
+  storageBucket: "traslados-b4628.firebasestorage.app",
+  messagingSenderId: "479233854490",
+  appId: "1:479233854490:web:ede7c32e4c75f9f45855a3",
+  measurementId: "G-CHS08G5397"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const unidades=["PAA 327","PEQ 519","AF676BF"];
+const items=["Limpieza exterior","Limpieza interior","Carga de la batería de los equipos","Nivel de oxígeno","Residuos patogénicos","Tubo de oxígeno adicional","Tubo de taqueo"];
+const estadosGral=["","Bueno","Regular","Malo","Sin dato"];
+const estadosTubos=["","Lleno","Medio","Vacío"];
+
+function esItemTubo(nombre){
+ const n=nombre.toLowerCase();
+ return n.includes("oxígeno") || n.includes("oxigeno") || n.includes("tubo");
+}
+
+// Control de Sesión
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("auth-card").style.display = "none";
+    document.getElementById("main-app").style.display = "block";
+    document.getElementById("user-info").style.display = "flex";
+    document.getElementById("user-email").textContent = user.email;
+    init();
+  } else {
+    document.getElementById("auth-card").style.display = "block";
+    document.getElementById("main-app").style.display = "none";
+    document.getElementById("user-info").style.display = "none";
+  }
+});
+
+function login(){
+  const email = document.getElementById("auth-email").value;
+  const pass = document.getElementById("auth-pass").value;
+  auth.signInWithEmailAndPassword(email, pass).catch(err => alert("Error al ingresar: " + err.message));
+}
+
+function register(){
+  const email = document.getElementById("auth-email").value;
+  const pass = document.getElementById("auth-pass").value;
+  auth.createUserWithEmailAndPassword(email, pass).then(() => {
+    alert("Usuario registrado con éxito");
+  }).catch(err => alert("Error al registrarse: " + err.message));
+}
+
+function logout(){
+  auth.signOut();
+}
+
+function init(){
+ document.getElementById("fecha").value=new Date().toISOString().slice(0,10);
+ const box=document.getElementById("units");
+ box.innerHTML=unidades.map((u,ui)=>`
+ <div class="unit">
+   <div class="unit-header">
+     <h3>Móvil: ${u}</h3>
+     <div style="display:flex;align-items:center;gap:8px">
+       <label style="font-size:13px;font-weight:700;color:var(--muted)">Estado de la unidad:</label>
+       <select id="u${ui}_operativo" style="width:auto;padding:6px 12px;font-weight:700">
+         <option value="Operativo">Operativo</option>
+         <option value="No Operativo">No Operativo</option>
+       </select>
+     </div>
+   </div>
+   
+   <div class="section-title">Estado de la unidad</div>
+   <div class="checkgrid">
+   ${items.map((it,ii)=>{
+     const opciones = esItemTubo(it) ? estadosTubos : estadosGral;
+     return `
+     <div class="check">
+       <span>${it}</span>
+       <select id="u${ui}i${ii}">
+         ${opciones.map(e=>`<option value="${e}">${e||"Seleccionar estado"}</option>`).join("")}
+       </select>
+     </div>`;
+   }).join("")}
+   </div>
+
+   <div class="section-title">Faltantes del Móvil</div>
+   <div class="grid-4">
+     <div class="field"><label>Medicamentos</label><select id="u${ui}_med"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+     <div class="field"><label>Insumos ambulancia</label><select id="u${ui}_ins"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+     <div class="field"><label>Acople de tubo</label><select id="u${ui}_acople"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+     <div class="field"><label>Llave fija y tubo</label><select id="u${ui}_llave"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+   </div>
+
+   <div class="field" style="margin-top:14px">
+     <label>Observaciones de ${u}</label>
+     <textarea id="uo${ui}" placeholder="Dejar constancia de faltantes, daños o novedades de este móvil..."></textarea>
+   </div>
+ </div>`).join("");
+}
+
+function showTab(id,btn){
+ document.getElementById("cargar").style.display=id==="cargar"?"block":"none";
+ document.getElementById("historial").style.display=id==="historial"?"block":"none";
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ if(id==="historial") cargarHistorial();
+}
+
+async function guardar(){
+ const fechaVal=document.getElementById("fecha").value;
+ const choferVal=document.getElementById("chofer").value.trim();
+ const user = auth.currentUser;
+
+ if(!fechaVal||!choferVal){alert("Completá la fecha y el nombre del chofer.");return}
+
+ const data={
+  uid: user.uid,
+  fecha: fechaVal,
+  chofer: choferVal,
+  creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+  unidades: unidades.map((u,ui)=>({
+    nombre:u,
+    operativo:document.getElementById(`u${ui}_operativo`).value,
+    estados:items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
+    faltantes:{
+      med:document.getElementById(`u${ui}_med`).value,
+      ins:document.getElementById(`u${ui}_ins`).value,
+      acople:document.getElementById(`u${ui}_acople`).value,
+      llave:document.getElementById(`u${ui}_llave`).value
+    },
+    obs:document.getElementById(`uo${ui}`).value.trim()
+  }))
+ };
+
+ try {
+   await db.collection("guardias").add(data);
+   alert("Cambio de guardia guardado en la nube correctamente.");
+   limpiar();
+ } catch(err) {
+   alert("Error al guardar: " + err.message);
+ }
+}
+
+function limpiar(){
+ document.querySelectorAll("input:not(#fecha),textarea,select").forEach(el=>{
+   if(el.id.endsWith("_operativo")){
+     el.value="Operativo";
+   } else {
+     el.value="";
+   }
+ });
+ document.getElementById("fecha").value=new Date().toISOString().slice(0,10);
+}
+
+async function eliminarRegistro(id){
+ if(confirm("¿Estás seguro de que deseas eliminar este registro de guardia?")){
+   try {
+     await db.collection("guardias").doc(id).delete();
+     cargarHistorial();
+   } catch(err) {
+     alert("Error al eliminar: " + err.message);
+   }
+ }
+}
+
+async function cargarHistorial(){
+ const user = auth.currentUser;
+ if(!user) return;
+
+ const snapshot = await db.collection("guardias")
+   .where("uid", "==", user.uid)
+   .get();
+
+ const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+ document.getElementById("total").textContent = docs.length;
+ document.getElementById("unidades").textContent = docs.length * unidades.length;
+ document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || Object.values(u.faltantes||{}).some(v => v === "Sí"))).length;
+ 
+ let cntNoOp = 0;
+ docs.forEach(x => {
+   (x.unidades||[]).forEach(u => {
+     if(u.operativo === "No Operativo") cntNoOp++;
+   });
+ });
+ document.getElementById("noOperativos").textContent = cntNoOp;
+
+ const recordsElem = document.getElementById("records");
+ recordsElem.innerHTML = docs.length ? docs.map(x => `
+ <div class="record">
+   <div class="recordtop">
+     <div>
+       <strong>${x.fecha} — Chofer: ${x.chofer || "No indicado"}</strong>
+       <span class="pill" style="margin-left:8px">En nube</span>
+     </div>
+     <button class="btn danger btn-sm" onclick="eliminarRegistro('${x.id}')">Eliminar</button>
+   </div>
+   
+   <div style="margin-top:10px">
+     ${(x.unidades||[]).map(u => {
+       const faltantesTxt = [];
+       if(u.faltantes){
+         if(u.faltantes.med) faltantesTxt.push(`Medicamentos: ${u.faltantes.med}`);
+         if(u.faltantes.ins) faltantesTxt.push(`Insumos: ${u.faltantes.ins}`);
+         if(u.faltantes.acople) faltantesTxt.push(`Acople: ${u.faltantes.acople}`);
+         if(u.faltantes.llave) faltantesTxt.push(`Llave: ${u.faltantes.llave}`);
+       }
+
+       const estadosList = (u.estados||[]).map((est, idx) => {
+         if(!est) return null;
+         return `<div style="font-size:12px"><strong>${items[idx]}:</strong> ${est}</div>`;
+       }).filter(Boolean);
+
+       const esOp = u.operativo !== "No Operativo";
+       const badgeOp = esOp 
+         ? `<span style="padding:3px 8px;border-radius:6px;background:#eaf8f1;color:var(--good);font-weight:700;font-size:11px">OPERATIVO</span>`
+         : `<span style="padding:3px 8px;border-radius:6px;background:#fdeaea;color:var(--bad);font-weight:700;font-size:11px">NO OPERATIVO</span>`;
+
+       return `
+       <div style="margin-top:8px;padding:10px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;font-size:13px">
+         <div style="display:flex;justify-content:space-between;align-items:center">
+           <strong style="color:var(--accent);font-size:14px">Móvil ${u.nombre}</strong>
+           ${badgeOp}
+         </div>
+         
+         ${estadosList.length ? `
+           <div style="margin-top:6px">
+             <div style="font-weight:700;color:var(--muted);font-size:12px;margin-bottom:2px">ESTADO DE CONTROLES:</div>
+             <div class="items-status-grid">${estadosList.join("")}</div>
+           </div>` : ''}
+
+         ${faltantesTxt.length ? `<div style="margin-top:6px"><strong>Faltantes:</strong> ${faltantesTxt.join(" | ")}</div>` : ''}
+         ${u.obs ? `<div style="margin-top:6px"><strong>Observaciones:</strong> ${u.obs}</div>` : ''}
+       </div>`;
+     }).join("")}
+   </div>
+ </div>`).join("") : `<div class="card empty">Todavía no has registrado guardias en tu cuenta.</div>`;
+}
+</script>
+</body>
+</html>
