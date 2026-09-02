@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;gap:20px;align-items:center;ma
 h2{font-size:19px;margin:0 0 15px}
 .section-title{font-size:14px;font-weight:700;color:var(--muted);margin:16px 0 10px;text-transform:uppercase;letter-spacing:0.5px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;font-weight:700;color:var(--muted)}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;background:#fff;color:var(--text);font:inherit}textarea{min-height:80px;resize:vertical}
 .unit{border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:14px;background:#fff}
 .unit-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;flex-wrap:wrap;gap:10px}
@@ -39,8 +39,8 @@ h2{font-size:19px;margin:0 0 15px}
 .photo-preview-container{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .photo-thumb{width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer}
 #auth-card{max-width:400px;margin:60px auto}
-@media(max-width:800px){.grid,.grid-4,.dashboard{grid-template-columns:1fr 1fr}.checkgrid{grid-template-columns:1fr}.check{grid-template-columns:1fr 130px}}
-@media(max-width:520px){.container{padding:13px}.grid,.grid-4,.dashboard,.items-status-grid{grid-template-columns:1fr}header{display:block}}
+@media(max-width:800px){.grid,.grid-2,.dashboard{grid-template-columns:1fr 1fr}.checkgrid{grid-template-columns:1fr}.check{grid-template-columns:1fr 130px}}
+@media(max-width:520px){.container{padding:13px}.grid,.grid-2,.dashboard,.items-status-grid{grid-template-columns:1fr}header{display:block}}
 </style>
 </head>
 <body>
@@ -91,7 +91,7 @@ h2{font-size:19px;margin:0 0 15px}
   </div>
 
   <div class="card">
-  <h2>2. Estado, Faltantes, Fotos y Observaciones por Unidad</h2>
+  <h2>2. Estado, Verificaciones, Fotos y Observaciones por Unidad</h2>
   <div id="units"></div>
   </div>
 
@@ -135,7 +135,7 @@ const db = firebase.firestore();
 const storage = firebase.storage();
 
 const unidades=["PAA 327","PEQ 519","AF676BF"];
-const items=["Limpieza exterior","Limpieza interior","Carga de la batería de los equipos","Nivel de oxígeno","Residuos patogénicos","Tubo de oxígeno adicional","Tubo de taqueo"];
+const items=["Limpieza exterior","Limpieza interior","Carga de la batería de los equipos","Nivel de oxígeno","Tubo ultra liviano"];
 const estadosGral=["","Bueno","Regular","Malo","Sin dato"];
 const estadosTubos=["","Lleno","Medio","Vacío"];
 
@@ -207,12 +207,24 @@ function init(){
    }).join("")}
    </div>
 
-   <div class="section-title">Faltantes del Móvil</div>
-   <div class="grid-4">
-     <div class="field"><label>Medicamentos</label><select id="u${ui}_med"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-     <div class="field"><label>Insumos ambulancia</label><select id="u${ui}_ins"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-     <div class="field"><label>Acople de tubo</label><select id="u${ui}_acople"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
-     <div class="field"><label>Llave fija y tubo</label><select id="u${ui}_llave"><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+   <div class="section-title">Verificaciones del Móvil</div>
+   <div class="grid-2">
+     <div class="field">
+       <label>¿Se encontró residuos patogénicos?</label>
+       <select id="u${ui}_residuos">
+         <option value="">Seleccionar</option>
+         <option value="Sí">Sí</option>
+         <option value="No">No</option>
+       </select>
+     </div>
+     <div class="field">
+       <label>¿Cuenta con llave fija y llave de tubo?</label>
+       <select id="u${ui}_llave">
+         <option value="">Seleccionar</option>
+         <option value="Sí">Sí</option>
+         <option value="No">No</option>
+       </select>
+     </div>
    </div>
 
    <div class="field" style="margin-top:14px">
@@ -267,10 +279,8 @@ async function guardar(){
        nombre: uNombre,
        operativo: document.getElementById(`u${ui}_operativo`).value,
        estados: items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
-       faltantes: {
-         med: document.getElementById(`u${ui}_med`).value,
-         ins: document.getElementById(`u${ui}_ins`).value,
-         acople: document.getElementById(`u${ui}_acople`).value,
+       verificaciones: {
+         residuos: document.getElementById(`u${ui}_residuos`).value,
          llave: document.getElementById(`u${ui}_llave`).value
        },
        fotos: fotosUrls,
@@ -331,7 +341,7 @@ async function cargarHistorial(){
 
  document.getElementById("total").textContent = docs.length;
  document.getElementById("unidades").textContent = docs.length * unidades.length;
- document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || (u.fotos && u.fotos.length) || Object.values(u.faltantes||{}).some(v => v === "Sí"))).length;
+ document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || (u.fotos && u.fotos.length) || Object.values(u.verificaciones||u.faltantes||{}).some(v => v === "Sí"))).length;
  
  let cntNoOp = 0;
  docs.forEach(x => {
@@ -354,17 +364,20 @@ async function cargarHistorial(){
    
    <div style="margin-top:10px">
      ${(x.unidades||[]).map(u => {
-       const faltantesTxt = [];
-       if(u.faltantes){
-         if(u.faltantes.med) faltantesTxt.push(`Medicamentos: ${u.faltantes.med}`);
-         if(u.faltantes.ins) faltantesTxt.push(`Insumos: ${u.faltantes.ins}`);
-         if(u.faltantes.acople) faltantesTxt.push(`Acople: ${u.faltantes.acople}`);
-         if(u.faltantes.llave) faltantesTxt.push(`Llave: ${u.faltantes.llave}`);
+       const verificacionesTxt = [];
+       if(u.verificaciones){
+         if(u.verificaciones.residuos) verificacionesTxt.push(`Residuos patogénicos: ${u.verificaciones.residuos}`);
+         if(u.verificaciones.llave) verificacionesTxt.push(`Llave fija y llave de tubo: ${u.verificaciones.llave}`);
+       } else if(u.faltantes){
+         if(u.faltantes.med) verificacionesTxt.push(`Medicamentos: ${u.faltantes.med}`);
+         if(u.faltantes.ins) verificacionesTxt.push(`Insumos: ${u.faltantes.ins}`);
+         if(u.faltantes.acople) verificacionesTxt.push(`Acople: ${u.faltantes.acople}`);
+         if(u.faltantes.llave) verificacionesTxt.push(`Llave: ${u.faltantes.llave}`);
        }
 
        const estadosList = (u.estados||[]).map((est, idx) => {
          if(!est) return null;
-         return `<div style="font-size:12px"><strong>${items[idx]}:</strong> ${est}</div>`;
+         return `<div style="font-size:12px"><strong>${items[idx] || "Control"}:</strong> ${est}</div>`;
        }).filter(Boolean);
 
        const esOp = u.operativo !== "No Operativo";
@@ -394,7 +407,7 @@ async function cargarHistorial(){
              <div class="items-status-grid">${estadosList.join("")}</div>
            </div>` : ''}
 
-         ${faltantesTxt.length ? `<div style="margin-top:6px"><strong>Faltantes:</strong> ${faltantesTxt.join(" | ")}</div>` : ''}
+         ${verificacionesTxt.length ? `<div style="margin-top:6px"><strong>Verificaciones:</strong> ${verificacionesTxt.join(" | ")}</div>` : ''}
          ${u.obs ? `<div style="margin-top:6px"><strong>Observaciones:</strong> ${u.obs}</div>` : ''}
          ${fotosHtml}
        </div>`;
