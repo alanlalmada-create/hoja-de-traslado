@@ -118,7 +118,6 @@ h2{font-size:19px;margin:0 0 15px}
 </div>
 
 <script>
-// Configuración de tu proyecto traslados-b4628
 const firebaseConfig = {
   apiKey: "AIzaSyAW7vN0udDac3JKf20UEQuGDs9c0b_eJ-k",
   authDomain: "traslados-b4628.firebaseapp.com",
@@ -144,7 +143,6 @@ function esItemTubo(nombre){
  return n.includes("oxígeno") || n.includes("oxigeno") || n.includes("tubo");
 }
 
-// Control de Sesión
 auth.onAuthStateChanged(user => {
   if (user) {
     document.getElementById("auth-card").style.display = "none";
@@ -208,7 +206,7 @@ function init(){
    </div>
 
    <div class="section-title">Verificaciones del Móvil</div>
-   <div class="grid-2">
+   <div class="grid">
      <div class="field">
        <label>¿Se encontró residuos patogénicos?</label>
        <select id="u${ui}_residuos">
@@ -220,6 +218,14 @@ function init(){
      <div class="field">
        <label>¿Cuenta con llave fija y llave de tubo?</label>
        <select id="u${ui}_llave">
+         <option value="">Seleccionar</option>
+         <option value="Sí">Sí</option>
+         <option value="No">No</option>
+       </select>
+     </div>
+     <div class="field">
+       <label>¿Cuenta con acople de tubo?</label>
+       <select id="u${ui}_acople">
          <option value="">Seleccionar</option>
          <option value="Sí">Sí</option>
          <option value="No">No</option>
@@ -281,7 +287,8 @@ async function guardar(){
        estados: items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
        verificaciones: {
          residuos: document.getElementById(`u${ui}_residuos`).value,
-         llave: document.getElementById(`u${ui}_llave`).value
+         llave: document.getElementById(`u${ui}_llave`).value,
+         acople: document.getElementById(`u${ui}_acople`).value
        },
        fotos: fotosUrls,
        obs: document.getElementById(`uo${ui}`).value.trim()
@@ -368,11 +375,7 @@ async function cargarHistorial(){
        if(u.verificaciones){
          if(u.verificaciones.residuos) verificacionesTxt.push(`Residuos patogénicos: ${u.verificaciones.residuos}`);
          if(u.verificaciones.llave) verificacionesTxt.push(`Llave fija y llave de tubo: ${u.verificaciones.llave}`);
-       } else if(u.faltantes){
-         if(u.faltantes.med) verificacionesTxt.push(`Medicamentos: ${u.faltantes.med}`);
-         if(u.faltantes.ins) verificacionesTxt.push(`Insumos: ${u.faltantes.ins}`);
-         if(u.faltantes.acople) verificacionesTxt.push(`Acople: ${u.faltantes.acople}`);
-         if(u.faltantes.llave) verificacionesTxt.push(`Llave: ${u.faltantes.llave}`);
+         if(u.verificaciones.acople) verificacionesTxt.push(`Acople de tubo: ${u.verificaciones.acople}`);
        }
 
        const estadosList = (u.estados||[]).map((est, idx) => {
