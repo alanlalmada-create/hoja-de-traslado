@@ -19,24 +19,17 @@
 :root {
 
   --primary: #0056b3;
-
   --bg: #f4f6f9;
-
   --card-bg: #ffffff;
-
   --text: #333333;
-
   --muted: #666666;
-
   --border: #cccccc;
 
 }
 
-
 * {
   box-sizing: border-box;
 }
-
 
 body {
 
@@ -49,18 +42,15 @@ body {
     Arial,
     sans-serif;
 
-  background-color:
-    var(--bg);
+  background-color: var(--bg);
 
-  color:
-    var(--text);
+  color: var(--text);
 
   margin: 0;
 
   padding: 15px;
 
 }
-
 
 .container {
 
@@ -70,11 +60,9 @@ body {
 
 }
 
-
 .card {
 
-  background:
-    var(--card-bg);
+  background: var(--card-bg);
 
   padding: 20px;
 
@@ -87,24 +75,20 @@ body {
 
 }
 
-
 h2,
 h3 {
 
   margin-top: 0;
 
-  color:
-    var(--primary);
+  color: var(--primary);
 
 }
-
 
 .form-group {
 
   margin-bottom: 15px;
 
 }
-
 
 label {
 
@@ -115,7 +99,6 @@ label {
   margin-bottom: 5px;
 
 }
-
 
 input[type="text"],
 input[type="date"],
@@ -136,13 +119,11 @@ textarea {
 
 }
 
-
 textarea {
 
   resize: vertical;
 
 }
-
 
 .unidad-card {
 
@@ -155,11 +136,9 @@ textarea {
 
   margin-bottom: 15px;
 
-  background-color:
-    #fafafa;
+  background-color: #fafafa;
 
 }
-
 
 .unidad-title {
 
@@ -173,11 +152,9 @@ textarea {
 
 }
 
-
 .btn {
 
-  background-color:
-    var(--primary);
+  background-color: var(--primary);
 
   color: white;
 
@@ -197,17 +174,13 @@ textarea {
 
 }
 
-
 .btn:disabled {
 
-  background-color:
-    #999;
+  background-color: #999;
 
-  cursor:
-    not-allowed;
+  cursor: not-allowed;
 
 }
-
 
 .row {
 
@@ -217,25 +190,21 @@ textarea {
 
 }
 
-
 .col {
 
   flex: 1;
 
 }
 
-
 .empty {
 
   text-align: center;
 
-  color:
-    var(--muted);
+  color: var(--muted);
 
   padding: 20px;
 
 }
-
 
 .foto-info {
 
@@ -243,11 +212,9 @@ textarea {
 
   font-size: 12px;
 
-  color:
-    var(--muted);
+  color: var(--muted);
 
 }
-
 
 .estado-foto {
 
@@ -266,7 +233,6 @@ textarea {
   display: none;
 
 }
-
 
 .exito {
 
@@ -287,7 +253,6 @@ textarea {
 
 }
 
-
 @media (max-width: 600px) {
 
   .row {
@@ -298,13 +263,11 @@ textarea {
 
   }
 
-
   .card {
 
     padding: 15px;
 
   }
-
 
   body {
 
@@ -326,6 +289,7 @@ textarea {
 
 
   <div class="card">
+
 
     <h2>
       🚐 Control de Guardia
@@ -390,6 +354,7 @@ textarea {
 
   <div class="card">
 
+
     <h3>
       Historial de Registros
     </h3>
@@ -406,6 +371,7 @@ textarea {
 
     </div>
 
+
   </div>
 
 
@@ -414,12 +380,13 @@ textarea {
 
 <script>
 
+
 /* =====================================================
-   URL DE LA IMPLEMENTACIÓN
+   URL DE LA NUEVA IMPLEMENTACIÓN
    ===================================================== */
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbye4j07fvh04sGQVWkw2uPc-Y7h1zsrkaaM-EcTRsivS_QxEVG19XWwL6FX2eCEB3NY2Q/exec";
+  "https://script.google.com/macros/s/AKfycbxzyH9JdBlsuHOeMxuy8yt1HqydigN63O3xUGYrDtyPA6nA4wZtpZSfFrnKQvGNhYsTww/exec";
 
 
 /* =====================================================
@@ -451,10 +418,11 @@ const items = [
 
 
 /* =====================================================
-   INICIALIZAR
+   INICIALIZAR FORMULARIO
    ===================================================== */
 
 function inicializarFormulario() {
+
 
   const container =
     document.getElementById(
@@ -493,6 +461,7 @@ function inicializarFormulario() {
 
     unidadesNombre.map(
       function(unidad, ui) {
+
 
         return `
 
@@ -708,6 +677,7 @@ function inicializarFormulario() {
 
 function mostrarCantidadFotos(ui) {
 
+
   const input =
     document.getElementById(
       `u${ui}_fotos`
@@ -748,8 +718,10 @@ function mostrarCantidadFotos(ui) {
 
 function fileToBase64(file) {
 
+
   return new Promise(
     function(resolve, reject) {
+
 
       const reader =
         new FileReader();
@@ -758,12 +730,14 @@ function fileToBase64(file) {
       reader.onload =
         function(event) {
 
+
           const img =
             new Image();
 
 
           img.onload =
             function() {
+
 
               const MAX_SIZE =
                 1600;
@@ -781,6 +755,7 @@ function fileToBase64(file) {
                 width > MAX_SIZE ||
                 height > MAX_SIZE
               ) {
+
 
                 if (
                   width > height
@@ -862,6 +837,7 @@ function fileToBase64(file) {
 
               });
 
+
             };
 
 
@@ -905,6 +881,7 @@ function fileToBase64(file) {
 
 async function guardar() {
 
+
   const btn =
     document.getElementById(
       "btn-guardar"
@@ -927,6 +904,7 @@ async function guardar() {
 
   try {
 
+
     const chofer =
       document
         .getElementById(
@@ -948,6 +926,7 @@ async function guardar() {
       !chofer ||
       !fecha
     ) {
+
 
       alert(
         "Por favor completá la fecha y el nombre del chofer."
@@ -979,6 +958,7 @@ async function guardar() {
       ui < unidadesNombre.length;
       ui++
     ) {
+
 
       const nombreUnidad =
         unidadesNombre[ui];
@@ -1012,6 +992,7 @@ async function guardar() {
         f < files.length;
         f++
       ) {
+
 
         btn.innerText =
           "Procesando foto " +
@@ -1109,7 +1090,7 @@ async function guardar() {
 
 
     /* ===============================================
-       DATOS COMPLETOS
+       PAYLOAD
        =============================================== */
 
     const payload = {
@@ -1137,7 +1118,7 @@ async function guardar() {
 
 
     /* ===============================================
-       ENVIAR AL SERVIDOR
+       ENVIAR
        =============================================== */
 
     const response =
@@ -1185,6 +1166,7 @@ async function guardar() {
       result.ok
     ) {
 
+
       const totalFotos =
         result.totalFotos || 0;
 
@@ -1193,6 +1175,7 @@ async function guardar() {
         cantidadFotosSeleccionadas > 0 &&
         totalFotos === 0
       ) {
+
 
         alert(
 
@@ -1203,7 +1186,9 @@ async function guardar() {
 
         );
 
+
       } else {
+
 
         mensaje.innerHTML =
 
@@ -1238,6 +1223,7 @@ async function guardar() {
 
     } else {
 
+
       throw new Error(
 
         result.error ||
@@ -1249,6 +1235,7 @@ async function guardar() {
 
 
   } catch (error) {
+
 
     console.error(
       "Error al guardar:",
@@ -1264,6 +1251,7 @@ async function guardar() {
     );
 
   } finally {
+
 
     btn.disabled =
       false;
@@ -1282,6 +1270,7 @@ async function guardar() {
    ===================================================== */
 
 function limpiar() {
+
 
   document.getElementById(
     "chofer"
