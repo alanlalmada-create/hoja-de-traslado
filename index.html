@@ -1,181 +1,407 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Guardia - Registro de Traslados</title>
 
-  <style>
-    :root {
-      --primary: #0056b3;
-      --bg: #f4f6f9;
-      --card-bg: #ffffff;
-      --text: #333333;
-      --muted: #666666;
-      --border: #cccccc;
-    }
+<meta charset="UTF-8">
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 15px;
-    }
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+<title>
+  Control de Guardia - Registro de Traslados
+</title>
 
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
+<style>
 
-    h2,
-    h3 {
-      margin-top: 0;
-      color: var(--primary);
-    }
+:root {
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+  --primary: #0056b3;
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+  --bg: #f4f6f9;
 
-    input[type="text"],
-    input[type="date"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
+  --card-bg: #ffffff;
 
-    .unidad-card {
-      border: 1px solid var(--border);
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      background-color: #fafafa;
-    }
+  --text: #333333;
 
-    .unidad-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: #111;
-    }
+  --muted: #666666;
 
-    .btn {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: bold;
-    }
+  --border: #cccccc;
 
-    .btn:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-    }
+}
 
-    .row {
-      display: flex;
-      gap: 10px;
-    }
 
-    .col {
-      flex: 1;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .empty {
-      text-align: center;
-      color: var(--muted);
-      padding: 20px;
-    }
 
-    @media (max-width: 600px) {
-      .row {
-        flex-direction: column;
-        gap: 0;
-      }
+body {
 
-      .card {
-        padding: 15px;
-      }
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 
-      body {
-        padding: 8px;
-      }
-    }
-  </style>
+  background-color:
+    var(--bg);
+
+  color:
+    var(--text);
+
+  margin: 0;
+
+  padding: 15px;
+
+}
+
+
+.container {
+
+  max-width: 800px;
+
+  margin: 0 auto;
+
+}
+
+
+.card {
+
+  background:
+    var(--card-bg);
+
+  padding: 20px;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.1);
+
+  margin-bottom: 20px;
+
+}
+
+
+h2,
+h3 {
+
+  margin-top: 0;
+
+  color:
+    var(--primary);
+
+}
+
+
+.form-group {
+
+  margin-bottom: 15px;
+
+}
+
+
+label {
+
+  display: block;
+
+  font-weight: bold;
+
+  margin-bottom: 5px;
+
+}
+
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+
+  width: 100%;
+
+  padding: 10px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 4px;
+
+  font-size: 14px;
+
+}
+
+
+textarea {
+
+  resize: vertical;
+
+}
+
+
+.unidad-card {
+
+  border:
+    1px solid var(--border);
+
+  padding: 15px;
+
+  border-radius: 6px;
+
+  margin-bottom: 15px;
+
+  background-color:
+    #fafafa;
+
+}
+
+
+.unidad-title {
+
+  font-weight: bold;
+
+  font-size: 18px;
+
+  margin-bottom: 15px;
+
+  color: #111;
+
+}
+
+
+.btn {
+
+  background-color:
+    var(--primary);
+
+  color: white;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  font-size: 16px;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  width: 100%;
+
+  font-weight: bold;
+
+}
+
+
+.btn:disabled {
+
+  background-color:
+    #999;
+
+  cursor:
+    not-allowed;
+
+}
+
+
+.row {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+
+.col {
+
+  flex: 1;
+
+}
+
+
+.empty {
+
+  text-align: center;
+
+  color:
+    var(--muted);
+
+  padding: 20px;
+
+}
+
+
+.foto-info {
+
+  margin-top: 7px;
+
+  font-size: 12px;
+
+  color:
+    var(--muted);
+
+}
+
+
+.estado-foto {
+
+  margin-top: 10px;
+
+  padding: 8px;
+
+  border-radius: 4px;
+
+  background: #eef5ff;
+
+  color: #174a8b;
+
+  font-size: 13px;
+
+  display: none;
+
+}
+
+
+.exito {
+
+  background: #e9f7ef;
+
+  color: #146c43;
+
+  border:
+    1px solid #badbcc;
+
+  padding: 12px;
+
+  border-radius: 6px;
+
+  margin-bottom: 15px;
+
+  display: none;
+
+}
+
+
+@media (max-width: 600px) {
+
+  .row {
+
+    flex-direction: column;
+
+    gap: 0;
+
+  }
+
+
+  .card {
+
+    padding: 15px;
+
+  }
+
+
+  body {
+
+    padding: 8px;
+
+  }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-  <div class="container">
 
-    <div class="card">
+<div class="container">
 
-      <h2>Control de Guardia</h2>
 
-      <div class="row">
+  <div class="card">
 
-        <div class="col form-group">
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha">
-        </div>
+    <h2>
+      🚐 Control de Guardia
+    </h2>
 
-        <div class="col form-group">
-          <label for="chofer">Chofer:</label>
-          <input
-            type="text"
-            id="chofer"
-            placeholder="Nombre completo"
-          >
-        </div>
+
+    <div
+      id="mensajeExito"
+      class="exito"
+    ></div>
+
+
+    <div class="row">
+
+
+      <div class="col form-group">
+
+        <label for="fecha">
+          Fecha:
+        </label>
+
+        <input
+          type="date"
+          id="fecha"
+        >
 
       </div>
 
-      <div id="unidades-container"></div>
 
-      <button
-        id="btn-guardar"
-        class="btn"
-        onclick="guardar()"
-      >
-        Guardar cambio de guardia
-      </button>
+      <div class="col form-group">
+
+        <label for="chofer">
+          Chofer:
+        </label>
+
+        <input
+          type="text"
+          id="chofer"
+          placeholder="Nombre completo"
+        >
+
+      </div>
+
 
     </div>
 
 
-    <div class="card">
+    <div id="unidades-container"></div>
 
-      <h3>Historial de Registros</h3>
 
-      <div id="records">
-        <div class="empty">
-          Los registros guardados aparecerán en Google Sheets.
-        </div>
+    <button
+      id="btn-guardar"
+      class="btn"
+      onclick="guardar()"
+    >
+      Guardar cambio de guardia
+    </button>
+
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Historial de Registros
+    </h3>
+
+
+    <div id="records">
+
+      <div class="empty">
+
+        Los registros guardados aparecerán
+        en Google Sheets.
+
       </div>
 
     </div>
@@ -183,11 +409,13 @@
   </div>
 
 
+</div>
+
+
 <script>
 
 /* =====================================================
-   URL DE LA IMPLEMENTACIÓN ACTUAL
-   VERSIÓN 22
+   URL DE LA IMPLEMENTACIÓN
    ===================================================== */
 
 const GOOGLE_SCRIPT_URL =
@@ -195,52 +423,85 @@ const GOOGLE_SCRIPT_URL =
 
 
 /* =====================================================
-   CONFIGURACIÓN
+   MÓVILES
    ===================================================== */
 
 const unidadesNombre = [
+
   "PAA 327",
+
   "PEQ 519",
+
   "AF676BF"
+
 ];
 
+
 const items = [
+
   "Combustible",
+
   "Luces",
+
   "Neumáticos",
+
   "Equipamiento Médico"
+
 ];
 
 
 /* =====================================================
-   INICIALIZAR FORMULARIO
+   INICIALIZAR
    ===================================================== */
 
 function inicializarFormulario() {
 
   const container =
-    document.getElementById("unidades-container");
+    document.getElementById(
+      "unidades-container"
+    );
 
-  const hoy = new Date();
+
+  const hoy =
+    new Date();
+
 
   const fechaLocal =
-    hoy.getFullYear() +
-    "-" +
-    String(hoy.getMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(hoy.getDate()).padStart(2, "0");
 
-  document.getElementById("fecha").value = fechaLocal;
+    hoy.getFullYear() +
+
+    "-" +
+
+    String(
+      hoy.getMonth() + 1
+    ).padStart(2, "0") +
+
+    "-" +
+
+    String(
+      hoy.getDate()
+    ).padStart(2, "0");
+
+
+  document.getElementById(
+    "fecha"
+  ).value =
+    fechaLocal;
 
 
   container.innerHTML =
-    unidadesNombre.map(function(unidad, ui) {
 
-      return `
+    unidadesNombre.map(
+      function(unidad, ui) {
+
+        return `
+
         <div class="unidad-card">
 
           <div class="unidad-title">
-            Móvil: ${unidad}
+
+            🚐 Móvil: ${unidad}
+
           </div>
 
 
@@ -250,7 +511,9 @@ function inicializarFormulario() {
               Estado Operativo:
             </label>
 
-            <select id="u${ui}_operativo">
+            <select
+              id="u${ui}_operativo"
+            >
 
               <option value="Operativo">
                 Operativo
@@ -269,16 +532,20 @@ function inicializarFormulario() {
           </div>
 
 
-          ${items.map(function(it, ii) {
+          ${items.map(
+            function(it, ii) {
 
-            return `
+              return `
+
               <div class="form-group">
 
                 <label>
                   ${it}:
                 </label>
 
-                <select id="u${ui}i${ii}">
+                <select
+                  id="u${ui}i${ii}"
+                >
 
                   <option value="OK">
                     OK
@@ -288,16 +555,18 @@ function inicializarFormulario() {
                     Pendiente
                   </option>
 
-                  <option value="Faltante">
+                  <option value="Faltante / Defectuoso">
                     Faltante / Defectuoso
                   </option>
 
                 </select>
 
               </div>
-            `;
 
-          }).join("")}
+              `;
+
+            }
+          ).join("")}
 
 
           <div class="row">
@@ -309,7 +578,9 @@ function inicializarFormulario() {
                 Residuos:
               </label>
 
-              <select id="u${ui}_residuos">
+              <select
+                id="u${ui}_residuos"
+              >
 
                 <option value="Limpio">
                   Limpio
@@ -330,7 +601,9 @@ function inicializarFormulario() {
                 Llave:
               </label>
 
-              <select id="u${ui}_llave">
+              <select
+                id="u${ui}_llave"
+              >
 
                 <option value="Entregada">
                   Entregada
@@ -351,7 +624,9 @@ function inicializarFormulario() {
                 Acople:
               </label>
 
-              <select id="u${ui}_acople">
+              <select
+                id="u${ui}_acople"
+              >
 
                 <option value="OK">
                   OK
@@ -372,13 +647,13 @@ function inicializarFormulario() {
           <div class="form-group">
 
             <label>
-              Observaciones:
+              📝 Faltantes y observaciones generales:
             </label>
 
             <textarea
               id="uo${ui}"
-              rows="3"
-              placeholder="Detalles o novedades..."
+              rows="4"
+              placeholder="Indicar faltantes, desperfectos, novedades u observaciones del móvil..."
             ></textarea>
 
           </div>
@@ -387,60 +662,239 @@ function inicializarFormulario() {
           <div class="form-group">
 
             <label>
-              Adjuntar Fotos del Móvil:
+              📸 Fotos del Móvil:
             </label>
+
 
             <input
               type="file"
               id="u${ui}_fotos"
               accept="image/*"
               multiple
+              onchange="mostrarCantidadFotos(${ui})"
             >
+
+
+            <div
+              id="ufoto${ui}"
+              class="foto-info"
+            >
+            </div>
+
+
+            <div
+              id="uestadofoto${ui}"
+              class="estado-foto"
+            >
+            </div>
+
 
           </div>
 
-        </div>
-      `;
 
-    }).join("");
+        </div>
+
+        `;
+
+      }
+    ).join("");
 
 }
 
 
 /* =====================================================
-   CONVERTIR FOTO A BASE64
+   MOSTRAR CANTIDAD DE FOTOS
+   ===================================================== */
+
+function mostrarCantidadFotos(ui) {
+
+  const input =
+    document.getElementById(
+      `u${ui}_fotos`
+    );
+
+
+  const info =
+    document.getElementById(
+      `ufoto${ui}`
+    );
+
+
+  if (
+    !input ||
+    !input.files ||
+    input.files.length === 0
+  ) {
+
+    info.innerText =
+      "No se seleccionaron fotos.";
+
+    return;
+
+  }
+
+
+  info.innerText =
+    input.files.length +
+    " foto(s) seleccionada(s). " +
+    "Se comprimirán automáticamente antes de enviarlas.";
+
+}
+
+
+/* =====================================================
+   COMPRIMIR FOTO
    ===================================================== */
 
 function fileToBase64(file) {
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(
+    function(resolve, reject) {
 
-    const reader = new FileReader();
+      const reader =
+        new FileReader();
 
-    reader.readAsDataURL(file);
 
-    reader.onload = function() {
+      reader.onload =
+        function(event) {
 
-      resolve({
+          const img =
+            new Image();
 
-        filename: file.name,
 
-        type: file.type,
+          img.onload =
+            function() {
 
-        base64:
-          reader.result.split(",")[1]
+              const MAX_SIZE =
+                1600;
 
-      });
 
-    };
+              let width =
+                img.width;
 
-    reader.onerror = function(error) {
 
-      reject(error);
+              let height =
+                img.height;
 
-    };
 
-  });
+              if (
+                width > MAX_SIZE ||
+                height > MAX_SIZE
+              ) {
+
+                if (
+                  width > height
+                ) {
+
+                  height =
+                    Math.round(
+                      height *
+                      MAX_SIZE /
+                      width
+                    );
+
+                  width =
+                    MAX_SIZE;
+
+                } else {
+
+                  width =
+                    Math.round(
+                      width *
+                      MAX_SIZE /
+                      height
+                    );
+
+                  height =
+                    MAX_SIZE;
+
+                }
+
+              }
+
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                width;
+
+
+              canvas.height =
+                height;
+
+
+              const ctx =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+              );
+
+
+              const compressed =
+                canvas.toDataURL(
+                  "image/jpeg",
+                  0.72
+                );
+
+
+              resolve({
+
+                filename:
+                  file.name,
+
+                type:
+                  "image/jpeg",
+
+                base64:
+                  compressed.split(",")[1]
+
+              });
+
+            };
+
+
+          img.onerror =
+            function() {
+
+              reject(
+                new Error(
+                  "No se pudo procesar la imagen."
+                )
+              );
+
+            };
+
+
+          img.src =
+            event.target.result;
+
+        };
+
+
+      reader.onerror =
+        function(error) {
+
+          reject(error);
+
+        };
+
+
+      reader.readAsDataURL(file);
+
+    }
+  );
 
 }
 
@@ -452,47 +906,73 @@ function fileToBase64(file) {
 async function guardar() {
 
   const btn =
-    document.getElementById("btn-guardar");
+    document.getElementById(
+      "btn-guardar"
+    );
 
 
-  btn.disabled = true;
+  const mensaje =
+    document.getElementById(
+      "mensajeExito"
+    );
 
-  btn.innerText =
-    "Guardando y subiendo imágenes...";
+
+  btn.disabled =
+    true;
+
+
+  mensaje.style.display =
+    "none";
 
 
   try {
 
     const chofer =
       document
-        .getElementById("chofer")
+        .getElementById(
+          "chofer"
+        )
         .value
         .trim();
 
 
     const fecha =
       document
-        .getElementById("fecha")
+        .getElementById(
+          "fecha"
+        )
         .value;
 
 
-    if (!chofer || !fecha) {
+    if (
+      !chofer ||
+      !fecha
+    ) {
 
       alert(
-        "Por favor completa la fecha y el nombre del chofer."
+        "Por favor completá la fecha y el nombre del chofer."
       );
 
-      btn.disabled = false;
 
-      btn.innerText =
-        "Guardar cambio de guardia";
+      btn.disabled =
+        false;
+
 
       return;
+
     }
 
 
     const unidades = [];
 
+
+    let cantidadFotosSeleccionadas =
+      0;
+
+
+    /* ===============================================
+       PROCESAR CADA MÓVIL
+       =============================================== */
 
     for (
       let ui = 0;
@@ -519,19 +999,44 @@ async function guardar() {
       const fotosBase64 = [];
 
 
+      cantidadFotosSeleccionadas +=
+        files.length;
+
+
+      /* =============================================
+         PROCESAR FOTOS
+         ============================================= */
+
       for (
         let f = 0;
         f < files.length;
         f++
       ) {
 
-        const fotoObj =
-          await fileToBase64(files[f]);
+        btn.innerText =
+          "Procesando foto " +
+          (f + 1) +
+          " de " +
+          files.length +
+          "...";
 
-        fotosBase64.push(fotoObj);
+
+        const fotoObj =
+          await fileToBase64(
+            files[f]
+          );
+
+
+        fotosBase64.push(
+          fotoObj
+        );
 
       }
 
+
+      /* =============================================
+         ARMAR DATOS DEL MÓVIL
+         ============================================= */
 
       unidades.push({
 
@@ -546,17 +1051,22 @@ async function guardar() {
 
 
         estados:
-          items.map(function(it, ii) {
+          items.map(
+            function(it, ii) {
 
-            return (
-              it +
-              ": " +
-              document.getElementById(
-                `u${ui}i${ii}`
-              ).value
-            );
+              return (
 
-          }),
+                it +
+                ": " +
+
+                document.getElementById(
+                  `u${ui}i${ii}`
+                ).value
+
+              );
+
+            }
+          ),
 
 
         verificaciones: {
@@ -566,10 +1076,12 @@ async function guardar() {
               `u${ui}_residuos`
             ).value,
 
+
           llave:
             document.getElementById(
               `u${ui}_llave`
             ).value,
+
 
           acople:
             document.getElementById(
@@ -584,14 +1096,21 @@ async function guardar() {
 
 
         obs:
-          document.getElementById(
-            `uo${ui}`
-          ).value.trim()
+          document
+            .getElementById(
+              `uo${ui}`
+            )
+            .value
+            .trim()
 
       });
 
     }
 
+
+    /* ===============================================
+       DATOS COMPLETOS
+       =============================================== */
 
     const payload = {
 
@@ -608,23 +1127,44 @@ async function guardar() {
 
 
     console.log(
-      "Enviando datos:",
+      "Datos preparados:",
       payload
     );
 
+
+    btn.innerText =
+      "Guardando guardia y fotos...";
+
+
+    /* ===============================================
+       ENVIAR AL SERVIDOR
+       =============================================== */
 
     const response =
       await fetch(
         GOOGLE_SCRIPT_URL,
         {
 
-          method: "POST",
+          method:
+            "POST",
 
           body:
-            JSON.stringify(payload)
+            JSON.stringify(
+              payload
+            )
 
         }
       );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Error del servidor: HTTP " +
+        response.status
+      );
+
+    }
 
 
     const result =
@@ -632,24 +1172,77 @@ async function guardar() {
 
 
     console.log(
-      "Respuesta del servidor:",
+      "Respuesta:",
       result
     );
 
 
-    if (result.ok) {
+    /* ===============================================
+       RESULTADO
+       =============================================== */
 
-      alert(
-        "¡Guardia y fotos guardadas con éxito!"
-      );
+    if (
+      result.ok
+    ) {
+
+      const totalFotos =
+        result.totalFotos || 0;
+
+
+      if (
+        cantidadFotosSeleccionadas > 0 &&
+        totalFotos === 0
+      ) {
+
+        alert(
+
+          "⚠️ La guardia se guardó, " +
+          "pero las fotos no llegaron a Drive.\n\n" +
+
+          "Verificá la implementación del Apps Script."
+
+        );
+
+      } else {
+
+        mensaje.innerHTML =
+
+          "✅ <strong>Guardia guardada correctamente.</strong><br><br>" +
+
+          "📸 Fotos guardadas en Drive: " +
+          totalFotos +
+          "<br><br>" +
+
+          "En Google Sheets, cada móvil tendrá " +
+          "los enlaces de sus fotos en la columna <strong>Fotos</strong>.";
+
+
+        mensaje.style.display =
+          "block";
+
+
+        alert(
+
+          "✅ Guardia guardada correctamente.\n\n" +
+
+          "📸 Fotos guardadas: " +
+          totalFotos
+
+        );
+
+      }
+
 
       limpiar();
+
 
     } else {
 
       throw new Error(
+
         result.error ||
-        "Error al procesar los datos."
+        "El servidor informó un error."
+
       );
 
     }
@@ -664,14 +1257,17 @@ async function guardar() {
 
 
     alert(
-      "Error al guardar: " +
-      error.message
-    );
 
+      "❌ Error al guardar:\n\n" +
+      error.message
+
+    );
 
   } finally {
 
-    btn.disabled = false;
+    btn.disabled =
+      false;
+
 
     btn.innerText =
       "Guardar cambio de guardia";
@@ -689,7 +1285,9 @@ function limpiar() {
 
   document.getElementById(
     "chofer"
-  ).value = "";
+  ).value =
+    "";
+
 
   inicializarFormulario();
 
@@ -697,17 +1295,19 @@ function limpiar() {
 
 
 /* =====================================================
-   INICIAR AL CARGAR
+   INICIAR
    ===================================================== */
 
-window.onload = function() {
+window.onload =
+  function() {
 
-  inicializarFormulario();
+    inicializarFormulario();
 
-};
+  };
 
 </script>
 
+
 </body>
+
 </html>
-```
