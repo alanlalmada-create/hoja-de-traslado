@@ -136,18 +136,16 @@
   </div>
 
 <script>
-// URL generada con tu ID de implementación de Google Apps Script
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4nYNN6aMi6I5QoEB1QcOm7h6b-NgKtzKpOEWoOOGUhik8NVYgXD90qCu8gqaMj9TZDg/exec";
+// URL de la nueva versión desplegada en Google Apps Script
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygtNzPiCxkhcuM3YPMbdAh8EDsHfzCd1m-d8h_berOInYoUI5G36CMk9BKGiBPTKYxVg/exec";
 
 // Configuración de Unidades e Ítems a verificar
 const unidadesNombre = ["PAA 327", "PEQ 519", "AF676BF"];
 const items = ["Combustible", "Luces", "Neumáticos", "Equipamiento Médico"];
 
-// Genera la interfaz de las unidades dinámicamente al cargar la página
 function inicializarFormulario() {
   const container = document.getElementById("unidades-container");
   
-  // Establece la fecha de hoy por defecto
   document.getElementById("fecha").value = new Date().toISOString().split('T')[0];
 
   container.innerHTML = unidadesNombre.map((unidad, ui) => `
@@ -211,7 +209,6 @@ function inicializarFormulario() {
   `).join("");
 }
 
-// Convierte archivo a Base64 manteniendo sus metadatos
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -225,7 +222,6 @@ function fileToBase64(file) {
   });
 }
 
-// Envío de datos e imágenes a Google Apps Script
 async function guardar() {
   const btn = document.getElementById("btn-guardar");
   btn.disabled = true;
@@ -303,7 +299,6 @@ function limpiar() {
   inicializarFormulario();
 }
 
-// Inicializa el formulario cuando cargue la página
 window.onload = function() {
   inicializarFormulario();
 };
