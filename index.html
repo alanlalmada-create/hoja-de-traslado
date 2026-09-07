@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,38 +13,381 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
 <style>
-:root{--bg:#f3f5f7;--card:#fff;--text:#17212b;--muted:#697586;--line:#dfe5eb;--accent:#1f5eff;--good:#168a55;--warn:#b87500;--bad:#c23838}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-.container{max-width:1250px;margin:auto;padding:24px}
-header{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px;flex-wrap:wrap}h1{margin:0 0 5px;font-size:28px}.sub{color:var(--muted)}
-.tabs{display:flex;gap:8px;margin-bottom:18px}.tab{border:1px solid var(--line);background:#fff;padding:11px 16px;border-radius:10px;cursor:pointer;font-weight:700}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 7px 25px rgba(20,30,40,.06);margin-bottom:16px}
-h2{font-size:19px;margin:0 0 15px}
-.section-title{font-size:14px;font-weight:700;color:var(--muted);margin:16px 0 10px;text-transform:uppercase;letter-spacing:0.5px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;font-weight:700;color:var(--muted)}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;background:#fff;color:var(--text);font:inherit}textarea{min-height:80px;resize:vertical}
-.unit{border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:14px;background:#fff}
-.unit-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;flex-wrap:wrap;gap:10px}
-.unit-header h3{margin:0;color:var(--accent)}
-.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.check{display:grid;grid-template-columns:1fr 145px;gap:10px;align-items:center;padding:10px;background:#fafbfc;border-radius:9px;border:1px solid #edf0f3}
-.check span{font-size:14px;font-weight:600}
-.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:#e9edf2;color:var(--text)}.danger{background:#fdeaea;color:var(--bad)}
-.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
-.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{padding:17px;border:1px solid var(--line);border-radius:12px;background:#fff}.metric small{display:block;color:var(--muted);font-weight:700}.metric strong{font-size:26px;display:block;margin-top:5px}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.empty{padding:35px;text-align:center;color:var(--muted)}
-.record{border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:10px;background:#fff}.recordtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.pill{padding:5px 9px;border-radius:99px;background:#eaf8f1;color:var(--good);font-size:12px;font-weight:800}
-.items-status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:6px;background:#fff;padding:8px 12px;border-radius:8px;border:1px solid #edf2f7}
-.user-bar{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
-.photo-preview-container{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.photo-thumb{width:70px;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer}
-#auth-card{max-width:400px;margin:60px auto}
-@media(max-width:800px){.grid,.grid-2,.dashboard{grid-template-columns:1fr 1fr}.checkgrid{grid-template-columns:1fr}.check{grid-template-columns:1fr 130px}}
-@media(max-width:520px){.container{padding:13px}.grid,.grid-2,.dashboard,.items-status-grid{grid-template-columns:1fr}header{display:block}}
+:root{
+  --bg:#f3f5f7;
+  --card:#fff;
+  --text:#17212b;
+  --muted:#697586;
+  --line:#dfe5eb;
+  --accent:#1f5eff;
+  --good:#168a55;
+  --warn:#b87500;
+  --bad:#c23838
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif
+}
+
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:24px
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+  margin-bottom:20px;
+  flex-wrap:wrap
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:28px
+}
+
+.sub{
+  color:var(--muted)
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:18px
+}
+
+.tab{
+  border:1px solid var(--line);
+  background:#fff;
+  padding:11px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700
+}
+
+.tab.active{
+  background:var(--accent);
+  color:white;
+  border-color:var(--accent)
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 7px 25px rgba(20,30,40,.06);
+  margin-bottom:16px
+}
+
+h2{
+  font-size:19px;
+  margin:0 0 15px
+}
+
+.section-title{
+  font-size:14px;
+  font-weight:700;
+  color:var(--muted);
+  margin:16px 0 10px;
+  text-transform:uppercase;
+  letter-spacing:.5px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px
+}
+
+.field label{
+  font-size:13px;
+  font-weight:700;
+  color:var(--muted)
+}
+
+input,select,textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:11px;
+  background:#fff;
+  color:var(--text);
+  font:inherit
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical
+}
+
+.unit{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:16px;
+  margin-top:14px;
+  background:#fff
+}
+
+.unit-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  padding-bottom:10px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+  gap:10px
+}
+
+.unit-header h3{
+  margin:0;
+  color:var(--accent)
+}
+
+.checkgrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.check{
+  display:grid;
+  grid-template-columns:1fr 145px;
+  gap:10px;
+  align-items:center;
+  padding:10px;
+  background:#fafbfc;
+  border-radius:9px;
+  border:1px solid #edf0f3
+}
+
+.check span{
+  font-size:14px;
+  font-weight:600
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:12px 17px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed
+}
+
+.primary{
+  background:var(--accent);
+  color:white
+}
+
+.secondary{
+  background:#e9edf2;
+  color:var(--text)
+}
+
+.danger{
+  background:#fdeaea;
+  color:var(--bad)
+}
+
+.btn-sm{
+  padding:6px 12px;
+  font-size:12px;
+  border-radius:7px
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px
+}
+
+.metric{
+  padding:17px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff
+}
+
+.metric small{
+  display:block;
+  color:var(--muted);
+  font-weight:700
+}
+
+.metric strong{
+  font-size:26px;
+  display:block;
+  margin-top:5px
+}
+
+.good{color:var(--good)}
+.warn{color:var(--warn)}
+.bad{color:var(--bad)}
+
+.empty{
+  padding:35px;
+  text-align:center;
+  color:var(--muted)
+}
+
+.record{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:10px;
+  background:#fff
+}
+
+.recordtop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center
+}
+
+.pill{
+  padding:5px 9px;
+  border-radius:99px;
+  background:#eaf8f1;
+  color:var(--good);
+  font-size:12px;
+  font-weight:800
+}
+
+.items-status-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:6px;
+  margin-top:6px;
+  background:#fff;
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #edf2f7
+}
+
+.user-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:14px;
+  font-weight:600
+}
+
+.photo-preview-container{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:8px
+}
+
+.photo-thumb{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid var(--line);
+  cursor:pointer
+}
+
+.status-box{
+  display:none;
+  margin-top:15px;
+  padding:12px 15px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:14px
+}
+
+.status-box.info{
+  display:block;
+  background:#eef4ff;
+  color:#1f5eff;
+  border:1px solid #cddcff
+}
+
+.status-box.success{
+  display:block;
+  background:#eaf8f1;
+  color:var(--good);
+  border:1px solid #c9eadb
+}
+
+.status-box.error{
+  display:block;
+  background:#fdeaea;
+  color:var(--bad);
+  border:1px solid #f2caca
+}
+
+#auth-card{
+  max-width:400px;
+  margin:60px auto
+}
+
+@media(max-width:800px){
+  .grid,.grid-2,.dashboard{
+    grid-template-columns:1fr 1fr
+  }
+
+  .checkgrid{
+    grid-template-columns:1fr
+  }
+
+  .check{
+    grid-template-columns:1fr 130px
+  }
+}
+
+@media(max-width:520px){
+  .container{
+    padding:13px
+  }
+
+  .grid,.grid-2,.dashboard,.items-status-grid{
+    grid-template-columns:1fr
+  }
+
+  header{
+    display:block
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="container">
 
 <header>
@@ -51,373 +395,1527 @@ h2{font-size:19px;margin:0 0 15px}
     <h1>Control de Cambio de Guardia</h1>
     <div class="sub">Gestión de unidades y reportes en la nube</div>
   </div>
+
   <div id="user-info" class="user-bar" style="display:none">
     <span id="user-email"></span>
     <button class="btn secondary btn-sm" onclick="logout()">Cerrar sesión</button>
   </div>
 </header>
 
-<!-- PANTALLA DE LOGIN -->
+
+<!-- =========================
+     LOGIN
+========================= -->
+
 <div id="auth-card" class="card">
+
   <h2>Iniciar Sesión</h2>
+
   <div class="field" style="margin-bottom:12px">
     <label>Correo Electrónico</label>
-    <input type="email" id="auth-email" placeholder="chofer@empresa.com">
+    <input
+      type="email"
+      id="auth-email"
+      placeholder="chofer@empresa.com"
+    >
   </div>
+
   <div class="field" style="margin-bottom:18px">
     <label>Contraseña</label>
-    <input type="password" id="auth-pass" placeholder="******">
+    <input
+      type="password"
+      id="auth-pass"
+      placeholder="******"
+    >
   </div>
+
   <div class="actions">
-    <button class="btn primary" onclick="login()" style="width:100%">Ingresar</button>
-    <button class="btn secondary" onclick="register()" style="width:100%;margin-top:5px">Registrarse</button>
+
+    <button
+      class="btn primary"
+      onclick="login()"
+      style="width:100%"
+    >
+      Ingresar
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="register()"
+      style="width:100%;margin-top:5px"
+    >
+      Registrarse
+    </button>
+
   </div>
+
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
+
+<!-- =========================
+     APLICACIÓN
+========================= -->
+
 <div id="main-app" style="display:none">
+
   <div class="tabs">
-    <button class="tab active" onclick="showTab('cargar',this)">Cargar guardia</button>
-    <button class="tab" onclick="showTab('historial',this)">Mis Guardias</button>
+
+    <button
+      class="tab active"
+      onclick="showTab('cargar',this)"
+    >
+      Cargar guardia
+    </button>
+
+    <button
+      class="tab"
+      onclick="showTab('historial',this)"
+    >
+      Mis Guardias
+    </button>
+
   </div>
+
+
+  <!-- =========================
+       CARGAR GUARDIA
+  ========================= -->
 
   <section id="cargar">
-  <div class="card">
-  <h2>1. Datos de la guardia</h2>
-  <div class="grid">
-    <div class="field"><label>Fecha</label><input id="fecha" type="date"></div>
-    <div class="field" style="grid-column: span 2"><label>Chofer</label><input id="chofer" placeholder="Nombre y apellido del chofer"></div>
-  </div>
-  </div>
 
-  <div class="card">
-  <h2>2. Estado, Verificaciones, Fotos y Observaciones por Unidad</h2>
-  <div id="units"></div>
-  </div>
+    <div class="card">
 
-  <div class="actions">
-  <button id="btn-guardar" class="btn primary" onclick="guardar()">Guardar cambio de guardia</button>
-  <button class="btn secondary" onclick="limpiar()">Limpiar formulario</button>
-  </div>
+      <h2>1. Datos de la guardia</h2>
+
+      <div class="grid">
+
+        <div class="field">
+          <label>Fecha</label>
+          <input id="fecha" type="date">
+        </div>
+
+        <div
+          class="field"
+          style="grid-column:span 2"
+        >
+          <label>Chofer</label>
+
+          <input
+            id="chofer"
+            placeholder="Nombre y apellido del chofer"
+          >
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>2. Estado, Verificaciones, Fotos y Observaciones por Unidad</h2>
+
+      <div id="units"></div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        id="btn-guardar"
+        class="btn primary"
+        onclick="guardar()"
+      >
+        Guardar cambio de guardia
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="limpiar()"
+      >
+        Limpiar formulario
+      </button>
+
+    </div>
+
+    <div id="status-box" class="status-box"></div>
+
   </section>
 
-  <section id="historial" style="display:none">
-  <div class="card">
-  <h2>Mi Resumen</h2>
-  <div class="dashboard">
-  <div class="metric"><small>Guardias registradas</small><strong id="total">0</strong></div>
-  <div class="metric"><small>Unidades revisadas</small><strong id="unidades">0</strong></div>
-  <div class="metric"><small>Con observaciones</small><strong class="warn" id="conObs">0</strong></div>
-  <div class="metric"><small>Móviles No Operativos</small><strong class="bad" id="noOperativos">0</strong></div>
-  </div>
-  </div>
-  <div id="records"></div>
+
+  <!-- =========================
+       HISTORIAL
+  ========================= -->
+
+  <section
+    id="historial"
+    style="display:none"
+  >
+
+    <div class="card">
+
+      <h2>Mi Resumen</h2>
+
+      <div class="dashboard">
+
+        <div class="metric">
+          <small>Guardias registradas</small>
+          <strong id="total">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>Unidades revisadas</small>
+          <strong id="unidades">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>Con observaciones</small>
+          <strong class="warn" id="conObs">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>Móviles No Operativos</small>
+          <strong class="bad" id="noOperativos">0</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="records"></div>
+
   </section>
+
 </div>
 
 </div>
+
 
 <script>
+
+/* ============================================================
+   FIREBASE
+============================================================ */
+
 const firebaseConfig = {
+
   apiKey: "AIzaSyAW7vN0udDac3JKf20UEQuGDs9c0b_eJ-k",
-  authDomain: "traslados-b4628.firebaseapp.com",
-  projectId: "traslados-b4628",
-  storageBucket: "traslados-b4628.firebasestorage.app",
-  messagingSenderId: "479233854490",
-  appId: "1:479233854490:web:ede7c32e4c75f9f45855a3",
-  measurementId: "G-CHS08G5397"
+
+  authDomain:
+    "traslados-b4628.firebaseapp.com",
+
+  projectId:
+    "traslados-b4628",
+
+  storageBucket:
+    "traslados-b4628.firebasestorage.app",
+
+  messagingSenderId:
+    "479233854490",
+
+  appId:
+    "1:479233854490:web:ede7c32e4c75f9f45855a3",
+
+  measurementId:
+    "G-CHS08G5397"
 };
 
+
+/* ============================================================
+   GOOGLE SHEETS
+============================================================ */
+
+const GOOGLE_SHEETS_URL =
+"https://script.google.com/macros/s/AKfycby9Xp-6p8s1KlhxVAifveCS7Vh6nLSxxIWYQmE2bp49G1KoStRjskvNC0ylCZW-GaEoZA/exec";
+
+
 firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
+
 const db = firebase.firestore();
+
 const storage = firebase.storage();
 
-const unidades=["PAA 327","PEQ 519","AF676BF"];
-const items=["Limpieza exterior","Limpieza interior","Carga de la batería de los equipos","Nivel de oxígeno","Tubo ultra liviano"];
-const estadosGral=["","Bueno","Regular","Malo","Sin dato"];
-const estadosTubos=["","Lleno","Medio","Vacío"];
+
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
+
+const unidades = [
+  "PAA 327",
+  "PEQ 519",
+  "AF676BF"
+];
+
+const items = [
+  "Limpieza exterior",
+  "Limpieza interior",
+  "Carga de la batería de los equipos",
+  "Nivel de oxígeno",
+  "Tubo ultra liviano"
+];
+
+const estadosGral = [
+  "",
+  "Bueno",
+  "Regular",
+  "Malo",
+  "Sin dato"
+];
+
+const estadosTubos = [
+  "",
+  "Lleno",
+  "Medio",
+  "Vacío"
+];
+
 
 function esItemTubo(nombre){
- const n=nombre.toLowerCase();
- return n.includes("oxígeno") || n.includes("oxigeno") || n.includes("tubo");
+
+  const n = nombre.toLowerCase();
+
+  return (
+    n.includes("oxígeno") ||
+    n.includes("oxigeno") ||
+    n.includes("tubo")
+  );
 }
+
+
+/* ============================================================
+   AUTENTICACIÓN
+============================================================ */
 
 auth.onAuthStateChanged(user => {
-  if (user) {
-    document.getElementById("auth-card").style.display = "none";
-    document.getElementById("main-app").style.display = "block";
-    document.getElementById("user-info").style.display = "flex";
-    document.getElementById("user-email").textContent = user.email;
+
+  if(user){
+
+    document.getElementById("auth-card").style.display =
+      "none";
+
+    document.getElementById("main-app").style.display =
+      "block";
+
+    document.getElementById("user-info").style.display =
+      "flex";
+
+    document.getElementById("user-email").textContent =
+      user.email;
+
     init();
-  } else {
-    document.getElementById("auth-card").style.display = "block";
-    document.getElementById("main-app").style.display = "none";
-    document.getElementById("user-info").style.display = "none";
+
+  }else{
+
+    document.getElementById("auth-card").style.display =
+      "block";
+
+    document.getElementById("main-app").style.display =
+      "none";
+
+    document.getElementById("user-info").style.display =
+      "none";
+
   }
+
 });
 
+
 function login(){
-  const email = document.getElementById("auth-email").value;
-  const pass = document.getElementById("auth-pass").value;
-  auth.signInWithEmailAndPassword(email, pass).catch(err => alert("Error al ingresar: " + err.message));
+
+  const email =
+    document.getElementById("auth-email").value.trim();
+
+  const pass =
+    document.getElementById("auth-pass").value;
+
+  if(!email || !pass){
+
+    alert("Completá correo y contraseña.");
+
+    return;
+  }
+
+  auth
+    .signInWithEmailAndPassword(email,pass)
+    .catch(err =>
+      alert("Error al ingresar: " + err.message)
+    );
 }
+
 
 function register(){
-  const email = document.getElementById("auth-email").value;
-  const pass = document.getElementById("auth-pass").value;
-  auth.createUserWithEmailAndPassword(email, pass).then(() => {
-    alert("Usuario registrado con éxito");
-  }).catch(err => alert("Error al registrarse: " + err.message));
+
+  const email =
+    document.getElementById("auth-email").value.trim();
+
+  const pass =
+    document.getElementById("auth-pass").value;
+
+  if(!email || !pass){
+
+    alert("Completá correo y contraseña.");
+
+    return;
+  }
+
+  auth
+    .createUserWithEmailAndPassword(email,pass)
+    .then(() => {
+
+      alert("Usuario registrado con éxito.");
+
+    })
+    .catch(err =>
+      alert("Error al registrarse: " + err.message)
+    );
 }
+
 
 function logout(){
+
   auth.signOut();
+
 }
+
+
+/* ============================================================
+   INICIALIZACIÓN
+============================================================ */
 
 function init(){
- document.getElementById("fecha").value=new Date().toISOString().slice(0,10);
- const box=document.getElementById("units");
- box.innerHTML=unidades.map((u,ui)=>`
- <div class="unit">
-   <div class="unit-header">
-     <h3>Móvil: ${u}</h3>
-     <div style="display:flex;align-items:center;gap:8px">
-       <label style="font-size:13px;font-weight:700;color:var(--muted)">Estado de la unidad:</label>
-       <select id="u${ui}_operativo" style="width:auto;padding:6px 12px;font-weight:700">
-         <option value="Operativo">Operativo</option>
-         <option value="No Operativo">No Operativo</option>
-       </select>
-     </div>
-   </div>
-   
-   <div class="section-title">Estado de la unidad</div>
-   <div class="checkgrid">
-   ${items.map((it,ii)=>{
-     const opciones = esItemTubo(it) ? estadosTubos : estadosGral;
-     return `
-     <div class="check">
-       <span>${it}</span>
-       <select id="u${ui}i${ii}">
-         ${opciones.map(e=>`<option value="${e}">${e||"Seleccionar estado"}</option>`).join("")}
-       </select>
-     </div>`;
-   }).join("")}
-   </div>
 
-   <div class="section-title">Verificaciones del Móvil</div>
-   <div class="grid">
-     <div class="field">
-       <label>¿Se encontró residuos patogénicos?</label>
-       <select id="u${ui}_residuos">
-         <option value="">Seleccionar</option>
-         <option value="Sí">Sí</option>
-         <option value="No">No</option>
-       </select>
-     </div>
-     <div class="field">
-       <label>¿Cuenta con llave fija y llave de tubo?</label>
-       <select id="u${ui}_llave">
-         <option value="">Seleccionar</option>
-         <option value="Sí">Sí</option>
-         <option value="No">No</option>
-       </select>
-     </div>
-     <div class="field">
-       <label>¿Cuenta con acople de tubo?</label>
-       <select id="u${ui}_acople">
-         <option value="">Seleccionar</option>
-         <option value="Sí">Sí</option>
-         <option value="No">No</option>
-       </select>
-     </div>
-   </div>
+  document.getElementById("fecha").value =
+    new Date().toISOString().slice(0,10);
 
-   <div class="field" style="margin-top:14px">
-     <label>Adjuntar fotos del móvil (opcional)</label>
-     <input type="file" id="u${ui}_fotos" accept="image/*" multiple style="padding:8px">
-   </div>
+  construirUnidades();
 
-   <div class="field" style="margin-top:14px">
-     <label>Observaciones de ${u}</label>
-     <textarea id="uo${ui}" placeholder="Dejar constancia de faltantes, daños o novedades de este móvil..."></textarea>
-   </div>
- </div>`).join("");
 }
+
+
+function construirUnidades(){
+
+  const box =
+    document.getElementById("units");
+
+  box.innerHTML = unidades.map((u,ui) => `
+
+    <div class="unit">
+
+      <div class="unit-header">
+
+        <h3>Móvil: ${u}</h3>
+
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            gap:8px
+          "
+        >
+
+          <label
+            style="
+              font-size:13px;
+              font-weight:700;
+              color:var(--muted)
+            "
+          >
+            Estado de la unidad:
+          </label>
+
+          <select
+            id="u${ui}_operativo"
+            style="
+              width:auto;
+              padding:6px 12px;
+              font-weight:700
+            "
+          >
+
+            <option value="Operativo">
+              Operativo
+            </option>
+
+            <option value="No Operativo">
+              No Operativo
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="section-title">
+        Estado de la unidad
+      </div>
+
+
+      <div class="checkgrid">
+
+        ${items.map((it,ii)=>{
+
+          const opciones =
+            esItemTubo(it)
+              ? estadosTubos
+              : estadosGral;
+
+          return `
+
+            <div class="check">
+
+              <span>${it}</span>
+
+              <select id="u${ui}i${ii}">
+
+                ${opciones.map(e => `
+
+                  <option value="${e}">
+                    ${e || "Seleccionar estado"}
+                  </option>
+
+                `).join("")}
+
+              </select>
+
+            </div>
+
+          `;
+
+        }).join("")}
+
+      </div>
+
+
+      <div class="section-title">
+        Verificaciones del Móvil
+      </div>
+
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label>
+            ¿Se encontró residuos patogénicos?
+          </label>
+
+          <select id="u${ui}_residuos">
+
+            <option value="">
+              Seleccionar
+            </option>
+
+            <option value="Sí">
+              Sí
+            </option>
+
+            <option value="No">
+              No
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            ¿Cuenta con llave fija y llave de tubo?
+          </label>
+
+          <select id="u${ui}_llave">
+
+            <option value="">
+              Seleccionar
+            </option>
+
+            <option value="Sí">
+              Sí
+            </option>
+
+            <option value="No">
+              No
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            ¿Cuenta con acople de tubo?
+          </label>
+
+          <select id="u${ui}_acople">
+
+            <option value="">
+              Seleccionar
+            </option>
+
+            <option value="Sí">
+              Sí
+            </option>
+
+            <option value="No">
+              No
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="field"
+        style="margin-top:14px"
+      >
+
+        <label>
+          Adjuntar fotos del móvil (opcional)
+        </label>
+
+        <input
+          type="file"
+          id="u${ui}_fotos"
+          accept="image/*"
+          multiple
+          style="padding:8px"
+        >
+
+      </div>
+
+
+      <div
+        class="field"
+        style="margin-top:14px"
+      >
+
+        <label>
+          Observaciones de ${u}
+        </label>
+
+        <textarea
+          id="uo${ui}"
+          placeholder="Dejar constancia de faltantes, daños o novedades de este móvil..."
+        ></textarea>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ============================================================
+   TABS
+============================================================ */
 
 function showTab(id,btn){
- document.getElementById("cargar").style.display=id==="cargar"?"block":"none";
- document.getElementById("historial").style.display=id==="historial"?"block":"none";
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
- if(id==="historial") cargarHistorial();
+
+  document.getElementById("cargar").style.display =
+    id === "cargar" ? "block" : "none";
+
+  document.getElementById("historial").style.display =
+    id === "historial" ? "block" : "none";
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(x => x.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  if(id === "historial"){
+
+    cargarHistorial();
+
+  }
+
 }
+
+
+/* ============================================================
+   MENSAJE DE ESTADO
+============================================================ */
+
+function mostrarEstado(texto,tipo){
+
+  const box =
+    document.getElementById("status-box");
+
+  box.className =
+    "status-box " + tipo;
+
+  box.textContent = texto;
+
+}
+
+
+/* ============================================================
+   ENVÍO A GOOGLE SHEETS
+============================================================ */
+
+async function enviarAGoogleSheets(data){
+
+  try{
+
+    mostrarEstado(
+      "Guardando en Firebase y enviando los datos a Google Sheets...",
+      "info"
+    );
+
+    /*
+      no-cors se utiliza porque Google Apps Script
+      funciona como Web App externo.
+
+      El cuerpo se manda como texto JSON.
+    */
+
+    await fetch(
+      GOOGLE_SHEETS_URL,
+      {
+        method:"POST",
+
+        mode:"no-cors",
+
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:JSON.stringify(data)
+      }
+    );
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "Error enviando a Google Sheets:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================================================
+   GUARDAR
+============================================================ */
 
 async function guardar(){
- const fechaVal=document.getElementById("fecha").value;
- const choferVal=document.getElementById("chofer").value.trim();
- const user = auth.currentUser;
 
- if(!fechaVal||!choferVal){alert("Completá la fecha y el nombre del chofer.");return}
+  const fechaVal =
+    document.getElementById("fecha").value;
 
- const btnGuardar = document.getElementById("btn-guardar");
- btnGuardar.disabled = true;
- btnGuardar.textContent = "Subiendo fotos y guardando...";
+  const choferVal =
+    document.getElementById("chofer").value.trim();
 
- try {
-   const unidadesData = [];
+  const user =
+    auth.currentUser;
 
-   for(let ui=0; ui < unidades.length; ui++) {
-     const uNombre = unidades[ui];
-     const inputFotos = document.getElementById(`u${ui}_fotos`);
-     const fotosUrls = [];
 
-     if (inputFotos && inputFotos.files.length > 0) {
-       for(let f=0; f < inputFotos.files.length; f++) {
-         const file = inputFotos.files[f];
-         const ref = storage.ref(`guardias/${user.uid}/${Date.now()}_${ui}_${file.name}`);
-         await ref.put(file);
-         const url = await ref.getDownloadURL();
-         fotosUrls.push(url);
-       }
-     }
+  if(!fechaVal || !choferVal){
 
-     unidadesData.push({
-       nombre: uNombre,
-       operativo: document.getElementById(`u${ui}_operativo`).value,
-       estados: items.map((it,ii)=>document.getElementById(`u${ui}i${ii}`).value),
-       verificaciones: {
-         residuos: document.getElementById(`u${ui}_residuos`).value,
-         llave: document.getElementById(`u${ui}_llave`).value,
-         acople: document.getElementById(`u${ui}_acople`).value
-       },
-       fotos: fotosUrls,
-       obs: document.getElementById(`uo${ui}`).value.trim()
-     });
-   }
+    alert(
+      "Completá la fecha y el nombre del chofer."
+    );
 
-   const data={
-    uid: user.uid,
-    fecha: fechaVal,
-    chofer: choferVal,
-    creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
-    unidades: unidadesData
-   };
+    return;
+  }
 
-   await db.collection("guardias").add(data);
-   alert("Cambio de guardia guardado en la nube correctamente.");
-   limpiar();
- } catch(err) {
-   alert("Error al guardar: " + err.message);
- } finally {
-   btnGuardar.disabled = false;
-   btnGuardar.textContent = "Guardar cambio de guardia";
- }
+
+  if(!user){
+
+    alert(
+      "Tu sesión expiró. Volvé a iniciar sesión."
+    );
+
+    return;
+  }
+
+
+  const btnGuardar =
+    document.getElementById("btn-guardar");
+
+
+  btnGuardar.disabled = true;
+
+  btnGuardar.textContent =
+    "Guardando...";
+
+
+  mostrarEstado(
+    "Preparando datos...",
+    "info"
+  );
+
+
+  try{
+
+    const unidadesData = [];
+
+
+    /* ========================================================
+       RECORRER MÓVILES Y SUBIR FOTOS
+    ======================================================== */
+
+    for(
+      let ui = 0;
+      ui < unidades.length;
+      ui++
+    ){
+
+      const uNombre =
+        unidades[ui];
+
+      const inputFotos =
+        document.getElementById(
+          `u${ui}_fotos`
+        );
+
+      const fotosUrls = [];
+
+
+      /* ======================================================
+         FOTOS
+      ====================================================== */
+
+      if(
+        inputFotos &&
+        inputFotos.files.length > 0
+      ){
+
+        for(
+          let f = 0;
+          f < inputFotos.files.length;
+          f++
+        ){
+
+          const file =
+            inputFotos.files[f];
+
+          const nombreSeguro =
+            file.name.replace(
+              /[^a-zA-Z0-9._-]/g,
+              "_"
+            );
+
+          const ref =
+            storage.ref(
+              `guardias/${user.uid}/${Date.now()}_${ui}_${nombreSeguro}`
+            );
+
+          await ref.put(file);
+
+          const url =
+            await ref.getDownloadURL();
+
+          fotosUrls.push(url);
+
+        }
+
+      }
+
+
+      /* ======================================================
+         DATOS DEL MÓVIL
+      ====================================================== */
+
+      unidadesData.push({
+
+        nombre:uNombre,
+
+        operativo:
+          document.getElementById(
+            `u${ui}_operativo`
+          ).value,
+
+        estados:
+          items.map(
+            (it,ii) =>
+              document.getElementById(
+                `u${ui}i${ii}`
+              ).value
+          ),
+
+        verificaciones:{
+
+          residuos:
+            document.getElementById(
+              `u${ui}_residuos`
+            ).value,
+
+          llave:
+            document.getElementById(
+              `u${ui}_llave`
+            ).value,
+
+          acople:
+            document.getElementById(
+              `u${ui}_acople`
+            ).value
+
+        },
+
+        fotos:fotosUrls,
+
+        obs:
+          document.getElementById(
+            `uo${ui}`
+          ).value.trim()
+
+      });
+
+    }
+
+
+    /* ========================================================
+       OBJETO GENERAL
+    ======================================================== */
+
+    const data = {
+
+      uid:user.uid,
+
+      email:user.email || "",
+
+      fecha:fechaVal,
+
+      chofer:choferVal,
+
+      creadoEn:
+        firebase.firestore.FieldValue.serverTimestamp(),
+
+      unidades:unidadesData
+
+    };
+
+
+    /* ========================================================
+       GUARDAR FIREBASE
+    ======================================================== */
+
+    mostrarEstado(
+      "Guardando la guardia en Firebase...",
+      "info"
+    );
+
+
+    await db
+      .collection("guardias")
+      .add(data);
+
+
+    /* ========================================================
+       GOOGLE SHEETS
+    ======================================================== */
+
+    mostrarEstado(
+      "Guardia guardada en Firebase. Enviando automáticamente a Google Sheets...",
+      "info"
+    );
+
+
+    const enviadoSheets =
+      await enviarAGoogleSheets(data);
+
+
+    /* ========================================================
+       RESULTADO
+    ======================================================== */
+
+    if(enviadoSheets){
+
+      mostrarEstado(
+        "✓ Guardia guardada correctamente en Firebase y enviada a Google Sheets.",
+        "success"
+      );
+
+      alert(
+        "✓ Cambio de guardia guardado correctamente.\n\n" +
+        "Los datos fueron enviados automáticamente a Google Sheets."
+      );
+
+    }else{
+
+      mostrarEstado(
+        "⚠ La guardia quedó guardada en Firebase, pero hubo un problema al enviarla a Google Sheets.",
+        "error"
+      );
+
+      alert(
+        "La guardia se guardó en Firebase, " +
+        "pero hubo un problema al enviarla a Google Sheets."
+      );
+
+    }
+
+
+    limpiar();
+
+
+  }catch(err){
+
+    console.error(err);
+
+    mostrarEstado(
+      "Error al guardar: " + err.message,
+      "error"
+    );
+
+    alert(
+      "Error al guardar: " + err.message
+    );
+
+
+  }finally{
+
+    btnGuardar.disabled = false;
+
+    btnGuardar.textContent =
+      "Guardar cambio de guardia";
+
+  }
+
 }
+
+
+/* ============================================================
+   LIMPIAR
+============================================================ */
 
 function limpiar(){
- document.querySelectorAll("input:not(#fecha),textarea,select").forEach(el=>{
-   if(el.id.endsWith("_operativo")){
-     el.value="Operativo";
-   } else {
-     el.value="";
-   }
- });
- document.getElementById("fecha").value=new Date().toISOString().slice(0,10);
+
+  document
+    .querySelectorAll(
+      "input:not(#fecha),textarea,select"
+    )
+    .forEach(el => {
+
+      if(
+        el.id &&
+        el.id.endsWith("_operativo")
+      ){
+
+        el.value =
+          "Operativo";
+
+      }else{
+
+        el.value = "";
+
+      }
+
+    });
+
+
+  document.getElementById("fecha").value =
+    new Date().toISOString().slice(0,10);
+
 }
+
+
+/* ============================================================
+   ELIMINAR REGISTRO
+============================================================ */
 
 async function eliminarRegistro(id){
- if(confirm("¿Estás seguro de que deseas eliminar este registro de guardia?")){
-   try {
-     await db.collection("guardias").doc(id).delete();
-     cargarHistorial();
-   } catch(err) {
-     alert("Error al eliminar: " + err.message);
-   }
- }
+
+  if(
+    !confirm(
+      "¿Estás seguro de que deseas eliminar este registro de guardia?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    await db
+      .collection("guardias")
+      .doc(id)
+      .delete();
+
+
+    cargarHistorial();
+
+
+  }catch(err){
+
+    alert(
+      "Error al eliminar: " +
+      err.message
+    );
+
+  }
+
 }
+
+
+/* ============================================================
+   HISTORIAL
+============================================================ */
 
 async function cargarHistorial(){
- const user = auth.currentUser;
- if(!user) return;
 
- const snapshot = await db.collection("guardias")
-   .where("uid", "==", user.uid)
-   .get();
+  const user =
+    auth.currentUser;
 
- const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  if(!user) return;
 
- document.getElementById("total").textContent = docs.length;
- document.getElementById("unidades").textContent = docs.length * unidades.length;
- document.getElementById("conObs").textContent = docs.filter(x => x.unidades && x.unidades.some(u => u.obs || (u.fotos && u.fotos.length) || Object.values(u.verificaciones||u.faltantes||{}).some(v => v === "Sí"))).length;
- 
- let cntNoOp = 0;
- docs.forEach(x => {
-   (x.unidades||[]).forEach(u => {
-     if(u.operativo === "No Operativo") cntNoOp++;
-   });
- });
- document.getElementById("noOperativos").textContent = cntNoOp;
 
- const recordsElem = document.getElementById("records");
- recordsElem.innerHTML = docs.length ? docs.map(x => `
- <div class="record">
-   <div class="recordtop">
-     <div>
-       <strong>${x.fecha} — Chofer: ${x.chofer || "No indicado"}</strong>
-       <span class="pill" style="margin-left:8px">En nube</span>
-     </div>
-     <button class="btn danger btn-sm" onclick="eliminarRegistro('${x.id}')">Eliminar</button>
-   </div>
-   
-   <div style="margin-top:10px">
-     ${(x.unidades||[]).map(u => {
-       const verificacionesTxt = [];
-       if(u.verificaciones){
-         if(u.verificaciones.residuos) verificacionesTxt.push(`Residuos patogénicos: ${u.verificaciones.residuos}`);
-         if(u.verificaciones.llave) verificacionesTxt.push(`Llave fija y llave de tubo: ${u.verificaciones.llave}`);
-         if(u.verificaciones.acople) verificacionesTxt.push(`Acople de tubo: ${u.verificaciones.acople}`);
-       }
+  try{
 
-       const estadosList = (u.estados||[]).map((est, idx) => {
-         if(!est) return null;
-         return `<div style="font-size:12px"><strong>${items[idx] || "Control"}:</strong> ${est}</div>`;
-       }).filter(Boolean);
+    const snapshot =
+      await db
+        .collection("guardias")
+        .where(
+          "uid",
+          "==",
+          user.uid
+        )
+        .get();
 
-       const esOp = u.operativo !== "No Operativo";
-       const badgeOp = esOp 
-         ? `<span style="padding:3px 8px;border-radius:6px;background:#eaf8f1;color:var(--good);font-weight:700;font-size:11px">OPERATIVO</span>`
-         : `<span style="padding:3px 8px;border-radius:6px;background:#fdeaea;color:var(--bad);font-weight:700;font-size:11px">NO OPERATIVO</span>`;
 
-       const fotosHtml = (u.fotos && u.fotos.length) 
-         ? `<div style="margin-top:8px">
-              <strong style="font-size:12px;color:var(--muted)">FOTOS ADJUNTAS:</strong>
-              <div class="photo-preview-container">
-                ${u.fotos.map(f => `<a href="${f}" target="_blank"><img src="${f}" class="photo-thumb" alt="Foto unidad"></a>`).join("")}
-              </div>
-            </div>`
-         : '';
+    const docs =
+      snapshot.docs.map(
+        doc => ({
+          id:doc.id,
+          ...doc.data()
+        })
+      );
 
-       return `
-       <div style="margin-top:8px;padding:10px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;font-size:13px">
-         <div style="display:flex;justify-content:space-between;align-items:center">
-           <strong style="color:var(--accent);font-size:14px">Móvil ${u.nombre}</strong>
-           ${badgeOp}
-         </div>
-         
-         ${estadosList.length ? `
-           <div style="margin-top:6px">
-             <div style="font-weight:700;color:var(--muted);font-size:12px;margin-bottom:2px">ESTADO DE CONTROLES:</div>
-             <div class="items-status-grid">${estadosList.join("")}</div>
-           </div>` : ''}
 
-         ${verificacionesTxt.length ? `<div style="margin-top:6px"><strong>Verificaciones:</strong> ${verificacionesTxt.join(" | ")}</div>` : ''}
-         ${u.obs ? `<div style="margin-top:6px"><strong>Observaciones:</strong> ${u.obs}</div>` : ''}
-         ${fotosHtml}
-       </div>`;
-     }).join("")}
-   </div>
- </div>`).join("") : `<div class="card empty">Todavía no has registrado guardias en tu cuenta.</div>`;
+    document.getElementById("total").textContent =
+      docs.length;
+
+
+    document.getElementById("unidades").textContent =
+      docs.length * unidades.length;
+
+
+    document.getElementById("conObs").textContent =
+      docs.filter(
+        x =>
+          x.unidades &&
+          x.unidades.some(
+            u =>
+              u.obs ||
+              (u.fotos && u.fotos.length) ||
+              Object
+                .values(
+                  u.verificaciones ||
+                  {}
+                )
+                .some(
+                  v => v === "Sí"
+                )
+          )
+      ).length;
+
+
+    let cntNoOp = 0;
+
+
+    docs.forEach(x => {
+
+      (x.unidades || [])
+        .forEach(u => {
+
+          if(
+            u.operativo ===
+            "No Operativo"
+          ){
+
+            cntNoOp++;
+
+          }
+
+        });
+
+    });
+
+
+    document.getElementById(
+      "noOperativos"
+    ).textContent =
+      cntNoOp;
+
+
+    const recordsElem =
+      document.getElementById(
+        "records"
+      );
+
+
+    recordsElem.innerHTML =
+      docs.length
+
+      ? docs.map(x => `
+
+        <div class="record">
+
+          <div class="recordtop">
+
+            <div>
+
+              <strong>
+                ${x.fecha}
+                — Chofer:
+                ${x.chofer || "No indicado"}
+              </strong>
+
+              <span
+                class="pill"
+                style="margin-left:8px"
+              >
+                En nube
+              </span>
+
+            </div>
+
+
+            <button
+              class="btn danger btn-sm"
+              onclick="eliminarRegistro('${x.id}')"
+            >
+              Eliminar
+            </button>
+
+          </div>
+
+
+          <div style="margin-top:10px">
+
+            ${(x.unidades || [])
+              .map(u => {
+
+                const verificacionesTxt = [];
+
+
+                if(u.verificaciones){
+
+                  if(
+                    u.verificaciones.residuos
+                  ){
+
+                    verificacionesTxt.push(
+                      `Residuos patogénicos: ${u.verificaciones.residuos}`
+                    );
+
+                  }
+
+
+                  if(
+                    u.verificaciones.llave
+                  ){
+
+                    verificacionesTxt.push(
+                      `Llave fija y llave de tubo: ${u.verificaciones.llave}`
+                    );
+
+                  }
+
+
+                  if(
+                    u.verificaciones.acople
+                  ){
+
+                    verificacionesTxt.push(
+                      `Acople de tubo: ${u.verificaciones.acople}`
+                    );
+
+                  }
+
+                }
+
+
+                const estadosList =
+                  (u.estados || [])
+                    .map(
+                      (est,idx) => {
+
+                        if(!est)
+                          return null;
+
+                        return `
+                          <div style="font-size:12px">
+                            <strong>
+                              ${items[idx] || "Control"}:
+                            </strong>
+                            ${est}
+                          </div>
+                        `;
+
+                      }
+                    )
+                    .filter(Boolean);
+
+
+                const esOp =
+                  u.operativo !==
+                  "No Operativo";
+
+
+                const badgeOp =
+                  esOp
+
+                  ? `
+                    <span
+                      style="
+                        padding:3px 8px;
+                        border-radius:6px;
+                        background:#eaf8f1;
+                        color:var(--good);
+                        font-weight:700;
+                        font-size:11px
+                      "
+                    >
+                      OPERATIVO
+                    </span>
+                  `
+
+                  : `
+                    <span
+                      style="
+                        padding:3px 8px;
+                        border-radius:6px;
+                        background:#fdeaea;
+                        color:var(--bad);
+                        font-weight:700;
+                        font-size:11px
+                      "
+                    >
+                      NO OPERATIVO
+                    </span>
+                  `;
+
+
+                const fotosHtml =
+                  (
+                    u.fotos &&
+                    u.fotos.length
+                  )
+
+                  ? `
+                    <div style="margin-top:8px">
+
+                      <strong
+                        style="
+                          font-size:12px;
+                          color:var(--muted)
+                        "
+                      >
+                        FOTOS ADJUNTAS:
+                      </strong>
+
+                      <div class="photo-preview-container">
+
+                        ${u.fotos.map(
+                          f => `
+
+                            <a
+                              href="${f}"
+                              target="_blank"
+                            >
+
+                              <img
+                                src="${f}"
+                                class="photo-thumb"
+                                alt="Foto unidad"
+                              >
+
+                            </a>
+
+                          `
+                        ).join("")}
+
+                      </div>
+
+                    </div>
+                  `
+
+                  : "";
+
+
+                return `
+
+                  <div
+                    style="
+                      margin-top:8px;
+                      padding:10px;
+                      background:#f8fafc;
+                      border-radius:8px;
+                      border:1px solid #e2e8f0;
+                      font-size:13px
+                    "
+                  >
+
+                    <div
+                      style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center
+                      "
+                    >
+
+                      <strong
+                        style="
+                          color:var(--accent);
+                          font-size:14px
+                        "
+                      >
+                        Móvil ${u.nombre}
+                      </strong>
+
+                      ${badgeOp}
+
+                    </div>
+
+
+                    ${
+                      estadosList.length
+
+                      ? `
+
+                        <div style="margin-top:6px">
+
+                          <div
+                            style="
+                              font-weight:700;
+                              color:var(--muted);
+                              font-size:12px;
+                              margin-bottom:2px
+                            "
+                          >
+                            ESTADO DE CONTROLES:
+                          </div>
+
+                          <div class="items-status-grid">
+
+                            ${estadosList.join("")}
+
+                          </div>
+
+                        </div>
+
+                      `
+
+                      : ""
+                    }
+
+
+                    ${
+                      verificacionesTxt.length
+
+                      ? `
+
+                        <div style="margin-top:6px">
+
+                          <strong>
+                            Verificaciones:
+                          </strong>
+
+                          ${verificacionesTxt.join(" | ")}
+
+                        </div>
+
+                      `
+
+                      : ""
+                    }
+
+
+                    ${
+                      u.obs
+
+                      ? `
+
+                        <div style="margin-top:6px">
+
+                          <strong>
+                            Observaciones:
+                          </strong>
+
+                          ${u.obs}
+
+                        </div>
+
+                      `
+
+                      : ""
+                    }
+
+
+                    ${fotosHtml}
+
+                  </div>
+
+                `;
+
+              })
+              .join("")}
+
+          </div>
+
+        </div>
+
+      `).join("")
+
+      : `
+
+        <div class="card empty">
+
+          Todavía no has registrado guardias
+          en tu cuenta.
+
+        </div>
+
+      `;
+
+
+  }catch(error){
+
+    console.error(error);
+
+    document.getElementById(
+      "records"
+    ).innerHTML = `
+
+      <div class="card empty">
+
+        Error al cargar el historial:
+        ${error.message}
+
+      </div>
+
+    `;
+
+  }
+
 }
+
 </script>
+
 </body>
 </html>
+```
