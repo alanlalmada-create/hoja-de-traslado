@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Control de Guardia - Registro de Traslados</title>
+
   <style>
     :root {
       --primary: #0056b3;
@@ -35,7 +37,8 @@
       margin-bottom: 20px;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       margin-top: 0;
       color: var(--primary);
     }
@@ -50,7 +53,10 @@
       margin-bottom: 5px;
     }
 
-    input[type="text"], input[type="date"], select, textarea {
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
       width: 100%;
       padding: 10px;
       border: 1px solid var(--border);
@@ -105,203 +111,603 @@
       color: var(--muted);
       padding: 20px;
     }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      body {
+        padding: 8px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <div class="container">
+
     <div class="card">
+
       <h2>Control de Guardia</h2>
-      
+
       <div class="row">
+
         <div class="col form-group">
           <label for="fecha">Fecha:</label>
           <input type="date" id="fecha">
         </div>
+
         <div class="col form-group">
           <label for="chofer">Chofer:</label>
-          <input type="text" id="chofer" placeholder="Nombre completo">
+          <input
+            type="text"
+            id="chofer"
+            placeholder="Nombre completo"
+          >
         </div>
+
       </div>
 
       <div id="unidades-container"></div>
 
-      <button id="btn-guardar" class="btn" onclick="guardar()">Guardar cambio de guardia</button>
+      <button
+        id="btn-guardar"
+        class="btn"
+        onclick="guardar()"
+      >
+        Guardar cambio de guardia
+      </button>
+
     </div>
+
 
     <div class="card">
+
       <h3>Historial de Registros</h3>
-      <div id="records"></div>
+
+      <div id="records">
+        <div class="empty">
+          Los registros guardados aparecerán en Google Sheets.
+        </div>
+      </div>
+
     </div>
+
   </div>
 
-<script>
-// URL de la nueva versión desplegada en Google Apps Script
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygtNzPiCxkhcuM3YPMbdAh8EDsHfzCd1m-d8h_berOInYoUI5G36CMk9BKGiBPTKYxVg/exec";
 
-// Configuración de Unidades e Ítems a verificar
-const unidadesNombre = ["PAA 327", "PEQ 519", "AF676BF"];
-const items = ["Combustible", "Luces", "Neumáticos", "Equipamiento Médico"];
+<script>
+
+/* =====================================================
+   URL DE LA IMPLEMENTACIÓN ACTUAL
+   VERSIÓN 22
+   ===================================================== */
+
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbye4j07fvh04sGQVWkw2uPc-Y7h1zsrkaaM-EcTRsivS_QxEVG19XWwL6FX2eCEB3NY2Q/exec";
+
+
+/* =====================================================
+   CONFIGURACIÓN
+   ===================================================== */
+
+const unidadesNombre = [
+  "PAA 327",
+  "PEQ 519",
+  "AF676BF"
+];
+
+const items = [
+  "Combustible",
+  "Luces",
+  "Neumáticos",
+  "Equipamiento Médico"
+];
+
+
+/* =====================================================
+   INICIALIZAR FORMULARIO
+   ===================================================== */
 
 function inicializarFormulario() {
-  const container = document.getElementById("unidades-container");
-  
-  document.getElementById("fecha").value = new Date().toISOString().split('T')[0];
 
-  container.innerHTML = unidadesNombre.map((unidad, ui) => `
-    <div class="unidad-card">
-      <div class="unidad-title">Móvil: ${unidad}</div>
-      
-      <div class="form-group">
-        <label>Estado Operativo:</label>
-        <select id="u${ui}_operativo">
-          <option value="Operativo">Operativo</option>
-          <option value="Fuera de Servicio">Fuera de Servicio</option>
-          <option value="En Taller">En Taller</option>
-        </select>
-      </div>
+  const container =
+    document.getElementById("unidades-container");
 
-      ${items.map((it, ii) => `
-        <div class="form-group">
-          <label>${it}:</label>
-          <select id="u${ui}i${ii}">
-            <option value="OK">OK</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Faltante">Faltante / Defectuoso</option>
-          </select>
+  const hoy = new Date();
+
+  const fechaLocal =
+    hoy.getFullYear() +
+    "-" +
+    String(hoy.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(hoy.getDate()).padStart(2, "0");
+
+  document.getElementById("fecha").value = fechaLocal;
+
+
+  container.innerHTML =
+    unidadesNombre.map(function(unidad, ui) {
+
+      return `
+        <div class="unidad-card">
+
+          <div class="unidad-title">
+            Móvil: ${unidad}
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Estado Operativo:
+            </label>
+
+            <select id="u${ui}_operativo">
+
+              <option value="Operativo">
+                Operativo
+              </option>
+
+              <option value="Fuera de Servicio">
+                Fuera de Servicio
+              </option>
+
+              <option value="En Taller">
+                En Taller
+              </option>
+
+            </select>
+
+          </div>
+
+
+          ${items.map(function(it, ii) {
+
+            return `
+              <div class="form-group">
+
+                <label>
+                  ${it}:
+                </label>
+
+                <select id="u${ui}i${ii}">
+
+                  <option value="OK">
+                    OK
+                  </option>
+
+                  <option value="Pendiente">
+                    Pendiente
+                  </option>
+
+                  <option value="Faltante">
+                    Faltante / Defectuoso
+                  </option>
+
+                </select>
+
+              </div>
+            `;
+
+          }).join("")}
+
+
+          <div class="row">
+
+
+            <div class="col form-group">
+
+              <label>
+                Residuos:
+              </label>
+
+              <select id="u${ui}_residuos">
+
+                <option value="Limpio">
+                  Limpio
+                </option>
+
+                <option value="Con residuos">
+                  Con residuos
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="col form-group">
+
+              <label>
+                Llave:
+              </label>
+
+              <select id="u${ui}_llave">
+
+                <option value="Entregada">
+                  Entregada
+                </option>
+
+                <option value="No entregada">
+                  No entregada
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="col form-group">
+
+              <label>
+                Acople:
+              </label>
+
+              <select id="u${ui}_acople">
+
+                <option value="OK">
+                  OK
+                </option>
+
+                <option value="Defectuoso">
+                  Defectuoso
+                </option>
+
+              </select>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Observaciones:
+            </label>
+
+            <textarea
+              id="uo${ui}"
+              rows="3"
+              placeholder="Detalles o novedades..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Adjuntar Fotos del Móvil:
+            </label>
+
+            <input
+              type="file"
+              id="u${ui}_fotos"
+              accept="image/*"
+              multiple
+            >
+
+          </div>
+
         </div>
-      `).join("")}
+      `;
 
-      <div class="row">
-        <div class="col form-group">
-          <label>Residuos:</label>
-          <select id="u${ui}_residuos">
-            <option value="Limpio">Limpio</option>
-            <option value="Con residuos">Con residuos</option>
-          </select>
-        </div>
-        <div class="col form-group">
-          <label>Llave:</label>
-          <select id="u${ui}_llave">
-            <option value="Entregada">Entregada</option>
-            <option value="No entregada">No entregada</option>
-          </select>
-        </div>
-        <div class="col form-group">
-          <label>Acople:</label>
-          <select id="u${ui}_acople">
-            <option value="OK">OK</option>
-            <option value="Defectuoso">Defectuoso</option>
-          </select>
-        </div>
-      </div>
+    }).join("");
 
-      <div class="form-group">
-        <label>Observaciones:</label>
-        <textarea id="uo${ui}" rows="2" placeholder="Detalles o novedades..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Adjuntar Fotos del Móvil:</label>
-        <input type="file" id="u${ui}_fotos" accept="image/*" multiple>
-      </div>
-    </div>
-  `).join("");
 }
+
+
+/* =====================================================
+   CONVERTIR FOTO A BASE64
+   ===================================================== */
 
 function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
+
+  return new Promise(function(resolve, reject) {
+
     const reader = new FileReader();
+
     reader.readAsDataURL(file);
-    reader.onload = () => resolve({
-      filename: file.name,
-      type: file.type,
-      base64: reader.result.split(',')[1]
-    });
-    reader.onerror = error => reject(error);
+
+    reader.onload = function() {
+
+      resolve({
+
+        filename: file.name,
+
+        type: file.type,
+
+        base64:
+          reader.result.split(",")[1]
+
+      });
+
+    };
+
+    reader.onerror = function(error) {
+
+      reject(error);
+
+    };
+
   });
+
 }
 
+
+/* =====================================================
+   GUARDAR
+   ===================================================== */
+
 async function guardar() {
-  const btn = document.getElementById("btn-guardar");
+
+  const btn =
+    document.getElementById("btn-guardar");
+
+
   btn.disabled = true;
-  btn.innerText = "Guardando y subiendo imágenes...";
+
+  btn.innerText =
+    "Guardando y subiendo imágenes...";
+
 
   try {
-    const chofer = document.getElementById("chofer").value.trim();
-    const fecha = document.getElementById("fecha").value;
+
+    const chofer =
+      document
+        .getElementById("chofer")
+        .value
+        .trim();
+
+
+    const fecha =
+      document
+        .getElementById("fecha")
+        .value;
+
 
     if (!chofer || !fecha) {
-      alert("Por favor completa la fecha y el nombre del chofer.");
+
+      alert(
+        "Por favor completa la fecha y el nombre del chofer."
+      );
+
       btn.disabled = false;
-      btn.innerText = "Guardar cambio de guardia";
+
+      btn.innerText =
+        "Guardar cambio de guardia";
+
       return;
     }
 
+
     const unidades = [];
 
-    for (let ui = 0; ui < unidadesNombre.length; ui++) {
-      const nombreUnidad = unidadesNombre[ui]; 
-      const filesInput = document.getElementById(`u${ui}_fotos`);
-      const files = filesInput ? filesInput.files : [];
+
+    for (
+      let ui = 0;
+      ui < unidadesNombre.length;
+      ui++
+    ) {
+
+      const nombreUnidad =
+        unidadesNombre[ui];
+
+
+      const filesInput =
+        document.getElementById(
+          `u${ui}_fotos`
+        );
+
+
+      const files =
+        filesInput
+          ? filesInput.files
+          : [];
+
+
       const fotosBase64 = [];
 
-      for (let f = 0; f < files.length; f++) {
-        const fotoObj = await fileToBase64(files[f]);
+
+      for (
+        let f = 0;
+        f < files.length;
+        f++
+      ) {
+
+        const fotoObj =
+          await fileToBase64(files[f]);
+
         fotosBase64.push(fotoObj);
+
       }
 
+
       unidades.push({
-        nombre: nombreUnidad,
-        operativo: document.getElementById(`u${ui}_operativo`).value,
-        estados: items.map((it, ii) => `${it}: ${document.getElementById(`u${ui}i${ii}`).value}`),
+
+        nombre:
+          nombreUnidad,
+
+
+        operativo:
+          document.getElementById(
+            `u${ui}_operativo`
+          ).value,
+
+
+        estados:
+          items.map(function(it, ii) {
+
+            return (
+              it +
+              ": " +
+              document.getElementById(
+                `u${ui}i${ii}`
+              ).value
+            );
+
+          }),
+
+
         verificaciones: {
-          residuos: document.getElementById(`u${ui}_residuos`).value,
-          llave: document.getElementById(`u${ui}_llave`).value,
-          acople: document.getElementById(`u${ui}_acople`).value
+
+          residuos:
+            document.getElementById(
+              `u${ui}_residuos`
+            ).value,
+
+          llave:
+            document.getElementById(
+              `u${ui}_llave`
+            ).value,
+
+          acople:
+            document.getElementById(
+              `u${ui}_acople`
+            ).value
+
         },
-        fotos: fotosBase64,
-        obs: document.getElementById(`uo${ui}`).value.trim()
+
+
+        fotos:
+          fotosBase64,
+
+
+        obs:
+          document.getElementById(
+            `uo${ui}`
+          ).value.trim()
+
       });
+
     }
+
 
     const payload = {
-      chofer: chofer,
-      fecha: fecha,
-      unidades: unidades
+
+      chofer:
+        chofer,
+
+      fecha:
+        fecha,
+
+      unidades:
+        unidades
+
     };
 
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
 
-    const result = await response.json();
+    console.log(
+      "Enviando datos:",
+      payload
+    );
+
+
+    const response =
+      await fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+
+          method: "POST",
+
+          body:
+            JSON.stringify(payload)
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    console.log(
+      "Respuesta del servidor:",
+      result
+    );
+
 
     if (result.ok) {
-      alert("¡Guardia y fotos guardadas con éxito!");
+
+      alert(
+        "¡Guardia y fotos guardadas con éxito!"
+      );
+
       limpiar();
+
     } else {
-      throw new Error(result.error || "Error al procesar los datos.");
+
+      throw new Error(
+        result.error ||
+        "Error al procesar los datos."
+      );
+
     }
 
+
   } catch (error) {
-    console.error("Error al guardar:", error);
-    alert("Error al guardar: " + error.message);
+
+    console.error(
+      "Error al guardar:",
+      error
+    );
+
+
+    alert(
+      "Error al guardar: " +
+      error.message
+    );
+
+
   } finally {
+
     btn.disabled = false;
-    btn.innerText = "Guardar cambio de guardia";
+
+    btn.innerText =
+      "Guardar cambio de guardia";
+
   }
+
 }
+
+
+/* =====================================================
+   LIMPIAR FORMULARIO
+   ===================================================== */
 
 function limpiar() {
-  document.getElementById("chofer").value = "";
+
+  document.getElementById(
+    "chofer"
+  ).value = "";
+
   inicializarFormulario();
+
 }
 
+
+/* =====================================================
+   INICIAR AL CARGAR
+   ===================================================== */
+
 window.onload = function() {
+
   inicializarFormulario();
+
 };
+
 </script>
+
 </body>
 </html>
+```
