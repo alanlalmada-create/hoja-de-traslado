@@ -382,7 +382,7 @@ textarea {
 
 
 /* =====================================================
-   URL DE LA NUEVA IMPLEMENTACIÓN
+   URL DE LA IMPLEMENTACIÓN
    ===================================================== */
 
 const GOOGLE_SCRIPT_URL =
@@ -403,6 +403,10 @@ const unidadesNombre = [
 
 ];
 
+
+/* =====================================================
+   ITEMS
+   ===================================================== */
 
 const items = [
 
@@ -718,7 +722,6 @@ function mostrarCantidadFotos(ui) {
 
 function fileToBase64(file) {
 
-
   return new Promise(
     function(resolve, reject) {
 
@@ -824,6 +827,12 @@ function fileToBase64(file) {
                 );
 
 
+              /*
+               * IMPORTANTE:
+               * El Código.gs espera "data"
+               * y "type".
+               */
+
               resolve({
 
                 filename:
@@ -832,8 +841,8 @@ function fileToBase64(file) {
                 type:
                   "image/jpeg",
 
-                base64:
-                  compressed.split(",")[1]
+                data:
+                  compressed
 
               });
 
@@ -1016,7 +1025,30 @@ async function guardar() {
 
 
       /* =============================================
-         ARMAR DATOS DEL MÓVIL
+         ESTADOS
+         ============================================= */
+
+      const valoresItems =
+        items.map(
+          function(it, ii) {
+
+            return (
+
+              it +
+              ": " +
+
+              document.getElementById(
+                `u${ui}i${ii}`
+              ).value
+
+            );
+
+          }
+        );
+
+
+      /* =============================================
+         DATOS DEL MÓVIL
          ============================================= */
 
       unidades.push({
@@ -1025,64 +1057,57 @@ async function guardar() {
           nombreUnidad,
 
 
-        operativo:
+        estado:
           document.getElementById(
             `u${ui}_operativo`
           ).value,
 
 
-        estados:
-          items.map(
-            function(it, ii) {
-
-              return (
-
-                it +
-                ": " +
-
-                document.getElementById(
-                  `u${ui}i${ii}`
-                ).value
-
-              );
-
-            }
-          ),
+        combustible:
+          valoresItems[0],
 
 
-        verificaciones: {
-
-          residuos:
-            document.getElementById(
-              `u${ui}_residuos`
-            ).value,
+        luces:
+          valoresItems[1],
 
 
-          llave:
-            document.getElementById(
-              `u${ui}_llave`
-            ).value,
+        neumaticos:
+          valoresItems[2],
 
 
-          acople:
-            document.getElementById(
-              `u${ui}_acople`
-            ).value
-
-        },
+        equipamiento:
+          valoresItems[3],
 
 
-        fotos:
-          fotosBase64,
+        residuos:
+          document.getElementById(
+            `u${ui}_residuos`
+          ).value,
 
 
-        obs:
+        llave:
+          document.getElementById(
+            `u${ui}_llave`
+          ).value,
+
+
+        acople:
+          document.getElementById(
+            `u${ui}_acople`
+          ).value,
+
+
+        observaciones:
           document
             .getElementById(
               `uo${ui}`
             )
             .value
-            .trim()
+            .trim(),
+
+
+        fotos:
+          fotosBase64
 
       });
 
@@ -1118,7 +1143,7 @@ async function guardar() {
 
 
     /* ===============================================
-       ENVIAR
+       ENVIAR AL APPS SCRIPT
        =============================================== */
 
     const response =
@@ -1153,7 +1178,7 @@ async function guardar() {
 
 
     console.log(
-      "Respuesta:",
+      "Respuesta del servidor:",
       result
     );
 
@@ -1171,51 +1196,34 @@ async function guardar() {
         result.totalFotos || 0;
 
 
-      if (
-        cantidadFotosSeleccionadas > 0 &&
-        totalFotos === 0
-      ) {
+      mensaje.innerHTML =
+
+        "✅ <strong>Guardia guardada correctamente.</strong><br><br>" +
+
+        "📸 Fotos guardadas en Drive: " +
+        totalFotos +
+        "<br><br>" +
+
+        "En Google Sheets, cada móvil tendrá " +
+        "los enlaces de sus fotos en la columna <strong>Fotos</strong>.";
 
 
-        alert(
-
-          "⚠️ La guardia se guardó, " +
-          "pero las fotos no llegaron a Drive.\n\n" +
-
-          "Verificá la implementación del Apps Script."
-
-        );
+      mensaje.style.display =
+        "block";
 
 
-      } else {
+      alert(
 
+        "✅ Guardia guardada correctamente.\n\n" +
 
-        mensaje.innerHTML =
+        "📸 Fotos enviadas: " +
+        cantidadFotosSeleccionadas +
+        "\n" +
 
-          "✅ <strong>Guardia guardada correctamente.</strong><br><br>" +
+        "📁 Fotos guardadas en Drive: " +
+        totalFotos
 
-          "📸 Fotos guardadas en Drive: " +
-          totalFotos +
-          "<br><br>" +
-
-          "En Google Sheets, cada móvil tendrá " +
-          "los enlaces de sus fotos en la columna <strong>Fotos</strong>.";
-
-
-        mensaje.style.display =
-          "block";
-
-
-        alert(
-
-          "✅ Guardia guardada correctamente.\n\n" +
-
-          "📸 Fotos guardadas: " +
-          totalFotos
-
-        );
-
-      }
+      );
 
 
       limpiar();
@@ -1249,6 +1257,7 @@ async function guardar() {
       error.message
 
     );
+
 
   } finally {
 
