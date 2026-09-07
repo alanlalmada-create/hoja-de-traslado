@@ -13,6 +13,9 @@
   </div>
 
 <script>
+// Reemplaza esta URL con la de tu web app desplegada desde Google Apps Script
+const GOOGLE_SCRIPT_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI";
+
 // Convierte un archivo a Base64 manteniendo sus metadatos
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -29,8 +32,10 @@ function fileToBase64(file) {
 
 async function guardar() {
   const btn = document.getElementById("btn-guardar");
-  btn.disabled = true;
-  btn.innerText = "Guardando e subiendo imágenes...";
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "Guardando e subiendo imágenes...";
+  }
 
   try {
     const chofer = document.getElementById("chofer").value.trim();
@@ -38,8 +43,10 @@ async function guardar() {
 
     if (!chofer || !fecha) {
       alert("Por favor completa la fecha y el nombre del chofer.");
-      btn.disabled = false;
-      btn.innerText = "Guardar cambio de guardia";
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = "Guardar cambio de guardia";
+      }
       return;
     }
 
@@ -47,7 +54,7 @@ async function guardar() {
 
     // Recorremos cada móvil individualmente para aislar sus fotos
     for (let ui = 0; ui < unidadesNombre.length; ui++) {
-      const nombreUnidad = unidadesNombre[ui]; // "PAA 327", "PEQ 519" o "AF676BF"
+      const nombreUnidad = unidadesNombre[ui]; 
       const filesInput = document.getElementById(`u${ui}_fotos`);
       const files = filesInput ? filesInput.files : [];
       const fotosBase64 = [];
@@ -89,7 +96,7 @@ async function guardar() {
 
     if (result.ok) {
       alert("¡Guardia y fotos guardadas con éxito en Google Sheets!");
-      limpiar();
+      if (typeof limpiar === "function") limpiar();
     } else {
       throw new Error(result.error || "Error al procesar los datos.");
     }
@@ -98,17 +105,18 @@ async function guardar() {
     console.error("Error al guardar:", error);
     alert("Error al guardar: " + error.message);
   } finally {
-    btn.disabled = false;
-    btn.innerText = "Guardar cambio de guardia";
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "Guardar cambio de guardia";
+    }
   }
 }
 
 async function cargarHistorial() {
   try {
-    // ... código de renderizado de historial ...
     const container = document.getElementById("records");
     
-    container.innerHTML = docs.length ? docs.map(doc => `
+    container.innerHTML = (typeof docs !== "undefined" && docs.length) ? docs.map(doc => `
         <div class="card">
           <h3>${doc.chofer} - ${doc.fecha}</h3>
           <div>
