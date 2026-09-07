@@ -655,13 +655,6 @@ function inicializarFormulario() {
             </div>
 
 
-            <div
-              id="uestadofoto${ui}"
-              class="estado-foto"
-            >
-            </div>
-
-
           </div>
 
 
@@ -709,18 +702,22 @@ function mostrarCantidadFotos(ui) {
 
 
   info.innerText =
+
     input.files.length +
+
     " foto(s) seleccionada(s). " +
+
     "Se comprimirán automáticamente antes de enviarlas.";
 
 }
 
 
 /* =====================================================
-   COMPRIMIR FOTO
+   CONVERTIR Y COMPRIMIR FOTO
    ===================================================== */
 
 function fileToBase64(file) {
+
 
   return new Promise(
     function(resolve, reject) {
@@ -764,24 +761,37 @@ function fileToBase64(file) {
                   width > height
                 ) {
 
+
                   height =
                     Math.round(
+
                       height *
+
                       MAX_SIZE /
+
                       width
+
                     );
+
 
                   width =
                     MAX_SIZE;
 
+
                 } else {
+
 
                   width =
                     Math.round(
+
                       width *
+
                       MAX_SIZE /
+
                       height
+
                     );
+
 
                   height =
                     MAX_SIZE;
@@ -812,25 +822,34 @@ function fileToBase64(file) {
 
 
               ctx.drawImage(
+
                 img,
+
                 0,
+
                 0,
+
                 width,
+
                 height
+
               );
 
 
               const compressed =
                 canvas.toDataURL(
+
                   "image/jpeg",
+
                   0.72
+
                 );
 
 
               /*
                * IMPORTANTE:
-               * El Código.gs espera "data"
-               * y "type".
+               * Enviamos "data" completo.
+               * Código.gs lo recibe directamente.
                */
 
               resolve({
@@ -853,10 +872,15 @@ function fileToBase64(file) {
           img.onerror =
             function() {
 
+
               reject(
+
                 new Error(
+
                   "No se pudo procesar la imagen."
+
                 )
+
               );
 
             };
@@ -938,7 +962,10 @@ async function guardar() {
 
 
       alert(
-        "Por favor completá la fecha y el nombre del chofer."
+
+        "Por favor completá la fecha y " +
+        "el nombre del chofer."
+
       );
 
 
@@ -959,7 +986,7 @@ async function guardar() {
 
 
     /* ===============================================
-       PROCESAR CADA MÓVIL
+       PROCESAR MÓVILES
        =============================================== */
 
     for (
@@ -975,7 +1002,9 @@ async function guardar() {
 
       const filesInput =
         document.getElementById(
+
           `u${ui}_fotos`
+
         );
 
 
@@ -1004,10 +1033,15 @@ async function guardar() {
 
 
         btn.innerText =
+
           "Procesando foto " +
+
           (f + 1) +
+
           " de " +
+
           files.length +
+
           "...";
 
 
@@ -1032,14 +1066,20 @@ async function guardar() {
         items.map(
           function(it, ii) {
 
+
             return (
 
               it +
+
               ": " +
 
-              document.getElementById(
-                `u${ui}i${ii}`
-              ).value
+              document
+                .getElementById(
+
+                  `u${ui}i${ii}`
+
+                )
+                .value
 
             );
 
@@ -1048,7 +1088,7 @@ async function guardar() {
 
 
       /* =============================================
-         DATOS DEL MÓVIL
+         ARMAR MÓVIL
          ============================================= */
 
       unidades.push({
@@ -1058,9 +1098,11 @@ async function guardar() {
 
 
         estado:
-          document.getElementById(
-            `u${ui}_operativo`
-          ).value,
+          document
+            .getElementById(
+              `u${ui}_operativo`
+            )
+            .value,
 
 
         combustible:
@@ -1080,21 +1122,27 @@ async function guardar() {
 
 
         residuos:
-          document.getElementById(
-            `u${ui}_residuos`
-          ).value,
+          document
+            .getElementById(
+              `u${ui}_residuos`
+            )
+            .value,
 
 
         llave:
-          document.getElementById(
-            `u${ui}_llave`
-          ).value,
+          document
+            .getElementById(
+              `u${ui}_llave`
+            )
+            .value,
 
 
         acople:
-          document.getElementById(
-            `u${ui}_acople`
-          ).value,
+          document
+            .getElementById(
+              `u${ui}_acople`
+            )
+            .value,
 
 
         observaciones:
@@ -1138,17 +1186,19 @@ async function guardar() {
     );
 
 
+    /* ===============================================
+       ENVIAR
+       =============================================== */
+
     btn.innerText =
       "Guardando guardia y fotos...";
 
 
-    /* ===============================================
-       ENVIAR AL APPS SCRIPT
-       =============================================== */
-
     const response =
       await fetch(
+
         GOOGLE_SCRIPT_URL,
+
         {
 
           method:
@@ -1160,14 +1210,19 @@ async function guardar() {
             )
 
         }
+
       );
 
 
     if (!response.ok) {
 
+
       throw new Error(
+
         "Error del servidor: HTTP " +
+
         response.status
+
       );
 
     }
@@ -1178,8 +1233,11 @@ async function guardar() {
 
 
     console.log(
+
       "Respuesta del servidor:",
+
       result
+
     );
 
 
@@ -1198,14 +1256,23 @@ async function guardar() {
 
       mensaje.innerHTML =
 
-        "✅ <strong>Guardia guardada correctamente.</strong><br><br>" +
+        "✅ <strong>" +
+
+        "Guardia guardada correctamente." +
+
+        "</strong><br><br>" +
 
         "📸 Fotos guardadas en Drive: " +
+
         totalFotos +
+
         "<br><br>" +
 
-        "En Google Sheets, cada móvil tendrá " +
-        "los enlaces de sus fotos en la columna <strong>Fotos</strong>.";
+        "En Google Sheets, cada móvil " +
+
+        "tendrá los enlaces de sus fotos " +
+
+        "en la columna <strong>Fotos</strong>.";
 
 
       mensaje.style.display =
@@ -1216,11 +1283,14 @@ async function guardar() {
 
         "✅ Guardia guardada correctamente.\n\n" +
 
-        "📸 Fotos enviadas: " +
+        "📸 Fotos seleccionadas: " +
+
         cantidadFotosSeleccionadas +
+
         "\n" +
 
         "📁 Fotos guardadas en Drive: " +
+
         totalFotos
 
       );
@@ -1235,6 +1305,7 @@ async function guardar() {
       throw new Error(
 
         result.error ||
+
         "El servidor informó un error."
 
       );
@@ -1246,14 +1317,18 @@ async function guardar() {
 
 
     console.error(
+
       "Error al guardar:",
+
       error
+
     );
 
 
     alert(
 
       "❌ Error al guardar:\n\n" +
+
       error.message
 
     );
@@ -1275,16 +1350,18 @@ async function guardar() {
 
 
 /* =====================================================
-   LIMPIAR FORMULARIO
+   LIMPIAR
    ===================================================== */
 
 function limpiar() {
 
 
-  document.getElementById(
-    "chofer"
-  ).value =
-    "";
+  document
+    .getElementById(
+      "chofer"
+    )
+    .value =
+      "";
 
 
   inicializarFormulario();
