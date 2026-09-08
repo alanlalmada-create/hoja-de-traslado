@@ -8,14 +8,15 @@
 <style>
 :root{
   --bg:#f3f5f7;
-  --card:#ffffff;
+  --card:#fff;
   --text:#17212b;
   --muted:#697586;
   --line:#dfe5eb;
   --accent:#1f5eff;
   --good:#16803c;
+  --good-bg:#dff5e7;
   --bad:#c62828;
-  --warning:#b26a00;
+  --bad-bg:#fde1e1;
   --shadow:0 8px 24px rgba(23,33,43,.08);
   --radius:16px;
 }
@@ -113,10 +114,6 @@ body{
   margin-bottom:15px;
 }
 
-.field:last-child{
-  margin-bottom:0;
-}
-
 label{
   display:block;
   font-weight:700;
@@ -140,38 +137,57 @@ textarea{
   resize:vertical;
 }
 
-.radio-group{
+/* =========================
+   ESTADO DEL MOVIL
+   ========================= */
+
+.estado-group{
   display:flex;
+  gap:10px;
   flex-wrap:wrap;
-  gap:8px;
 }
 
-.radio-option{
+.estado-option{
+  flex:1;
+  min-width:150px;
   position:relative;
 }
 
-.radio-option input{
+.estado-option input{
   position:absolute;
   opacity:0;
   pointer-events:none;
 }
 
-.radio-option label{
+.estado-option label{
   margin:0;
-  display:block;
-  padding:10px 14px;
-  border:1px solid var(--line);
-  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 12px;
+  border:2px solid var(--line);
+  border-radius:11px;
   background:#fff;
   cursor:pointer;
-  font-weight:600;
-  transition:.15s;
+  font-weight:800;
+  transition:.18s;
+  text-align:center;
 }
 
-.radio-option input:checked + label{
-  background:#e9efff;
-  border-color:var(--accent);
-  color:var(--accent);
+/* Operativo seleccionado */
+.estado-option.operativo input:checked + label{
+  background:var(--good-bg);
+  border-color:var(--good);
+  color:var(--good);
+  box-shadow:0 0 0 2px rgba(22,128,60,.08);
+}
+
+/* No operativo seleccionado */
+.estado-option.no-operativo input:checked + label{
+  background:var(--bad-bg);
+  border-color:var(--bad);
+  color:var(--bad);
+  box-shadow:0 0 0 2px rgba(198,40,40,.08);
 }
 
 .mobile-card{
@@ -363,14 +379,12 @@ button:disabled{
     width:100%;
   }
 
-  .radio-group{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
+  .estado-group{
+    flex-direction:column;
   }
 
-  .radio-option label{
-    text-align:center;
-    padding:10px 5px;
+  .estado-option{
+    width:100%;
   }
 }
 </style>
@@ -395,11 +409,14 @@ button:disabled{
     </button>
   </div>
 
-  <!-- ========================= -->
-  <!-- CARGAR GUARDIA -->
-  <!-- ========================= -->
+
+  <!-- =========================
+       CARGAR GUARDIA
+       ========================= -->
 
   <section id="cargar" class="section active">
+
+    <!-- DATOS GENERALES -->
 
     <div class="card">
 
@@ -427,9 +444,9 @@ button:disabled{
     </div>
 
 
-    <!-- ========================= -->
-    <!-- PAA 327 -->
-    <!-- ========================= -->
+    <!-- =========================
+         PAA 327
+         ========================= -->
 
     <div class="card">
 
@@ -442,37 +459,56 @@ button:disabled{
 
         <div class="mobile-grid">
 
+          <!-- ESTADO -->
+
           <div class="field">
+
             <label>Estado del móvil</label>
 
-            <div class="radio-group">
+            <div class="estado-group">
 
-              <div class="radio-option">
+              <div class="estado-option operativo">
+
                 <input
                   type="radio"
                   name="PAA327_estado"
                   id="PAA327_estado_operativo"
                   value="Operativo"
+                  onchange="actualizarEstadoVisual('PAA327')"
                 >
-                <label for="PAA327_estado_operativo">Operativo</label>
+
+                <label for="PAA327_estado_operativo">
+                  🟢 Operativo
+                </label>
+
               </div>
 
-              <div class="radio-option">
+              <div class="estado-option no-operativo">
+
                 <input
                   type="radio"
                   name="PAA327_estado"
                   id="PAA327_estado_no"
                   value="No operativo"
+                  onchange="actualizarEstadoVisual('PAA327')"
                 >
-                <label for="PAA327_estado_no">No operativo</label>
+
+                <label for="PAA327_estado_no">
+                  🔴 No operativo
+                </label>
+
               </div>
 
             </div>
+
           </div>
 
 
+          <!-- LIMPIEZA EXTERIOR -->
+
           <div class="field">
             <label>Limpieza exterior</label>
+
             <select id="PAA327_limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -483,8 +519,11 @@ button:disabled{
           </div>
 
 
+          <!-- LIMPIEZA INTERIOR -->
+
           <div class="field">
             <label>Limpieza interior</label>
+
             <select id="PAA327_limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -495,8 +534,11 @@ button:disabled{
           </div>
 
 
+          <!-- BATERIA -->
+
           <div class="field">
             <label>Carga de la batería de los equipos</label>
+
             <select id="PAA327_bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -507,29 +549,11 @@ button:disabled{
           </div>
 
 
-          <div class="field">
-            <label>Nivel de oxígeno</label>
-            <select id="PAA327_nivelOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label>Residuos patogénicos</label>
-            <select id="PAA327_residuosPatogenicos">
-              <option value="">Seleccionar</option>
-              <option>Sí</option>
-              <option>No</option>
-            </select>
-          </div>
-
+          <!-- TUBO OXIGENO N1 -->
 
           <div class="field">
             <label>Tubo de oxígeno N1</label>
+
             <select id="PAA327_tuboOxigenoN1">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -539,8 +563,11 @@ button:disabled{
           </div>
 
 
+          <!-- TUBO OXIGENO N2 -->
+
           <div class="field">
             <label>Tubo de oxígeno N2</label>
+
             <select id="PAA327_tuboOxigenoN2">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -550,8 +577,38 @@ button:disabled{
           </div>
 
 
+          <!-- TUBO ULTRA LIVIANO -->
+
+          <div class="field">
+            <label>Tubo ultra liviano</label>
+
+            <select id="PAA327_tuboUltraLiviano">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <!-- RESIDUOS -->
+
+          <div class="field">
+            <label>Residuos patogénicos</label>
+
+            <select id="PAA327_residuosPatogenicos">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+          </div>
+
+
+          <!-- LLAVE -->
+
           <div class="field">
             <label>Llave de tubo</label>
+
             <select id="PAA327_llaveTubo">
               <option value="">Seleccionar</option>
               <option>Sí</option>
@@ -560,8 +617,11 @@ button:disabled{
           </div>
 
 
+          <!-- OBSERVACIONES -->
+
           <div class="field">
             <label>Observaciones</label>
+
             <textarea
               id="PAA327_observaciones"
               placeholder="Ingrese observaciones"
@@ -570,6 +630,8 @@ button:disabled{
 
         </div>
 
+
+        <!-- FOTOS -->
 
         <div class="field" style="margin-top:15px;">
 
@@ -581,15 +643,20 @@ button:disabled{
 
               <label class="photo-button">
                 Cargar foto
+
                 <input
                   type="file"
                   accept="image/*"
                   multiple
                   onchange="agregarFotos('PAA 327',this)"
                 >
+
               </label>
 
-              <span class="photo-count" id="PAA327_photoCount">
+              <span
+                class="photo-count"
+                id="PAA327_photoCount"
+              >
                 Sin fotos
               </span>
 
@@ -609,9 +676,9 @@ button:disabled{
     </div>
 
 
-    <!-- ========================= -->
-    <!-- PEQ 519 -->
-    <!-- ========================= -->
+    <!-- =========================
+         PEQ 519
+         ========================= -->
 
     <div class="card">
 
@@ -625,36 +692,51 @@ button:disabled{
         <div class="mobile-grid">
 
           <div class="field">
+
             <label>Estado del móvil</label>
 
-            <div class="radio-group">
+            <div class="estado-group">
 
-              <div class="radio-option">
+              <div class="estado-option operativo">
+
                 <input
                   type="radio"
                   name="PEQ519_estado"
                   id="PEQ519_estado_operativo"
                   value="Operativo"
+                  onchange="actualizarEstadoVisual('PEQ519')"
                 >
-                <label for="PEQ519_estado_operativo">Operativo</label>
+
+                <label for="PEQ519_estado_operativo">
+                  🟢 Operativo
+                </label>
+
               </div>
 
-              <div class="radio-option">
+              <div class="estado-option no-operativo">
+
                 <input
                   type="radio"
                   name="PEQ519_estado"
                   id="PEQ519_estado_no"
                   value="No operativo"
+                  onchange="actualizarEstadoVisual('PEQ519')"
                 >
-                <label for="PEQ519_estado_no">No operativo</label>
+
+                <label for="PEQ519_estado_no">
+                  🔴 No operativo
+                </label>
+
               </div>
 
             </div>
+
           </div>
 
 
           <div class="field">
             <label>Limpieza exterior</label>
+
             <select id="PEQ519_limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -667,6 +749,7 @@ button:disabled{
 
           <div class="field">
             <label>Limpieza interior</label>
+
             <select id="PEQ519_limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -679,6 +762,7 @@ button:disabled{
 
           <div class="field">
             <label>Carga de la batería de los equipos</label>
+
             <select id="PEQ519_bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -690,28 +774,8 @@ button:disabled{
 
 
           <div class="field">
-            <label>Nivel de oxígeno</label>
-            <select id="PEQ519_nivelOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label>Residuos patogénicos</label>
-            <select id="PEQ519_residuosPatogenicos">
-              <option value="">Seleccionar</option>
-              <option>Sí</option>
-              <option>No</option>
-            </select>
-          </div>
-
-
-          <div class="field">
             <label>Tubo de oxígeno N1</label>
+
             <select id="PEQ519_tuboOxigenoN1">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -723,6 +787,7 @@ button:disabled{
 
           <div class="field">
             <label>Tubo de oxígeno N2</label>
+
             <select id="PEQ519_tuboOxigenoN2">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -733,7 +798,31 @@ button:disabled{
 
 
           <div class="field">
+            <label>Tubo ultra liviano</label>
+
+            <select id="PEQ519_tuboUltraLiviano">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Residuos patogénicos</label>
+
+            <select id="PEQ519_residuosPatogenicos">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+          </div>
+
+
+          <div class="field">
             <label>Llave de tubo</label>
+
             <select id="PEQ519_llaveTubo">
               <option value="">Seleccionar</option>
               <option>Sí</option>
@@ -744,6 +833,7 @@ button:disabled{
 
           <div class="field">
             <label>Observaciones</label>
+
             <textarea
               id="PEQ519_observaciones"
               placeholder="Ingrese observaciones"
@@ -763,15 +853,20 @@ button:disabled{
 
               <label class="photo-button">
                 Cargar foto
+
                 <input
                   type="file"
                   accept="image/*"
                   multiple
                   onchange="agregarFotos('PEQ 519',this)"
                 >
+
               </label>
 
-              <span class="photo-count" id="PEQ519_photoCount">
+              <span
+                class="photo-count"
+                id="PEQ519_photoCount"
+              >
                 Sin fotos
               </span>
 
@@ -791,9 +886,9 @@ button:disabled{
     </div>
 
 
-    <!-- ========================= -->
-    <!-- AF676BF -->
-    <!-- ========================= -->
+    <!-- =========================
+         AF676BF
+         ========================= -->
 
     <div class="card">
 
@@ -807,36 +902,51 @@ button:disabled{
         <div class="mobile-grid">
 
           <div class="field">
+
             <label>Estado del móvil</label>
 
-            <div class="radio-group">
+            <div class="estado-group">
 
-              <div class="radio-option">
+              <div class="estado-option operativo">
+
                 <input
                   type="radio"
                   name="AF676BF_estado"
                   id="AF676BF_estado_operativo"
                   value="Operativo"
+                  onchange="actualizarEstadoVisual('AF676BF')"
                 >
-                <label for="AF676BF_estado_operativo">Operativo</label>
+
+                <label for="AF676BF_estado_operativo">
+                  🟢 Operativo
+                </label>
+
               </div>
 
-              <div class="radio-option">
+              <div class="estado-option no-operativo">
+
                 <input
                   type="radio"
                   name="AF676BF_estado"
                   id="AF676BF_estado_no"
                   value="No operativo"
+                  onchange="actualizarEstadoVisual('AF676BF')"
                 >
-                <label for="AF676BF_estado_no">No operativo</label>
+
+                <label for="AF676BF_estado_no">
+                  🔴 No operativo
+                </label>
+
               </div>
 
             </div>
+
           </div>
 
 
           <div class="field">
             <label>Limpieza exterior</label>
+
             <select id="AF676BF_limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -849,6 +959,7 @@ button:disabled{
 
           <div class="field">
             <label>Limpieza interior</label>
+
             <select id="AF676BF_limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -861,6 +972,7 @@ button:disabled{
 
           <div class="field">
             <label>Carga de la batería de los equipos</label>
+
             <select id="AF676BF_bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -872,28 +984,8 @@ button:disabled{
 
 
           <div class="field">
-            <label>Nivel de oxígeno</label>
-            <select id="AF676BF_nivelOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label>Residuos patogénicos</label>
-            <select id="AF676BF_residuosPatogenicos">
-              <option value="">Seleccionar</option>
-              <option>Sí</option>
-              <option>No</option>
-            </select>
-          </div>
-
-
-          <div class="field">
             <label>Tubo de oxígeno N1</label>
+
             <select id="AF676BF_tuboOxigenoN1">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -905,6 +997,7 @@ button:disabled{
 
           <div class="field">
             <label>Tubo de oxígeno N2</label>
+
             <select id="AF676BF_tuboOxigenoN2">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
@@ -915,7 +1008,31 @@ button:disabled{
 
 
           <div class="field">
+            <label>Tubo ultra liviano</label>
+
+            <select id="AF676BF_tuboUltraLiviano">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Residuos patogénicos</label>
+
+            <select id="AF676BF_residuosPatogenicos">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+          </div>
+
+
+          <div class="field">
             <label>Llave de tubo</label>
+
             <select id="AF676BF_llaveTubo">
               <option value="">Seleccionar</option>
               <option>Sí</option>
@@ -926,6 +1043,7 @@ button:disabled{
 
           <div class="field">
             <label>Observaciones</label>
+
             <textarea
               id="AF676BF_observaciones"
               placeholder="Ingrese observaciones"
@@ -945,15 +1063,20 @@ button:disabled{
 
               <label class="photo-button">
                 Cargar foto
+
                 <input
                   type="file"
                   accept="image/*"
                   multiple
                   onchange="agregarFotos('AF676BF',this)"
                 >
+
               </label>
 
-              <span class="photo-count" id="AF676BF_photoCount">
+              <span
+                class="photo-count"
+                id="AF676BF_photoCount"
+              >
                 Sin fotos
               </span>
 
@@ -972,6 +1095,8 @@ button:disabled{
 
     </div>
 
+
+    <!-- BOTONES -->
 
     <div class="card">
 
@@ -1006,9 +1131,9 @@ button:disabled{
   </section>
 
 
-  <!-- ========================= -->
-  <!-- HISTORIAL -->
-  <!-- ========================= -->
+  <!-- =========================
+       HISTORIAL
+       ========================= -->
 
   <section id="historial" class="section">
 
@@ -1054,18 +1179,30 @@ const claves = {
 
 document.addEventListener("DOMContentLoaded", function(){
 
+  colocarFechaActual();
+
+});
+
+
+function colocarFechaActual(){
+
   const hoy = new Date();
 
-  const yyyy = hoy.getFullYear();
+  const yyyy =
+    hoy.getFullYear();
 
-  const mm = String(hoy.getMonth()+1).padStart(2,"0");
+  const mm =
+    String(hoy.getMonth()+1)
+      .padStart(2,"0");
 
-  const dd = String(hoy.getDate()).padStart(2,"0");
+  const dd =
+    String(hoy.getDate())
+      .padStart(2,"0");
 
   document.getElementById("fecha").value =
     `${yyyy}-${mm}-${dd}`;
 
-});
+}
 
 
 function mostrarSeccion(nombre, boton){
@@ -1080,18 +1217,68 @@ function mostrarSeccion(nombre, boton){
     .classList.add("active");
 
   boton.classList.add("active");
+
 }
 
+
+/* =========================
+   COLOR ESTADO
+   ========================= */
+
+function actualizarEstadoVisual(clave){
+
+  const operativo =
+    document.getElementById(
+      clave + "_estado_operativo"
+    );
+
+  const noOperativo =
+    document.getElementById(
+      clave + "_estado_no"
+    );
+
+  if(operativo.checked){
+
+    operativo
+      .closest(".estado-option")
+      .classList.add("seleccionado");
+
+    noOperativo
+      .closest(".estado-option")
+      .classList.remove("seleccionado");
+
+  }
+
+  if(noOperativo.checked){
+
+    noOperativo
+      .closest(".estado-option")
+      .classList.add("seleccionado");
+
+    operativo
+      .closest(".estado-option")
+      .classList.remove("seleccionado");
+
+  }
+
+}
+
+
+/* =========================
+   COMPRIMIR FOTO
+   ========================= */
 
 function comprimirFoto(file){
 
   return new Promise((resolve,reject)=>{
 
-    const reader = new FileReader();
+    const reader =
+      new FileReader();
 
     reader.onload = function(e){
 
-      const img = new Image();
+      const img =
+        new Image();
 
       img.onload = function(){
 
@@ -1104,17 +1291,19 @@ function comprimirFoto(file){
 
           if(width > height){
 
-            height = Math.round(
-              height * MAX / width
-            );
+            height =
+              Math.round(
+                height * MAX / width
+              );
 
             width = MAX;
 
           }else{
 
-            width = Math.round(
-              width * MAX / height
-            );
+            width =
+              Math.round(
+                width * MAX / height
+              );
 
             height = MAX;
 
@@ -1146,9 +1335,13 @@ function comprimirFoto(file){
           );
 
         resolve({
-          filename: file.name,
-          type: "image/jpeg",
-          data: data.split(",")[1]
+
+          filename:file.name,
+
+          type:"image/jpeg",
+
+          data:data.split(",")[1]
+
         });
 
       };
@@ -1167,6 +1360,10 @@ function comprimirFoto(file){
 
 }
 
+
+/* =========================
+   AGREGAR FOTOS
+   ========================= */
 
 async function agregarFotos(movil,input){
 
@@ -1204,9 +1401,14 @@ async function agregarFotos(movil,input){
 }
 
 
+/* =========================
+   PREVIEW
+   ========================= */
+
 function actualizarPreview(movil){
 
-  const clave = claves[movil];
+  const clave =
+    claves[movil];
 
   const contenedor =
     document.getElementById(
@@ -1231,9 +1433,11 @@ function actualizarPreview(movil){
 
   contador.textContent =
     fotos[movil].length +
-    (fotos[movil].length === 1
+    (
+      fotos[movil].length === 1
       ? " foto"
-      : " fotos");
+      : " fotos"
+    );
 
 
   fotos[movil].forEach((foto,index)=>{
@@ -1265,7 +1469,10 @@ function actualizarPreview(movil){
 
     eliminar.onclick = function(){
 
-      fotos[movil].splice(index,1);
+      fotos[movil].splice(
+        index,
+        1
+      );
 
       actualizarPreview(movil);
 
@@ -1283,9 +1490,14 @@ function actualizarPreview(movil){
 }
 
 
+/* =========================
+   OBTENER ESTADO
+   ========================= */
+
 function obtenerEstado(movil){
 
-  const clave = claves[movil];
+  const clave =
+    claves[movil];
 
   const radio =
     document.querySelector(
@@ -1299,9 +1511,14 @@ function obtenerEstado(movil){
 }
 
 
+/* =========================
+   OBTENER UNIDAD
+   ========================= */
+
 function obtenerUnidad(movil){
 
-  const clave = claves[movil];
+  const clave =
+    claves[movil];
 
   return {
 
@@ -1323,16 +1540,6 @@ function obtenerUnidad(movil){
         clave + "_bateriaEquipos"
       ).value,
 
-    nivelOxigeno:
-      document.getElementById(
-        clave + "_nivelOxigeno"
-      ).value,
-
-    residuosPatogenicos:
-      document.getElementById(
-        clave + "_residuosPatogenicos"
-      ).value,
-
     tuboOxigenoN1:
       document.getElementById(
         clave + "_tuboOxigenoN1"
@@ -1341,6 +1548,16 @@ function obtenerUnidad(movil){
     tuboOxigenoN2:
       document.getElementById(
         clave + "_tuboOxigenoN2"
+      ).value,
+
+    tuboUltraLiviano:
+      document.getElementById(
+        clave + "_tuboUltraLiviano"
+      ).value,
+
+    residuosPatogenicos:
+      document.getElementById(
+        clave + "_residuosPatogenicos"
       ).value,
 
     llaveTubo:
@@ -1361,18 +1578,27 @@ function obtenerUnidad(movil){
 }
 
 
+/* =========================
+   STATUS
+   ========================= */
+
 function mostrarStatus(mensaje,tipo){
 
   const status =
     document.getElementById("status");
 
-  status.textContent = mensaje;
+  status.textContent =
+    mensaje;
 
   status.className =
     "status show " + tipo;
 
 }
 
+
+/* =========================
+   GUARDAR
+   ========================= */
 
 async function guardarGuardia(){
 
@@ -1409,6 +1635,7 @@ async function guardarGuardia(){
 
   const unidades = {};
 
+
   [
     "PAA 327",
     "PEQ 519",
@@ -1423,11 +1650,11 @@ async function guardarGuardia(){
 
   const datos = {
 
-    fecha: fecha,
+    fecha:fecha,
 
-    chofer: chofer,
+    chofer:chofer,
 
-    unidades: unidades
+    unidades:unidades
 
   };
 
@@ -1436,6 +1663,7 @@ async function guardarGuardia(){
     document.getElementById("guardarBtn");
 
   boton.disabled = true;
+
 
   mostrarStatus(
     "Guardando cambio de guardia...",
@@ -1457,7 +1685,6 @@ async function guardarGuardia(){
           },
 
           body:JSON.stringify(datos)
-
         }
       );
 
@@ -1510,28 +1737,41 @@ async function guardarGuardia(){
 }
 
 
+/* =========================
+   LIMPIAR
+   ========================= */
+
 function limpiarFormulario(){
 
-  document.getElementById("chofer").value = "";
+  document.getElementById(
+    "chofer"
+  ).value = "";
+
 
   document.querySelectorAll(
     'input[type="radio"]'
   ).forEach(radio=>{
+
     radio.checked = false;
+
   });
 
 
   document.querySelectorAll(
     "select"
   ).forEach(select=>{
+
     select.value = "";
+
   });
 
 
   document.querySelectorAll(
     "textarea"
   ).forEach(textarea=>{
+
     textarea.value = "";
+
   });
 
 
@@ -1548,26 +1788,12 @@ function limpiarFormulario(){
   });
 
 
-  const hoy = new Date();
-
-  const yyyy =
-    hoy.getFullYear();
-
-  const mm =
-    String(hoy.getMonth()+1)
-      .padStart(2,"0");
-
-  const dd =
-    String(hoy.getDate())
-      .padStart(2,"0");
+  colocarFechaActual();
 
 
-  document.getElementById("fecha").value =
-    `${yyyy}-${mm}-${dd}`;
-
-
-  document.getElementById("status").className =
-    "status";
+  document.getElementById(
+    "status"
+  ).className = "status";
 
 }
 
