@@ -15,7 +15,6 @@
   --accent:#1f5eff;
   --accent-dark:#1648c7;
   --good:#168a45;
-  --warning:#c77b00;
   --danger:#c62828;
   --shadow:0 8px 25px rgba(20,35,50,.08);
   --radius:16px;
@@ -235,12 +234,9 @@ textarea{
 .actions{
   display:flex;
   justify-content:flex-end;
+  align-items:center;
   gap:12px;
   margin-top:20px;
-}
-
-button{
-  font-family:inherit;
 }
 
 .btn{
@@ -303,6 +299,7 @@ button{
 }
 
 @media(max-width:750px){
+
   .container{
     width:96%;
     margin-top:12px;
@@ -340,6 +337,7 @@ button{
   .btn{
     width:100%;
   }
+
 }
 </style>
 </head>
@@ -350,47 +348,71 @@ button{
 
   <div class="header">
     <h1>Control de Cambio de Guardia</h1>
+
     <p>
       El chofer completa el estado de la unidad al tomar y entregar el servicio.
     </p>
   </div>
 
+
   <div class="tabs">
-    <button class="tab active" onclick="mostrarTab('cargar', this)">
+
+    <button
+      class="tab active"
+      onclick="mostrarTab('cargar', this)">
       Cargar guardia
     </button>
 
-    <button class="tab" onclick="mostrarTab('historial', this)">
+    <button
+      class="tab"
+      onclick="mostrarTab('historial', this)">
       Historial
     </button>
+
   </div>
+
 
   <div id="status" class="status"></div>
 
-  <!-- =========================
+
+  <!-- =====================================
        CARGAR GUARDIA
-  ========================== -->
+  ====================================== -->
 
   <div id="cargar">
 
     <div class="section">
 
-      <h2 class="section-title">Datos de la guardia</h2>
+      <h2 class="section-title">
+        Datos de la guardia
+      </h2>
 
       <div class="grid">
 
         <div class="field">
-          <label for="fecha">Fecha</label>
-          <input type="date" id="fecha">
+
+          <label for="fecha">
+            Fecha
+          </label>
+
+          <input
+            type="date"
+            id="fecha">
+
         </div>
 
+
         <div class="field">
-          <label for="chofer">Chofer</label>
+
+          <label for="chofer">
+            Chofer
+          </label>
+
           <input
             type="text"
             id="chofer"
-            placeholder="Nombre y apellido"
-          >
+            placeholder="Nombre y apellido">
+
         </div>
 
       </div>
@@ -401,39 +423,54 @@ button{
     <div class="section">
 
       <h2 class="section-title">
-        Estado, Faltantes y Observaciones por Unidad
+        Estado, faltantes y observaciones por unidad
       </h2>
 
 
-      <!-- =========================
+      <!-- =====================================
            PAA 327
-      ========================== -->
+      ====================================== -->
 
-      <div class="mobile-card" data-mobile="PAA 327">
+      <div
+        class="mobile-card"
+        data-mobile="PAA 327">
 
         <div class="mobile-header">
-          <h3 class="mobile-title">PAA 327</h3>
-          <span class="mobile-badge">Móvil</span>
+
+          <h3 class="mobile-title">
+            PAA 327
+          </h3>
+
+          <span class="mobile-badge">
+            Móvil
+          </span>
+
         </div>
 
-        <div class="field">
-          <label>Estado de la unidad</label>
-
-          <select class="estado">
-            <option value="">Seleccionar</option>
-            <option>Bueno</option>
-            <option>Regular</option>
-            <option>Malo</option>
-            <option>Sin dato</option>
-          </select>
-        </div>
-
-        <h4 class="sub-title">Controles</h4>
 
         <div class="conditions">
 
           <div class="field">
-            <label>Limpieza exterior</label>
+
+            <label>
+              Estado del móvil
+            </label>
+
+            <select class="estado">
+              <option value="">Seleccionar</option>
+              <option>Operativo</option>
+              <option>No operativo</option>
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Limpieza exterior
+            </label>
+
             <select class="limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -441,10 +478,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Limpieza interior</label>
+
+            <label>
+              Limpieza interior
+            </label>
+
             <select class="limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -452,10 +495,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Carga de la batería de los equipos</label>
+
+            <label>
+              Carga de la batería de los equipos
+            </label>
+
             <select class="bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -463,89 +512,143 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Nivel de oxígeno</label>
+
+            <label>
+              Nivel de oxígeno
+            </label>
+
             <select class="nivelOxigeno">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Residuos patogénicos</label>
+
+            <label>
+              Residuos patogénicos
+            </label>
+
             <select class="residuosPatogenicos">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Sí</option>
+              <option>No</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo de taqueo</label>
+
+            <label>
+              Tubo de taqueo
+            </label>
+
             <select class="tuboTaqueo">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo ultra liviano</label>
+
+            <label>
+              Tubo ultra liviano
+            </label>
+
             <select class="tuboUltraLiviano">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
+
 
           <div class="field">
-            <label>Tubo de oxígeno</label>
+
+            <label>
+              Tubo de oxígeno
+            </label>
+
             <select class="tuboOxigeno">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Llave de tubo
+            </label>
+
+            <select class="llaveTubo">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+
           </div>
 
         </div>
 
+
         <div class="field" style="margin-top:18px;">
-          <label>Observaciones</label>
-          <textarea class="observaciones" placeholder="Ingrese observaciones de la unidad..."></textarea>
+
+          <label>
+            Observaciones
+          </label>
+
+          <textarea
+            class="observaciones"
+            placeholder="Ingrese observaciones de la unidad..."></textarea>
+
         </div>
+
 
         <div class="photo-area">
 
           <div class="photo-actions">
 
             <label class="photo-btn">
+
               📷 Cargar foto
+
               <input
                 type="file"
                 class="photoInput"
                 accept="image/*"
                 multiple
-                hidden
-              >
+                hidden>
+
             </label>
+
 
             <span class="photo-count">
               0 fotos seleccionadas
             </span>
 
           </div>
+
 
           <div class="photo-preview"></div>
 
@@ -554,35 +657,50 @@ button{
       </div>
 
 
-      <!-- =========================
+      <!-- =====================================
            PEQ 519
-      ========================== -->
+      ====================================== -->
 
-      <div class="mobile-card" data-mobile="PEQ 519">
+      <div
+        class="mobile-card"
+        data-mobile="PEQ 519">
 
         <div class="mobile-header">
-          <h3 class="mobile-title">PEQ 519</h3>
-          <span class="mobile-badge">Móvil</span>
+
+          <h3 class="mobile-title">
+            PEQ 519
+          </h3>
+
+          <span class="mobile-badge">
+            Móvil
+          </span>
+
         </div>
 
-        <div class="field">
-          <label>Estado de la unidad</label>
-
-          <select class="estado">
-            <option value="">Seleccionar</option>
-            <option>Bueno</option>
-            <option>Regular</option>
-            <option>Malo</option>
-            <option>Sin dato</option>
-          </select>
-        </div>
-
-        <h4 class="sub-title">Controles</h4>
 
         <div class="conditions">
 
           <div class="field">
-            <label>Limpieza exterior</label>
+
+            <label>
+              Estado del móvil
+            </label>
+
+            <select class="estado">
+              <option value="">Seleccionar</option>
+              <option>Operativo</option>
+              <option>No operativo</option>
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Limpieza exterior
+            </label>
+
             <select class="limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -590,10 +708,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Limpieza interior</label>
+
+            <label>
+              Limpieza interior
+            </label>
+
             <select class="limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -601,10 +725,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Carga de la batería de los equipos</label>
+
+            <label>
+              Carga de la batería de los equipos
+            </label>
+
             <select class="bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -612,89 +742,143 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Nivel de oxígeno</label>
+
+            <label>
+              Nivel de oxígeno
+            </label>
+
             <select class="nivelOxigeno">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Residuos patogénicos</label>
+
+            <label>
+              Residuos patogénicos
+            </label>
+
             <select class="residuosPatogenicos">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Sí</option>
+              <option>No</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo de taqueo</label>
+
+            <label>
+              Tubo de taqueo
+            </label>
+
             <select class="tuboTaqueo">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo ultra liviano</label>
+
+            <label>
+              Tubo ultra liviano
+            </label>
+
             <select class="tuboUltraLiviano">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
+
 
           <div class="field">
-            <label>Tubo de oxígeno</label>
+
+            <label>
+              Tubo de oxígeno
+            </label>
+
             <select class="tuboOxigeno">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Llave de tubo
+            </label>
+
+            <select class="llaveTubo">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+
           </div>
 
         </div>
 
+
         <div class="field" style="margin-top:18px;">
-          <label>Observaciones</label>
-          <textarea class="observaciones" placeholder="Ingrese observaciones de la unidad..."></textarea>
+
+          <label>
+            Observaciones
+          </label>
+
+          <textarea
+            class="observaciones"
+            placeholder="Ingrese observaciones de la unidad..."></textarea>
+
         </div>
+
 
         <div class="photo-area">
 
           <div class="photo-actions">
 
             <label class="photo-btn">
+
               📷 Cargar foto
+
               <input
                 type="file"
                 class="photoInput"
                 accept="image/*"
                 multiple
-                hidden
-              >
+                hidden>
+
             </label>
+
 
             <span class="photo-count">
               0 fotos seleccionadas
             </span>
 
           </div>
+
 
           <div class="photo-preview"></div>
 
@@ -703,35 +887,50 @@ button{
       </div>
 
 
-      <!-- =========================
+      <!-- =====================================
            AF676BF
-      ========================== -->
+      ====================================== -->
 
-      <div class="mobile-card" data-mobile="AF676BF">
+      <div
+        class="mobile-card"
+        data-mobile="AF676BF">
 
         <div class="mobile-header">
-          <h3 class="mobile-title">AF676BF</h3>
-          <span class="mobile-badge">Móvil</span>
+
+          <h3 class="mobile-title">
+            AF676BF
+          </h3>
+
+          <span class="mobile-badge">
+            Móvil
+          </span>
+
         </div>
 
-        <div class="field">
-          <label>Estado de la unidad</label>
-
-          <select class="estado">
-            <option value="">Seleccionar</option>
-            <option>Bueno</option>
-            <option>Regular</option>
-            <option>Malo</option>
-            <option>Sin dato</option>
-          </select>
-        </div>
-
-        <h4 class="sub-title">Controles</h4>
 
         <div class="conditions">
 
           <div class="field">
-            <label>Limpieza exterior</label>
+
+            <label>
+              Estado del móvil
+            </label>
+
+            <select class="estado">
+              <option value="">Seleccionar</option>
+              <option>Operativo</option>
+              <option>No operativo</option>
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Limpieza exterior
+            </label>
+
             <select class="limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -739,10 +938,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Limpieza interior</label>
+
+            <label>
+              Limpieza interior
+            </label>
+
             <select class="limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -750,10 +955,16 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Carga de la batería de los equipos</label>
+
+            <label>
+              Carga de la batería de los equipos
+            </label>
+
             <select class="bateriaEquipos">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
@@ -761,83 +972,136 @@ button{
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Nivel de oxígeno</label>
+
+            <label>
+              Nivel de oxígeno
+            </label>
+
             <select class="nivelOxigeno">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Residuos patogénicos</label>
+
+            <label>
+              Residuos patogénicos
+            </label>
+
             <select class="residuosPatogenicos">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Sí</option>
+              <option>No</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo de taqueo</label>
+
+            <label>
+              Tubo de taqueo
+            </label>
+
             <select class="tuboTaqueo">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
 
+
           <div class="field">
-            <label>Tubo ultra liviano</label>
+
+            <label>
+              Tubo ultra liviano
+            </label>
+
             <select class="tuboUltraLiviano">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
           </div>
+
 
           <div class="field">
-            <label>Tubo de oxígeno</label>
+
+            <label>
+              Tubo de oxígeno
+            </label>
+
             <select class="tuboOxigeno">
               <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
             </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Llave de tubo
+            </label>
+
+            <select class="llaveTubo">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+
           </div>
 
         </div>
 
+
         <div class="field" style="margin-top:18px;">
-          <label>Observaciones</label>
-          <textarea class="observaciones" placeholder="Ingrese observaciones de la unidad..."></textarea>
+
+          <label>
+            Observaciones
+          </label>
+
+          <textarea
+            class="observaciones"
+            placeholder="Ingrese observaciones de la unidad..."></textarea>
+
         </div>
+
 
         <div class="photo-area">
 
           <div class="photo-actions">
 
             <label class="photo-btn">
+
               📷 Cargar foto
+
               <input
                 type="file"
                 class="photoInput"
                 accept="image/*"
                 multiple
-                hidden
-              >
+                hidden>
+
             </label>
+
 
             <span class="photo-count">
               0 fotos seleccionadas
@@ -845,32 +1109,47 @@ button{
 
           </div>
 
+
           <div class="photo-preview"></div>
 
         </div>
 
       </div>
 
+
+      <!-- BOTONES -->
 
       <div class="actions">
 
-        <div class="loading" id="loading">
-          <span>Guardando...</span>
+        <div
+          class="loading"
+          id="loading">
+
+          <span>
+            Guardando...
+          </span>
+
         </div>
+
 
         <button
           type="button"
           class="btn btn-secondary"
           onclick="limpiarFormulario()">
+
           Limpiar formulario
+
         </button>
+
 
         <button
           type="button"
           class="btn btn-primary"
           id="guardarBtn"
           onclick="guardarGuardia()">
+
           Guardar cambio de guardia
+
         </button>
 
       </div>
@@ -880,19 +1159,23 @@ button{
   </div>
 
 
-  <!-- =========================
+  <!-- =====================================
        HISTORIAL
-  ========================== -->
+  ====================================== -->
 
-  <div id="historial" class="history">
+  <div
+    id="historial"
+    class="history">
 
     <div class="section">
 
-      <h2 class="section-title">Historial</h2>
+      <h2 class="section-title">
+        Historial
+      </h2>
 
       <p style="color:var(--muted);">
-        Los registros guardados quedan almacenados en las pestañas
-        correspondientes de Google Sheets.
+        Los registros guardados quedan almacenados
+        en las pestañas correspondientes de Google Sheets.
       </p>
 
       <p style="color:var(--muted);">
@@ -908,135 +1191,280 @@ button{
 
 <script>
 
+/************************************************
+ * FOTOS
+ ************************************************/
+
 const fotosPorMovil = {
+
   "PAA 327": [],
+
   "PEQ 519": [],
+
   "AF676BF": []
+
 };
 
 
-// ==========================================
-// FECHA ACTUAL
-// ==========================================
+/************************************************
+ * INICIO
+ ************************************************/
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
-  const hoy = new Date();
+    ponerFechaActual();
 
-  const yyyy = hoy.getFullYear();
-  const mm = String(hoy.getMonth() + 1).padStart(2,"0");
-  const dd = String(hoy.getDate()).padStart(2,"0");
+
+    document
+      .querySelectorAll(".mobile-card")
+      .forEach(function(card){
+
+        const mobile =
+          card.dataset.mobile;
+
+        const input =
+          card.querySelector(".photoInput");
+
+
+        input.addEventListener(
+          "change",
+          function(){
+
+            agregarFotos(
+              mobile,
+              this.files,
+              card
+            );
+
+            this.value = "";
+
+          }
+        );
+
+      });
+
+  }
+);
+
+
+/************************************************
+ * FECHA ACTUAL
+ ************************************************/
+
+function ponerFechaActual(){
+
+  const hoy =
+    new Date();
+
+  const yyyy =
+    hoy.getFullYear();
+
+  const mm =
+    String(
+      hoy.getMonth() + 1
+    ).padStart(2,"0");
+
+  const dd =
+    String(
+      hoy.getDate()
+    ).padStart(2,"0");
+
 
   document.getElementById("fecha").value =
     `${yyyy}-${mm}-${dd}`;
 
+}
 
-  // Inicializar fotos de cada móvil
-  document.querySelectorAll(".mobile-card").forEach(card => {
 
-    const mobile = card.dataset.mobile;
-    const input = card.querySelector(".photoInput");
+/************************************************
+ * TABS
+ ************************************************/
 
-    input.addEventListener("change", function(){
+function mostrarTab(
+  tab,
+  boton
+){
 
-      agregarFotos(mobile, this.files, card);
+  document.getElementById("cargar").style.display =
+    tab === "cargar"
+      ? "block"
+      : "none";
 
-      // Permite volver a seleccionar la misma foto
-      this.value = "";
+
+  document.getElementById("historial").style.display =
+    tab === "historial"
+      ? "block"
+      : "none";
+
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(function(btn){
+
+      btn.classList.remove("active");
 
     });
 
-  });
-
-});
-
-
-// ==========================================
-// TABS
-// ==========================================
-
-function mostrarTab(tab, boton){
-
-  document.getElementById("cargar").style.display =
-    tab === "cargar" ? "block" : "none";
-
-  document.getElementById("historial").style.display =
-    tab === "historial" ? "block" : "none";
-
-  document.querySelectorAll(".tab").forEach(btn => {
-    btn.classList.remove("active");
-  });
 
   boton.classList.add("active");
 
 }
 
 
-// ==========================================
-// FOTOS
-// ==========================================
+/************************************************
+ * AGREGAR FOTOS
+ ************************************************/
 
-function agregarFotos(mobile, files, card){
+function agregarFotos(
+  mobile,
+  files,
+  card
+){
 
-  for(const file of files){
+  for(
+    const file of files
+  ){
 
-    if(!file.type.startsWith("image/")){
+    if(
+      !file.type.startsWith("image/")
+    ){
+
       continue;
+
     }
 
-    const reader = new FileReader();
 
-    reader.onload = function(e){
+    const reader =
+      new FileReader();
 
-      const img = new Image();
 
-      img.onload = function(){
+    reader.onload =
+      function(e){
 
-        const canvas = document.createElement("canvas");
+        const img =
+          new Image();
 
-        const maxSize = 1600;
 
-        let width = img.width;
-        let height = img.height;
+        img.onload =
+          function(){
 
-        if(width > height){
+            const canvas =
+              document.createElement(
+                "canvas"
+              );
 
-          if(width > maxSize){
-            height = Math.round(height * maxSize / width);
-            width = maxSize;
-          }
 
-        }else{
+            const maxSize =
+              1600;
 
-          if(height > maxSize){
-            width = Math.round(width * maxSize / height);
-            height = maxSize;
-          }
 
-        }
+            let width =
+              img.width;
 
-        canvas.width = width;
-        canvas.height = height;
+            let height =
+              img.height;
 
-        const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(img,0,0,width,height);
+            if(
+              width > height
+            ){
 
-        const data = canvas.toDataURL("image/jpeg",0.72);
+              if(
+                width > maxSize
+              ){
 
-        fotosPorMovil[mobile].push({
-          filename: file.name,
-          type: "image/jpeg",
-          data: data.split(",")[1]
-        });
+                height =
+                  Math.round(
+                    height *
+                    maxSize /
+                    width
+                  );
 
-        actualizarFotos(mobile, card);
+                width =
+                  maxSize;
+
+              }
+
+            }else{
+
+              if(
+                height > maxSize
+              ){
+
+                width =
+                  Math.round(
+                    width *
+                    maxSize /
+                    height
+                  );
+
+                height =
+                  maxSize;
+
+              }
+
+            }
+
+
+            canvas.width =
+              width;
+
+            canvas.height =
+              height;
+
+
+            const ctx =
+              canvas.getContext(
+                "2d"
+              );
+
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              width,
+              height
+            );
+
+
+            const data =
+              canvas.toDataURL(
+                "image/jpeg",
+                0.72
+              );
+
+
+            fotosPorMovil[mobile]
+              .push({
+
+                filename:
+                  file.name,
+
+                type:
+                  "image/jpeg",
+
+                data:
+                  data.split(",")[1]
+
+              });
+
+
+            actualizarFotos(
+              mobile,
+              card
+            );
+
+          };
+
+
+        img.src =
+          e.target.result;
 
       };
 
-      img.src = e.target.result;
-
-    };
 
     reader.readAsDataURL(file);
 
@@ -1045,110 +1473,252 @@ function agregarFotos(mobile, files, card){
 }
 
 
-function actualizarFotos(mobile, card){
+/************************************************
+ * ACTUALIZAR PREVISUALIZACIÓN
+ ************************************************/
 
-  const preview = card.querySelector(".photo-preview");
-  const count = card.querySelector(".photo-count");
+function actualizarFotos(
+  mobile,
+  card
+){
 
-  preview.innerHTML = "";
+  const preview =
+    card.querySelector(
+      ".photo-preview"
+    );
 
-  const fotos = fotosPorMovil[mobile];
+
+  const count =
+    card.querySelector(
+      ".photo-count"
+    );
+
+
+  preview.innerHTML =
+    "";
+
+
+  const fotos =
+    fotosPorMovil[mobile];
+
 
   count.textContent =
-    `${fotos.length} foto${fotos.length === 1 ? "" : "s"} seleccionada${fotos.length === 1 ? "" : "s"}`;
+    `${fotos.length} foto${
+      fotos.length === 1
+        ? ""
+        : "s"
+    } seleccionada${
+      fotos.length === 1
+        ? ""
+        : "s"
+    }`;
 
 
-  fotos.forEach((foto,index) => {
+  fotos.forEach(
+    function(foto,index){
 
-    const item = document.createElement("div");
+      const item =
+        document.createElement(
+          "div"
+        );
 
-    item.className = "preview-item";
 
-    const img = document.createElement("img");
+      item.className =
+        "preview-item";
 
-    img.src = "data:image/jpeg;base64," + foto.data;
 
-    const remove = document.createElement("button");
+      const img =
+        document.createElement(
+          "img"
+        );
 
-    remove.type = "button";
-    remove.className = "preview-remove";
-    remove.textContent = "×";
 
-    remove.onclick = function(){
+      img.src =
+        "data:image/jpeg;base64," +
+        foto.data;
 
-      fotos.splice(index,1);
 
-      actualizarFotos(mobile,card);
+      const remove =
+        document.createElement(
+          "button"
+        );
 
-    };
 
-    item.appendChild(img);
-    item.appendChild(remove);
+      remove.type =
+        "button";
 
-    preview.appendChild(item);
 
-  });
+      remove.className =
+        "preview-remove";
+
+
+      remove.textContent =
+        "×";
+
+
+      remove.onclick =
+        function(){
+
+          fotos.splice(
+            index,
+            1
+          );
+
+
+          actualizarFotos(
+            mobile,
+            card
+          );
+
+        };
+
+
+      item.appendChild(
+        img
+      );
+
+
+      item.appendChild(
+        remove
+      );
+
+
+      preview.appendChild(
+        item
+      );
+
+    }
+  );
 
 }
 
 
-// ==========================================
-// OBTENER DATOS DE UN MÓVIL
-// ==========================================
+/************************************************
+ * OBTENER DATOS DEL MÓVIL
+ ************************************************/
 
-function obtenerDatosMovil(card){
+function obtenerDatosMovil(
+  card
+){
 
   return {
 
     estado:
-      card.querySelector(".estado").value,
+      card
+        .querySelector(
+          ".estado"
+        )
+        .value,
+
 
     limpiezaExterior:
-      card.querySelector(".limpiezaExterior").value,
+      card
+        .querySelector(
+          ".limpiezaExterior"
+        )
+        .value,
+
 
     limpiezaInterior:
-      card.querySelector(".limpiezaInterior").value,
+      card
+        .querySelector(
+          ".limpiezaInterior"
+        )
+        .value,
+
 
     bateriaEquipos:
-      card.querySelector(".bateriaEquipos").value,
+      card
+        .querySelector(
+          ".bateriaEquipos"
+        )
+        .value,
+
 
     nivelOxigeno:
-      card.querySelector(".nivelOxigeno").value,
+      card
+        .querySelector(
+          ".nivelOxigeno"
+        )
+        .value,
+
 
     residuosPatogenicos:
-      card.querySelector(".residuosPatogenicos").value,
+      card
+        .querySelector(
+          ".residuosPatogenicos"
+        )
+        .value,
+
 
     tuboTaqueo:
-      card.querySelector(".tuboTaqueo").value,
+      card
+        .querySelector(
+          ".tuboTaqueo"
+        )
+        .value,
+
 
     tuboUltraLiviano:
-      card.querySelector(".tuboUltraLiviano").value,
+      card
+        .querySelector(
+          ".tuboUltraLiviano"
+        )
+        .value,
+
 
     tuboOxigeno:
-      card.querySelector(".tuboOxigeno").value,
+      card
+        .querySelector(
+          ".tuboOxigeno"
+        )
+        .value,
+
+
+    llaveTubo:
+      card
+        .querySelector(
+          ".llaveTubo"
+        )
+        .value,
+
 
     observaciones:
-      card.querySelector(".observaciones").value,
+      card
+        .querySelector(
+          ".observaciones"
+        )
+        .value,
+
 
     fotos:
-      fotosPorMovil[card.dataset.mobile] || []
+      fotosPorMovil[
+        card.dataset.mobile
+      ] || []
 
   };
 
 }
 
 
-// ==========================================
-// GUARDAR
-// ==========================================
+/************************************************
+ * GUARDAR GUARDIA
+ ************************************************/
 
 async function guardarGuardia(){
 
   const fecha =
-    document.getElementById("fecha").value.trim();
+    document
+      .getElementById("fecha")
+      .value
+      .trim();
+
 
   const chofer =
-    document.getElementById("chofer").value.trim();
+    document
+      .getElementById("chofer")
+      .value
+      .trim();
 
 
   if(!fecha){
@@ -1177,37 +1747,54 @@ async function guardarGuardia(){
 
   const unidades = {};
 
-  document.querySelectorAll(".mobile-card").forEach(card => {
 
-    const mobile = card.dataset.mobile;
+  document
+    .querySelectorAll(".mobile-card")
+    .forEach(function(card){
 
-    unidades[mobile] =
-      obtenerDatosMovil(card);
+      const mobile =
+        card.dataset.mobile;
 
-  });
+
+      unidades[mobile] =
+        obtenerDatosMovil(card);
+
+    });
 
 
   const datos = {
 
-    fecha: fecha,
+    fecha:
+      fecha,
 
-    chofer: chofer,
+    chofer:
+      chofer,
 
-    unidades: unidades
+    unidades:
+      unidades
 
   };
 
 
   const boton =
-    document.getElementById("guardarBtn");
+    document.getElementById(
+      "guardarBtn"
+    );
+
 
   const loading =
-    document.getElementById("loading");
+    document.getElementById(
+      "loading"
+    );
 
 
-  boton.disabled = true;
+  boton.disabled =
+    true;
 
-  loading.classList.add("show");
+
+  loading.classList.add(
+    "show"
+  );
 
 
   try{
@@ -1216,7 +1803,10 @@ async function guardarGuardia(){
       await enviarDatos(datos);
 
 
-    if(resultado && resultado.ok){
+    if(
+      resultado &&
+      resultado.ok
+    ){
 
       mostrarStatus(
         "success",
@@ -1224,12 +1814,16 @@ async function guardarGuardia(){
         "Cambio de guardia guardado correctamente."
       );
 
-      limpiarFormulario(false);
+
+      limpiarFormulario(
+        false
+      );
 
     }else{
 
       throw new Error(
-        resultado && resultado.error
+        resultado &&
+        resultado.error
           ? resultado.error
           : "No se pudo guardar el registro."
       );
@@ -1240,43 +1834,58 @@ async function guardarGuardia(){
 
     console.error(error);
 
+
     mostrarStatus(
       "error",
-      "Error al guardar: " + error.message
+      "Error al guardar: " +
+      error.message
     );
 
   }finally{
 
-    boton.disabled = false;
+    boton.disabled =
+      false;
 
-    loading.classList.remove("show");
+
+    loading.classList.remove(
+      "show"
+    );
 
   }
 
 }
 
 
-// ==========================================
-// ENVÍO AL APPS SCRIPT
-// ==========================================
+/************************************************
+ * ENVIAR AL APPS SCRIPT
+ ************************************************/
 
-async function enviarDatos(datos){
+async function enviarDatos(
+  datos
+){
 
   const url =
     "https://script.google.com/macros/s/AKfycbxzyH9JdBlsuHOeMxuy8yt1HqydigN63O3xUGYrDtyPA6nA4wZtpZSfFrnKQvGNhYsTww/exec";
 
 
-  const response = await fetch(url,{
+  const response =
+    await fetch(
+      url,
+      {
 
-    method:"POST",
+        method:
+          "POST",
 
-    headers:{
-      "Content-Type":"text/plain;charset=utf-8"
-    },
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
 
-    body:JSON.stringify(datos)
+        body:
+          JSON.stringify(datos)
 
-  });
+      }
+    );
 
 
   const texto =
@@ -1285,7 +1894,9 @@ async function enviarDatos(datos){
 
   try{
 
-    return JSON.parse(texto);
+    return JSON.parse(
+      texto
+    );
 
   }catch(e){
 
@@ -1298,47 +1909,63 @@ async function enviarDatos(datos){
 }
 
 
-// ==========================================
-// LIMPIAR
-// ==========================================
+/************************************************
+ * LIMPIAR FORMULARIO
+ ************************************************/
 
-function limpiarFormulario(mostrarMensaje = true){
+function limpiarFormulario(
+  mostrarMensaje = true
+){
 
-  document.getElementById("fecha").value = "";
+  document
+    .getElementById("chofer")
+    .value = "";
 
-  document.getElementById("chofer").value = "";
+
+  document
+    .querySelectorAll(".mobile-card")
+    .forEach(function(card){
+
+      card
+        .querySelectorAll("select")
+        .forEach(function(select){
+
+          select.value = "";
+
+        });
 
 
-  document.querySelectorAll(".mobile-card").forEach(card => {
+      card
+        .querySelectorAll("textarea")
+        .forEach(function(textarea){
 
-    card.querySelectorAll("select").forEach(select => {
-      select.value = "";
+          textarea.value = "";
+
+        });
+
+
+      const mobile =
+        card.dataset.mobile;
+
+
+      fotosPorMovil[mobile] =
+        [];
+
+
+      actualizarFotos(
+        mobile,
+        card
+      );
+
     });
 
-    card.querySelectorAll("textarea").forEach(textarea => {
-      textarea.value = "";
-    });
 
-    const mobile = card.dataset.mobile;
-
-    fotosPorMovil[mobile] = [];
-
-    actualizarFotos(mobile,card);
-
-  });
+  ponerFechaActual();
 
 
-  const hoy = new Date();
-
-  const yyyy = hoy.getFullYear();
-  const mm = String(hoy.getMonth()+1).padStart(2,"0");
-  const dd = String(hoy.getDate()).padStart(2,"0");
-
-  document.getElementById("fecha").value =
-    `${yyyy}-${mm}-${dd}`;
-
-
-  if(mostrarMensaje){
+  if(
+    mostrarMensaje
+  ){
 
     mostrarStatus(
       "success",
@@ -1350,24 +1977,35 @@ function limpiarFormulario(mostrarMensaje = true){
 }
 
 
-// ==========================================
-// MENSAJES
-// ==========================================
+/************************************************
+ * MENSAJES
+ ************************************************/
 
-function mostrarStatus(tipo,mensaje){
+function mostrarStatus(
+  tipo,
+  mensaje
+){
 
   const status =
-    document.getElementById("status");
+    document.getElementById(
+      "status"
+    );
+
 
   status.className =
     "status " + tipo;
 
+
   status.textContent =
     mensaje;
 
+
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
 
 }
