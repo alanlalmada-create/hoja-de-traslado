@@ -13,10 +13,10 @@
   --muted:#697586;
   --line:#dfe5eb;
   --accent:#1f5eff;
-  --accent-dark:#1648c7;
-  --good:#168a45;
-  --danger:#c62828;
-  --shadow:0 8px 25px rgba(20,35,50,.08);
+  --good:#16803c;
+  --bad:#c62828;
+  --warning:#b26a00;
+  --shadow:0 8px 24px rgba(23,33,43,.08);
   --radius:16px;
 }
 
@@ -32,52 +32,12 @@ body{
 }
 
 .container{
-  width:min(1100px,94%);
-  margin:25px auto 50px;
+  max-width:1100px;
+  margin:0 auto;
+  padding:20px;
 }
 
 .header{
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:25px;
-  box-shadow:var(--shadow);
-  margin-bottom:18px;
-}
-
-.header h1{
-  margin:0 0 8px;
-  font-size:28px;
-}
-
-.header p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.5;
-}
-
-.tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.tab{
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--text);
-  padding:12px 20px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.tab.active{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
-}
-
-.section{
   background:var(--card);
   border-radius:var(--radius);
   padding:22px;
@@ -85,26 +45,82 @@ body{
   margin-bottom:18px;
 }
 
-.section-title{
-  margin:0 0 18px;
-  font-size:20px;
+.header h1{
+  margin:0 0 7px;
+  font-size:28px;
 }
 
-.grid{
+.header p{
+  margin:0;
+  color:var(--muted);
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.tab{
+  border:0;
+  background:#e8edf3;
+  color:var(--text);
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.tab.active{
+  background:var(--accent);
+  color:white;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+
+.card h2{
+  margin:0 0 16px;
+  font-size:21px;
+}
+
+.general-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:16px;
+  gap:15px;
+}
+
+.mobile-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
 }
 
 .field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
+  margin-bottom:15px;
 }
 
-.field label{
-  font-weight:bold;
-  font-size:14px;
+.field:last-child{
+  margin-bottom:0;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
 }
 
 input,
@@ -113,9 +129,9 @@ textarea{
   width:100%;
   border:1px solid var(--line);
   border-radius:10px;
-  padding:12px;
+  padding:11px 12px;
   font-size:15px;
-  background:#fff;
+  background:white;
   color:var(--text);
 }
 
@@ -124,71 +140,98 @@ textarea{
   resize:vertical;
 }
 
+.radio-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.radio-option{
+  position:relative;
+}
+
+.radio-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.radio-option label{
+  margin:0;
+  display:block;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  cursor:pointer;
+  font-weight:600;
+  transition:.15s;
+}
+
+.radio-option input:checked + label{
+  background:#e9efff;
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
 .mobile-card{
   border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
+  border-radius:14px;
+  padding:17px;
   background:#fafbfc;
 }
 
-.mobile-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
-}
-
 .mobile-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.mobile-title h3{
   margin:0;
-  font-size:21px;
+  font-size:20px;
 }
 
-.mobile-badge{
-  background:#e9efff;
-  color:var(--accent-dark);
-  padding:7px 12px;
+.badge{
+  padding:6px 10px;
   border-radius:20px;
-  font-size:13px;
-  font-weight:bold;
+  font-size:12px;
+  font-weight:700;
+  background:#edf1f5;
+  color:var(--muted);
 }
 
-.conditions{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-
-.sub-title{
-  margin:20px 0 12px;
-  font-size:16px;
-}
-
-.photo-area{
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
+.photo-box{
+  border:1px dashed #b9c3cf;
+  border-radius:12px;
+  padding:14px;
+  background:#fff;
 }
 
 .photo-actions{
   display:flex;
-  flex-wrap:wrap;
   align-items:center;
   gap:10px;
+  flex-wrap:wrap;
 }
 
-.photo-btn{
+.photo-button{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:#eef3ff;
-  color:var(--accent-dark);
-  border:1px solid #cbd8ff;
+  padding:10px 14px;
   border-radius:10px;
-  padding:11px 15px;
+  background:#edf2ff;
+  color:var(--accent);
+  border:1px solid #cbd7ff;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:700;
+}
+
+.photo-button input{
+  display:none;
 }
 
 .photo-count{
@@ -196,148 +239,139 @@ textarea{
   font-size:14px;
 }
 
-.photo-preview{
-  display:flex;
-  flex-wrap:wrap;
+.preview-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
   gap:10px;
   margin-top:12px;
 }
 
 .preview-item{
   position:relative;
-  width:100px;
-  height:100px;
+  aspect-ratio:1;
+  border-radius:10px;
+  overflow:hidden;
+  background:#eef1f4;
+  border:1px solid var(--line);
 }
 
 .preview-item img{
   width:100%;
   height:100%;
   object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
 }
 
-.preview-remove{
+.remove-photo{
   position:absolute;
-  top:-7px;
-  right:-7px;
-  width:24px;
-  height:24px;
+  top:5px;
+  right:5px;
   border:0;
-  border-radius:50%;
-  background:var(--danger);
+  background:rgba(0,0,0,.7);
   color:#fff;
+  width:27px;
+  height:27px;
+  border-radius:50%;
   cursor:pointer;
   font-weight:bold;
 }
 
 .actions{
   display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:12px;
+  gap:10px;
+  flex-wrap:wrap;
   margin-top:20px;
 }
 
-.btn{
+button{
   border:0;
-  border-radius:11px;
-  padding:13px 20px;
+  border-radius:10px;
+  padding:13px 18px;
   font-size:15px;
-  font-weight:bold;
+  font-weight:700;
   cursor:pointer;
 }
 
 .btn-primary{
   background:var(--accent);
-  color:#fff;
-}
-
-.btn-primary:hover{
-  background:var(--accent-dark);
+  color:white;
 }
 
 .btn-secondary{
-  background:#e9edf2;
+  background:#e7ebef;
   color:var(--text);
 }
 
-.status{
-  display:none;
-  padding:14px 16px;
-  border-radius:10px;
-  margin-bottom:18px;
-  font-weight:bold;
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
-.status.success{
+.status{
+  margin-top:15px;
+  padding:12px 14px;
+  border-radius:10px;
+  display:none;
+  font-weight:600;
+}
+
+.status.show{
   display:block;
-  background:#e8f7ee;
+}
+
+.status.ok{
+  background:#e8f6ed;
   color:var(--good);
 }
 
 .status.error{
-  display:block;
   background:#fdeaea;
-  color:var(--danger);
+  color:var(--bad);
 }
 
-.loading{
-  display:none;
-  margin-right:auto;
+.status.loading{
+  background:#eef3ff;
+  color:var(--accent);
+}
+
+.note{
   color:var(--muted);
-  align-items:center;
-  gap:8px;
+  font-size:13px;
+  margin-top:6px;
 }
 
-.loading.show{
-  display:flex;
-}
-
-.history{
-  display:none;
-}
-
-@media(max-width:750px){
-
-  .container{
-    width:96%;
-    margin-top:12px;
+@media(max-width:800px){
+  .general-grid,
+  .mobile-grid{
+    grid-template-columns:1fr;
   }
 
-  .header{
-    padding:20px;
+  .container{
+    padding:12px;
   }
 
   .header h1{
     font-size:23px;
   }
+}
 
-  .grid,
-  .conditions{
-    grid-template-columns:1fr;
-  }
-
-  .section{
-    padding:16px;
-  }
-
-  .mobile-card{
-    padding:15px;
-  }
-
-  .mobile-header{
-    align-items:flex-start;
-  }
-
-  .actions{
+@media(max-width:500px){
+  .tabs{
     flex-direction:column;
   }
 
-  .btn{
+  .tab{
     width:100%;
   }
 
+  .radio-group{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .radio-option label{
+    text-align:center;
+    padding:10px 5px;
+  }
 }
 </style>
 </head>
@@ -348,70 +382,225 @@ textarea{
 
   <div class="header">
     <h1>Control de Cambio de Guardia</h1>
-
-    <p>
-      El chofer completa el estado de la unidad al tomar y entregar el servicio.
-    </p>
+    <p>El chofer completa el estado de la unidad al tomar y entregar el servicio.</p>
   </div>
 
-
   <div class="tabs">
-
-    <button
-      class="tab active"
-      onclick="mostrarTab('cargar', this)">
+    <button class="tab active" onclick="mostrarSeccion('cargar',this)">
       Cargar guardia
     </button>
 
-    <button
-      class="tab"
-      onclick="mostrarTab('historial', this)">
+    <button class="tab" onclick="mostrarSeccion('historial',this)">
       Historial
     </button>
-
   </div>
 
+  <!-- ========================= -->
+  <!-- CARGAR GUARDIA -->
+  <!-- ========================= -->
 
-  <div id="status" class="status"></div>
+  <section id="cargar" class="section active">
 
+    <div class="card">
 
-  <!-- =====================================
-       CARGAR GUARDIA
-  ====================================== -->
+      <h2>Datos generales</h2>
 
-  <div id="cargar">
-
-    <div class="section">
-
-      <h2 class="section-title">
-        Datos de la guardia
-      </h2>
-
-      <div class="grid">
+      <div class="general-grid">
 
         <div class="field">
-
-          <label for="fecha">
-            Fecha
-          </label>
-
-          <input
-            type="date"
-            id="fecha">
-
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha">
         </div>
 
-
         <div class="field">
-
-          <label for="chofer">
-            Chofer
-          </label>
-
+          <label for="chofer">Chofer</label>
           <input
             type="text"
             id="chofer"
-            placeholder="Nombre y apellido">
+            placeholder="Ingrese nombre y apellido"
+            autocomplete="off"
+          >
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PAA 327 -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+      <div class="mobile-card">
+
+        <div class="mobile-title">
+          <h3>PAA 327</h3>
+          <span class="badge">Móvil</span>
+        </div>
+
+        <div class="mobile-grid">
+
+          <div class="field">
+            <label>Estado del móvil</label>
+
+            <div class="radio-group">
+
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="PAA327_estado"
+                  id="PAA327_estado_operativo"
+                  value="Operativo"
+                >
+                <label for="PAA327_estado_operativo">Operativo</label>
+              </div>
+
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="PAA327_estado"
+                  id="PAA327_estado_no"
+                  value="No operativo"
+                >
+                <label for="PAA327_estado_no">No operativo</label>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Limpieza exterior</label>
+            <select id="PAA327_limpiezaExterior">
+              <option value="">Seleccionar</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+              <option>Malo</option>
+              <option>Sin dato</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Limpieza interior</label>
+            <select id="PAA327_limpiezaInterior">
+              <option value="">Seleccionar</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+              <option>Malo</option>
+              <option>Sin dato</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Carga de la batería de los equipos</label>
+            <select id="PAA327_bateriaEquipos">
+              <option value="">Seleccionar</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+              <option>Malo</option>
+              <option>Sin dato</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Nivel de oxígeno</label>
+            <select id="PAA327_nivelOxigeno">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Residuos patogénicos</label>
+            <select id="PAA327_residuosPatogenicos">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Tubo de oxígeno N1</label>
+            <select id="PAA327_tuboOxigenoN1">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Tubo de oxígeno N2</label>
+            <select id="PAA327_tuboOxigenoN2">
+              <option value="">Seleccionar</option>
+              <option>Lleno</option>
+              <option>Medio</option>
+              <option>Vacío</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Llave de tubo</label>
+            <select id="PAA327_llaveTubo">
+              <option value="">Seleccionar</option>
+              <option>Sí</option>
+              <option>No</option>
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Observaciones</label>
+            <textarea
+              id="PAA327_observaciones"
+              placeholder="Ingrese observaciones"
+            ></textarea>
+          </div>
+
+        </div>
+
+
+        <div class="field" style="margin-top:15px;">
+
+          <label>Fotos</label>
+
+          <div class="photo-box">
+
+            <div class="photo-actions">
+
+              <label class="photo-button">
+                Cargar foto
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onchange="agregarFotos('PAA 327',this)"
+                >
+              </label>
+
+              <span class="photo-count" id="PAA327_photoCount">
+                Sin fotos
+              </span>
+
+            </div>
+
+            <div
+              class="preview-grid"
+              id="PAA327_preview"
+            ></div>
+
+          </div>
 
         </div>
 
@@ -420,1312 +609,785 @@ textarea{
     </div>
 
 
-    <div class="section">
+    <!-- ========================= -->
+    <!-- PEQ 519 -->
+    <!-- ========================= -->
 
-      <h2 class="section-title">
-        Estado, faltantes y observaciones por unidad
-      </h2>
+    <div class="card">
 
+      <div class="mobile-card">
 
-      <!-- =====================================
-           PAA 327
-      ====================================== -->
-
-      <div
-        class="mobile-card"
-        data-mobile="PAA 327">
-
-        <div class="mobile-header">
-
-          <h3 class="mobile-title">
-            PAA 327
-          </h3>
-
-          <span class="mobile-badge">
-            Móvil
-          </span>
-
+        <div class="mobile-title">
+          <h3>PEQ 519</h3>
+          <span class="badge">Móvil</span>
         </div>
 
-
-        <div class="conditions">
+        <div class="mobile-grid">
 
           <div class="field">
+            <label>Estado del móvil</label>
 
-            <label>
-              Estado del móvil
-            </label>
+            <div class="radio-group">
 
-            <select class="estado">
-              <option value="">Seleccionar</option>
-              <option>Operativo</option>
-              <option>No operativo</option>
-            </select>
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="PEQ519_estado"
+                  id="PEQ519_estado_operativo"
+                  value="Operativo"
+                >
+                <label for="PEQ519_estado_operativo">Operativo</label>
+              </div>
 
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="PEQ519_estado"
+                  id="PEQ519_estado_no"
+                  value="No operativo"
+                >
+                <label for="PEQ519_estado_no">No operativo</label>
+              </div>
+
+            </div>
           </div>
 
 
           <div class="field">
-
-            <label>
-              Limpieza exterior
-            </label>
-
-            <select class="limpiezaExterior">
-              <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Limpieza interior
-            </label>
-
-            <select class="limpiezaInterior">
+            <label>Limpieza exterior</label>
+            <select id="PEQ519_limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
               <option>Regular</option>
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Carga de la batería de los equipos
-            </label>
-
-            <select class="bateriaEquipos">
+            <label>Limpieza interior</label>
+            <select id="PEQ519_limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
               <option>Regular</option>
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
-
           </div>
 
 
           <div class="field">
+            <label>Carga de la batería de los equipos</label>
+            <select id="PEQ519_bateriaEquipos">
+              <option value="">Seleccionar</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+              <option>Malo</option>
+              <option>Sin dato</option>
+            </select>
+          </div>
 
-            <label>
-              Nivel de oxígeno
-            </label>
 
-            <select class="nivelOxigeno">
+          <div class="field">
+            <label>Nivel de oxígeno</label>
+            <select id="PEQ519_nivelOxigeno">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Residuos patogénicos
-            </label>
-
-            <select class="residuosPatogenicos">
+            <label>Residuos patogénicos</label>
+            <select id="PEQ519_residuosPatogenicos">
               <option value="">Seleccionar</option>
               <option>Sí</option>
               <option>No</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo de taqueo
-            </label>
-
-            <select class="tuboTaqueo">
+            <label>Tubo de oxígeno N1</label>
+            <select id="PEQ519_tuboOxigenoN1">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo ultra liviano
-            </label>
-
-            <select class="tuboUltraLiviano">
+            <label>Tubo de oxígeno N2</label>
+            <select id="PEQ519_tuboOxigenoN2">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo de oxígeno
-            </label>
-
-            <select class="tuboOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Llave de tubo
-            </label>
-
-            <select class="llaveTubo">
+            <label>Llave de tubo</label>
+            <select id="PEQ519_llaveTubo">
               <option value="">Seleccionar</option>
               <option>Sí</option>
               <option>No</option>
             </select>
+          </div>
 
+
+          <div class="field">
+            <label>Observaciones</label>
+            <textarea
+              id="PEQ519_observaciones"
+              placeholder="Ingrese observaciones"
+            ></textarea>
           </div>
 
         </div>
 
 
-        <div class="field" style="margin-top:18px;">
+        <div class="field" style="margin-top:15px;">
 
-          <label>
-            Observaciones
-          </label>
+          <label>Fotos</label>
 
-          <textarea
-            class="observaciones"
-            placeholder="Ingrese observaciones de la unidad..."></textarea>
+          <div class="photo-box">
 
-        </div>
+            <div class="photo-actions">
 
+              <label class="photo-button">
+                Cargar foto
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onchange="agregarFotos('PEQ 519',this)"
+                >
+              </label>
 
-        <div class="photo-area">
+              <span class="photo-count" id="PEQ519_photoCount">
+                Sin fotos
+              </span>
 
-          <div class="photo-actions">
+            </div>
 
-            <label class="photo-btn">
-
-              📷 Cargar foto
-
-              <input
-                type="file"
-                class="photoInput"
-                accept="image/*"
-                multiple
-                hidden>
-
-            </label>
-
-
-            <span class="photo-count">
-              0 fotos seleccionadas
-            </span>
+            <div
+              class="preview-grid"
+              id="PEQ519_preview"
+            ></div>
 
           </div>
-
-
-          <div class="photo-preview"></div>
 
         </div>
 
       </div>
 
+    </div>
 
-      <!-- =====================================
-           PEQ 519
-      ====================================== -->
 
-      <div
-        class="mobile-card"
-        data-mobile="PEQ 519">
+    <!-- ========================= -->
+    <!-- AF676BF -->
+    <!-- ========================= -->
 
-        <div class="mobile-header">
+    <div class="card">
 
-          <h3 class="mobile-title">
-            PEQ 519
-          </h3>
+      <div class="mobile-card">
 
-          <span class="mobile-badge">
-            Móvil
-          </span>
-
+        <div class="mobile-title">
+          <h3>AF676BF</h3>
+          <span class="badge">Móvil</span>
         </div>
 
-
-        <div class="conditions">
+        <div class="mobile-grid">
 
           <div class="field">
+            <label>Estado del móvil</label>
 
-            <label>
-              Estado del móvil
-            </label>
+            <div class="radio-group">
 
-            <select class="estado">
-              <option value="">Seleccionar</option>
-              <option>Operativo</option>
-              <option>No operativo</option>
-            </select>
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="AF676BF_estado"
+                  id="AF676BF_estado_operativo"
+                  value="Operativo"
+                >
+                <label for="AF676BF_estado_operativo">Operativo</label>
+              </div>
 
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  name="AF676BF_estado"
+                  id="AF676BF_estado_no"
+                  value="No operativo"
+                >
+                <label for="AF676BF_estado_no">No operativo</label>
+              </div>
+
+            </div>
           </div>
 
 
           <div class="field">
-
-            <label>
-              Limpieza exterior
-            </label>
-
-            <select class="limpiezaExterior">
-              <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Limpieza interior
-            </label>
-
-            <select class="limpiezaInterior">
+            <label>Limpieza exterior</label>
+            <select id="AF676BF_limpiezaExterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
               <option>Regular</option>
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Carga de la batería de los equipos
-            </label>
-
-            <select class="bateriaEquipos">
+            <label>Limpieza interior</label>
+            <select id="AF676BF_limpiezaInterior">
               <option value="">Seleccionar</option>
               <option>Bueno</option>
               <option>Regular</option>
               <option>Malo</option>
               <option>Sin dato</option>
             </select>
-
           </div>
 
 
           <div class="field">
+            <label>Carga de la batería de los equipos</label>
+            <select id="AF676BF_bateriaEquipos">
+              <option value="">Seleccionar</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+              <option>Malo</option>
+              <option>Sin dato</option>
+            </select>
+          </div>
 
-            <label>
-              Nivel de oxígeno
-            </label>
 
-            <select class="nivelOxigeno">
+          <div class="field">
+            <label>Nivel de oxígeno</label>
+            <select id="AF676BF_nivelOxigeno">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Residuos patogénicos
-            </label>
-
-            <select class="residuosPatogenicos">
+            <label>Residuos patogénicos</label>
+            <select id="AF676BF_residuosPatogenicos">
               <option value="">Seleccionar</option>
               <option>Sí</option>
               <option>No</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo de taqueo
-            </label>
-
-            <select class="tuboTaqueo">
+            <label>Tubo de oxígeno N1</label>
+            <select id="AF676BF_tuboOxigenoN1">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo ultra liviano
-            </label>
-
-            <select class="tuboUltraLiviano">
+            <label>Tubo de oxígeno N2</label>
+            <select id="AF676BF_tuboOxigenoN2">
               <option value="">Seleccionar</option>
               <option>Lleno</option>
               <option>Medio</option>
               <option>Vacío</option>
             </select>
-
           </div>
 
 
           <div class="field">
-
-            <label>
-              Tubo de oxígeno
-            </label>
-
-            <select class="tuboOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Llave de tubo
-            </label>
-
-            <select class="llaveTubo">
+            <label>Llave de tubo</label>
+            <select id="AF676BF_llaveTubo">
               <option value="">Seleccionar</option>
               <option>Sí</option>
               <option>No</option>
             </select>
+          </div>
 
+
+          <div class="field">
+            <label>Observaciones</label>
+            <textarea
+              id="AF676BF_observaciones"
+              placeholder="Ingrese observaciones"
+            ></textarea>
           </div>
 
         </div>
 
 
-        <div class="field" style="margin-top:18px;">
+        <div class="field" style="margin-top:15px;">
 
-          <label>
-            Observaciones
-          </label>
+          <label>Fotos</label>
 
-          <textarea
-            class="observaciones"
-            placeholder="Ingrese observaciones de la unidad..."></textarea>
+          <div class="photo-box">
 
-        </div>
+            <div class="photo-actions">
 
+              <label class="photo-button">
+                Cargar foto
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onchange="agregarFotos('AF676BF',this)"
+                >
+              </label>
 
-        <div class="photo-area">
+              <span class="photo-count" id="AF676BF_photoCount">
+                Sin fotos
+              </span>
 
-          <div class="photo-actions">
+            </div>
 
-            <label class="photo-btn">
-
-              📷 Cargar foto
-
-              <input
-                type="file"
-                class="photoInput"
-                accept="image/*"
-                multiple
-                hidden>
-
-            </label>
-
-
-            <span class="photo-count">
-              0 fotos seleccionadas
-            </span>
+            <div
+              class="preview-grid"
+              id="AF676BF_preview"
+            ></div>
 
           </div>
-
-
-          <div class="photo-preview"></div>
 
         </div>
 
       </div>
 
+    </div>
 
-      <!-- =====================================
-           AF676BF
-      ====================================== -->
 
-      <div
-        class="mobile-card"
-        data-mobile="AF676BF">
-
-        <div class="mobile-header">
-
-          <h3 class="mobile-title">
-            AF676BF
-          </h3>
-
-          <span class="mobile-badge">
-            Móvil
-          </span>
-
-        </div>
-
-
-        <div class="conditions">
-
-          <div class="field">
-
-            <label>
-              Estado del móvil
-            </label>
-
-            <select class="estado">
-              <option value="">Seleccionar</option>
-              <option>Operativo</option>
-              <option>No operativo</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Limpieza exterior
-            </label>
-
-            <select class="limpiezaExterior">
-              <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Limpieza interior
-            </label>
-
-            <select class="limpiezaInterior">
-              <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Carga de la batería de los equipos
-            </label>
-
-            <select class="bateriaEquipos">
-              <option value="">Seleccionar</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-              <option>Malo</option>
-              <option>Sin dato</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Nivel de oxígeno
-            </label>
-
-            <select class="nivelOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Residuos patogénicos
-            </label>
-
-            <select class="residuosPatogenicos">
-              <option value="">Seleccionar</option>
-              <option>Sí</option>
-              <option>No</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Tubo de taqueo
-            </label>
-
-            <select class="tuboTaqueo">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Tubo ultra liviano
-            </label>
-
-            <select class="tuboUltraLiviano">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Tubo de oxígeno
-            </label>
-
-            <select class="tuboOxigeno">
-              <option value="">Seleccionar</option>
-              <option>Lleno</option>
-              <option>Medio</option>
-              <option>Vacío</option>
-            </select>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Llave de tubo
-            </label>
-
-            <select class="llaveTubo">
-              <option value="">Seleccionar</option>
-              <option>Sí</option>
-              <option>No</option>
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <div class="field" style="margin-top:18px;">
-
-          <label>
-            Observaciones
-          </label>
-
-          <textarea
-            class="observaciones"
-            placeholder="Ingrese observaciones de la unidad..."></textarea>
-
-        </div>
-
-
-        <div class="photo-area">
-
-          <div class="photo-actions">
-
-            <label class="photo-btn">
-
-              📷 Cargar foto
-
-              <input
-                type="file"
-                class="photoInput"
-                accept="image/*"
-                multiple
-                hidden>
-
-            </label>
-
-
-            <span class="photo-count">
-              0 fotos seleccionadas
-            </span>
-
-          </div>
-
-
-          <div class="photo-preview"></div>
-
-        </div>
-
-      </div>
-
-
-      <!-- BOTONES -->
+    <div class="card">
 
       <div class="actions">
 
-        <div
-          class="loading"
-          id="loading">
-
-          <span>
-            Guardando...
-          </span>
-
-        </div>
-
-
         <button
           type="button"
-          class="btn btn-secondary"
-          onclick="limpiarFormulario()">
-
-          Limpiar formulario
-
+          class="btn-primary"
+          id="guardarBtn"
+          onclick="guardarGuardia()"
+        >
+          Guardar cambio de guardia
         </button>
 
-
         <button
           type="button"
-          class="btn btn-primary"
-          id="guardarBtn"
-          onclick="guardarGuardia()">
-
-          Guardar cambio de guardia
-
+          class="btn-secondary"
+          onclick="limpiarFormulario()"
+        >
+          Limpiar formulario
         </button>
 
       </div>
 
+      <div
+        id="status"
+        class="status"
+      ></div>
+
     </div>
 
-  </div>
+  </section>
 
 
-  <!-- =====================================
-       HISTORIAL
-  ====================================== -->
+  <!-- ========================= -->
+  <!-- HISTORIAL -->
+  <!-- ========================= -->
 
-  <div
-    id="historial"
-    class="history">
+  <section id="historial" class="section">
 
-    <div class="section">
+    <div class="card">
 
-      <h2 class="section-title">
-        Historial
-      </h2>
+      <h2>Historial</h2>
 
-      <p style="color:var(--muted);">
-        Los registros guardados quedan almacenados
-        en las pestañas correspondientes de Google Sheets.
+      <p>
+        Los registros quedan almacenados en las hojas de Google Sheets
+        correspondientes a cada móvil.
       </p>
 
-      <p style="color:var(--muted);">
+      <p class="note">
         PAA 327 · PEQ 519 · AF676BF
       </p>
 
     </div>
 
-  </div>
+  </section>
 
 </div>
 
 
 <script>
 
-/************************************************
- * FOTOS
- ************************************************/
+const URL_WEB_APP =
+"https://script.google.com/macros/s/AKfycbxzyH9JdBlsuHOeMxuy8yt1HqydigN63O3xUGYrDtyPA6nA4wZtpZSfFrnKQvGNhYsTww/exec";
 
-const fotosPorMovil = {
 
+const fotos = {
   "PAA 327": [],
-
   "PEQ 519": [],
-
   "AF676BF": []
-
 };
 
 
-/************************************************
- * INICIO
- ************************************************/
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    ponerFechaActual();
+const claves = {
+  "PAA 327": "PAA327",
+  "PEQ 519": "PEQ519",
+  "AF676BF": "AF676BF"
+};
 
 
-    document
-      .querySelectorAll(".mobile-card")
-      .forEach(function(card){
+document.addEventListener("DOMContentLoaded", function(){
 
-        const mobile =
-          card.dataset.mobile;
+  const hoy = new Date();
 
-        const input =
-          card.querySelector(".photoInput");
+  const yyyy = hoy.getFullYear();
 
+  const mm = String(hoy.getMonth()+1).padStart(2,"0");
 
-        input.addEventListener(
-          "change",
-          function(){
-
-            agregarFotos(
-              mobile,
-              this.files,
-              card
-            );
-
-            this.value = "";
-
-          }
-        );
-
-      });
-
-  }
-);
-
-
-/************************************************
- * FECHA ACTUAL
- ************************************************/
-
-function ponerFechaActual(){
-
-  const hoy =
-    new Date();
-
-  const yyyy =
-    hoy.getFullYear();
-
-  const mm =
-    String(
-      hoy.getMonth() + 1
-    ).padStart(2,"0");
-
-  const dd =
-    String(
-      hoy.getDate()
-    ).padStart(2,"0");
-
+  const dd = String(hoy.getDate()).padStart(2,"0");
 
   document.getElementById("fecha").value =
     `${yyyy}-${mm}-${dd}`;
 
-}
+});
 
 
-/************************************************
- * TABS
- ************************************************/
+function mostrarSeccion(nombre, boton){
 
-function mostrarTab(
-  tab,
-  boton
-){
+  document.querySelectorAll(".section")
+    .forEach(s => s.classList.remove("active"));
 
-  document.getElementById("cargar").style.display =
-    tab === "cargar"
-      ? "block"
-      : "none";
+  document.querySelectorAll(".tab")
+    .forEach(t => t.classList.remove("active"));
 
-
-  document.getElementById("historial").style.display =
-    tab === "historial"
-      ? "block"
-      : "none";
-
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(function(btn){
-
-      btn.classList.remove("active");
-
-    });
-
+  document.getElementById(nombre)
+    .classList.add("active");
 
   boton.classList.add("active");
-
 }
 
 
-/************************************************
- * AGREGAR FOTOS
- ************************************************/
+function comprimirFoto(file){
 
-function agregarFotos(
-  mobile,
-  files,
-  card
-){
+  return new Promise((resolve,reject)=>{
 
-  for(
-    const file of files
-  ){
+    const reader = new FileReader();
 
-    if(
-      !file.type.startsWith("image/")
-    ){
+    reader.onload = function(e){
 
-      continue;
+      const img = new Image();
 
-    }
+      img.onload = function(){
 
+        const MAX = 1600;
 
-    const reader =
-      new FileReader();
+        let width = img.width;
+        let height = img.height;
 
+        if(width > MAX || height > MAX){
 
-    reader.onload =
-      function(e){
+          if(width > height){
 
-        const img =
-          new Image();
-
-
-        img.onload =
-          function(){
-
-            const canvas =
-              document.createElement(
-                "canvas"
-              );
-
-
-            const maxSize =
-              1600;
-
-
-            let width =
-              img.width;
-
-            let height =
-              img.height;
-
-
-            if(
-              width > height
-            ){
-
-              if(
-                width > maxSize
-              ){
-
-                height =
-                  Math.round(
-                    height *
-                    maxSize /
-                    width
-                  );
-
-                width =
-                  maxSize;
-
-              }
-
-            }else{
-
-              if(
-                height > maxSize
-              ){
-
-                width =
-                  Math.round(
-                    width *
-                    maxSize /
-                    height
-                  );
-
-                height =
-                  maxSize;
-
-              }
-
-            }
-
-
-            canvas.width =
-              width;
-
-            canvas.height =
-              height;
-
-
-            const ctx =
-              canvas.getContext(
-                "2d"
-              );
-
-
-            ctx.drawImage(
-              img,
-              0,
-              0,
-              width,
-              height
+            height = Math.round(
+              height * MAX / width
             );
 
+            width = MAX;
 
-            const data =
-              canvas.toDataURL(
-                "image/jpeg",
-                0.72
-              );
+          }else{
 
-
-            fotosPorMovil[mobile]
-              .push({
-
-                filename:
-                  file.name,
-
-                type:
-                  "image/jpeg",
-
-                data:
-                  data.split(",")[1]
-
-              });
-
-
-            actualizarFotos(
-              mobile,
-              card
+            width = Math.round(
+              width * MAX / height
             );
 
-          };
+            height = MAX;
 
+          }
 
-        img.src =
-          e.target.result;
+        }
+
+        const canvas =
+          document.createElement("canvas");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx =
+          canvas.getContext("2d");
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
+
+        const data =
+          canvas.toDataURL(
+            "image/jpeg",
+            0.72
+          );
+
+        resolve({
+          filename: file.name,
+          type: "image/jpeg",
+          data: data.split(",")[1]
+        });
 
       };
 
+      img.onerror = reject;
+
+      img.src = e.target.result;
+
+    };
+
+    reader.onerror = reject;
 
     reader.readAsDataURL(file);
 
+  });
+
+}
+
+
+async function agregarFotos(movil,input){
+
+  const archivos =
+    Array.from(input.files || []);
+
+  if(!archivos.length){
+    return;
   }
 
-}
+  try{
 
+    for(const archivo of archivos){
 
-/************************************************
- * ACTUALIZAR PREVISUALIZACIÓN
- ************************************************/
+      const foto =
+        await comprimirFoto(archivo);
 
-function actualizarFotos(
-  mobile,
-  card
-){
-
-  const preview =
-    card.querySelector(
-      ".photo-preview"
-    );
-
-
-  const count =
-    card.querySelector(
-      ".photo-count"
-    );
-
-
-  preview.innerHTML =
-    "";
-
-
-  const fotos =
-    fotosPorMovil[mobile];
-
-
-  count.textContent =
-    `${fotos.length} foto${
-      fotos.length === 1
-        ? ""
-        : "s"
-    } seleccionada${
-      fotos.length === 1
-        ? ""
-        : "s"
-    }`;
-
-
-  fotos.forEach(
-    function(foto,index){
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-
-      item.className =
-        "preview-item";
-
-
-      const img =
-        document.createElement(
-          "img"
-        );
-
-
-      img.src =
-        "data:image/jpeg;base64," +
-        foto.data;
-
-
-      const remove =
-        document.createElement(
-          "button"
-        );
-
-
-      remove.type =
-        "button";
-
-
-      remove.className =
-        "preview-remove";
-
-
-      remove.textContent =
-        "×";
-
-
-      remove.onclick =
-        function(){
-
-          fotos.splice(
-            index,
-            1
-          );
-
-
-          actualizarFotos(
-            mobile,
-            card
-          );
-
-        };
-
-
-      item.appendChild(
-        img
-      );
-
-
-      item.appendChild(
-        remove
-      );
-
-
-      preview.appendChild(
-        item
-      );
+      fotos[movil].push(foto);
 
     }
-  );
+
+    actualizarPreview(movil);
+
+  }catch(error){
+
+    mostrarStatus(
+      "No se pudo procesar una de las fotos.",
+      "error"
+    );
+
+  }
+
+  input.value = "";
 
 }
 
 
-/************************************************
- * OBTENER DATOS DEL MÓVIL
- ************************************************/
+function actualizarPreview(movil){
 
-function obtenerDatosMovil(
-  card
-){
+  const clave = claves[movil];
+
+  const contenedor =
+    document.getElementById(
+      clave + "_preview"
+    );
+
+  const contador =
+    document.getElementById(
+      clave + "_photoCount"
+    );
+
+  contenedor.innerHTML = "";
+
+  if(!fotos[movil].length){
+
+    contador.textContent =
+      "Sin fotos";
+
+    return;
+
+  }
+
+  contador.textContent =
+    fotos[movil].length +
+    (fotos[movil].length === 1
+      ? " foto"
+      : " fotos");
+
+
+  fotos[movil].forEach((foto,index)=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "preview-item";
+
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      "data:image/jpeg;base64," +
+      foto.data;
+
+
+    const eliminar =
+      document.createElement("button");
+
+    eliminar.type = "button";
+
+    eliminar.className =
+      "remove-photo";
+
+    eliminar.textContent = "×";
+
+    eliminar.onclick = function(){
+
+      fotos[movil].splice(index,1);
+
+      actualizarPreview(movil);
+
+    };
+
+
+    item.appendChild(img);
+
+    item.appendChild(eliminar);
+
+    contenedor.appendChild(item);
+
+  });
+
+}
+
+
+function obtenerEstado(movil){
+
+  const clave = claves[movil];
+
+  const radio =
+    document.querySelector(
+      `input[name="${clave}_estado"]:checked`
+    );
+
+  return radio
+    ? radio.value
+    : "";
+
+}
+
+
+function obtenerUnidad(movil){
+
+  const clave = claves[movil];
 
   return {
 
     estado:
-      card
-        .querySelector(
-          ".estado"
-        )
-        .value,
-
+      obtenerEstado(movil),
 
     limpiezaExterior:
-      card
-        .querySelector(
-          ".limpiezaExterior"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_limpiezaExterior"
+      ).value,
 
     limpiezaInterior:
-      card
-        .querySelector(
-          ".limpiezaInterior"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_limpiezaInterior"
+      ).value,
 
     bateriaEquipos:
-      card
-        .querySelector(
-          ".bateriaEquipos"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_bateriaEquipos"
+      ).value,
 
     nivelOxigeno:
-      card
-        .querySelector(
-          ".nivelOxigeno"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_nivelOxigeno"
+      ).value,
 
     residuosPatogenicos:
-      card
-        .querySelector(
-          ".residuosPatogenicos"
-        )
-        .value,
+      document.getElementById(
+        clave + "_residuosPatogenicos"
+      ).value,
 
+    tuboOxigenoN1:
+      document.getElementById(
+        clave + "_tuboOxigenoN1"
+      ).value,
 
-    tuboTaqueo:
-      card
-        .querySelector(
-          ".tuboTaqueo"
-        )
-        .value,
-
-
-    tuboUltraLiviano:
-      card
-        .querySelector(
-          ".tuboUltraLiviano"
-        )
-        .value,
-
-
-    tuboOxigeno:
-      card
-        .querySelector(
-          ".tuboOxigeno"
-        )
-        .value,
-
+    tuboOxigenoN2:
+      document.getElementById(
+        clave + "_tuboOxigenoN2"
+      ).value,
 
     llaveTubo:
-      card
-        .querySelector(
-          ".llaveTubo"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_llaveTubo"
+      ).value,
 
     observaciones:
-      card
-        .querySelector(
-          ".observaciones"
-        )
-        .value,
-
+      document.getElementById(
+        clave + "_observaciones"
+      ).value.trim(),
 
     fotos:
-      fotosPorMovil[
-        card.dataset.mobile
-      ] || []
+      fotos[movil]
 
   };
 
 }
 
 
-/************************************************
- * GUARDAR GUARDIA
- ************************************************/
+function mostrarStatus(mensaje,tipo){
+
+  const status =
+    document.getElementById("status");
+
+  status.textContent = mensaje;
+
+  status.className =
+    "status show " + tipo;
+
+}
+
 
 async function guardarGuardia(){
 
   const fecha =
-    document
-      .getElementById("fecha")
-      .value
-      .trim();
-
+    document.getElementById("fecha").value;
 
   const chofer =
-    document
-      .getElementById("chofer")
-      .value
-      .trim();
+    document.getElementById("chofer").value.trim();
 
 
   if(!fecha){
 
     mostrarStatus(
-      "error",
-      "Por favor complete la fecha."
+      "Ingrese la fecha.",
+      "error"
     );
 
     return;
@@ -1736,8 +1398,8 @@ async function guardarGuardia(){
   if(!chofer){
 
     mostrarStatus(
-      "error",
-      "Por favor complete el nombre del chofer."
+      "Ingrese el nombre del chofer.",
+      "error"
     );
 
     return;
@@ -1747,266 +1409,165 @@ async function guardarGuardia(){
 
   const unidades = {};
 
+  [
+    "PAA 327",
+    "PEQ 519",
+    "AF676BF"
+  ].forEach(movil=>{
 
-  document
-    .querySelectorAll(".mobile-card")
-    .forEach(function(card){
+    unidades[movil] =
+      obtenerUnidad(movil);
 
-      const mobile =
-        card.dataset.mobile;
-
-
-      unidades[mobile] =
-        obtenerDatosMovil(card);
-
-    });
+  });
 
 
   const datos = {
 
-    fecha:
-      fecha,
+    fecha: fecha,
 
-    chofer:
-      chofer,
+    chofer: chofer,
 
-    unidades:
-      unidades
+    unidades: unidades
 
   };
 
 
   const boton =
-    document.getElementById(
-      "guardarBtn"
-    );
+    document.getElementById("guardarBtn");
 
+  boton.disabled = true;
 
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-
-  boton.disabled =
-    true;
-
-
-  loading.classList.add(
-    "show"
+  mostrarStatus(
+    "Guardando cambio de guardia...",
+    "loading"
   );
 
 
   try{
 
+    const respuesta =
+      await fetch(
+        URL_WEB_APP,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify(datos)
+
+        }
+      );
+
+
     const resultado =
-      await enviarDatos(datos);
+      await respuesta.json();
 
 
-    if(
-      resultado &&
-      resultado.ok
-    ){
-
-      mostrarStatus(
-        "success",
-        resultado.mensaje ||
-        "Cambio de guardia guardado correctamente."
-      );
-
-
-      limpiarFormulario(
-        false
-      );
-
-    }else{
+    if(!resultado.ok){
 
       throw new Error(
-        resultado &&
-        resultado.error
-          ? resultado.error
-          : "No se pudo guardar el registro."
+        resultado.mensaje ||
+        "No se pudo guardar."
       );
 
     }
+
+
+    mostrarStatus(
+      resultado.mensaje +
+      " Fotos guardadas: " +
+      resultado.totalFotos,
+      "ok"
+    );
+
+
+    setTimeout(()=>{
+
+      limpiarFormulario();
+
+    },1800);
+
 
   }catch(error){
 
     console.error(error);
 
-
     mostrarStatus(
-      "error",
       "Error al guardar: " +
-      error.message
+      error.message,
+      "error"
     );
 
   }finally{
 
-    boton.disabled =
-      false;
-
-
-    loading.classList.remove(
-      "show"
-    );
+    boton.disabled = false;
 
   }
 
 }
 
 
-/************************************************
- * ENVIAR AL APPS SCRIPT
- ************************************************/
+function limpiarFormulario(){
 
-async function enviarDatos(
-  datos
-){
+  document.getElementById("chofer").value = "";
 
-  const url =
-    "https://script.google.com/macros/s/AKfycbxzyH9JdBlsuHOeMxuy8yt1HqydigN63O3xUGYrDtyPA6nA4wZtpZSfFrnKQvGNhYsTww/exec";
-
-
-  const response =
-    await fetch(
-      url,
-      {
-
-        method:
-          "POST",
-
-        headers:{
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body:
-          JSON.stringify(datos)
-
-      }
-    );
+  document.querySelectorAll(
+    'input[type="radio"]'
+  ).forEach(radio=>{
+    radio.checked = false;
+  });
 
 
-  const texto =
-    await response.text();
+  document.querySelectorAll(
+    "select"
+  ).forEach(select=>{
+    select.value = "";
+  });
 
 
-  try{
-
-    return JSON.parse(
-      texto
-    );
-
-  }catch(e){
-
-    throw new Error(
-      "El servidor no devolvió una respuesta válida."
-    );
-
-  }
-
-}
+  document.querySelectorAll(
+    "textarea"
+  ).forEach(textarea=>{
+    textarea.value = "";
+  });
 
 
-/************************************************
- * LIMPIAR FORMULARIO
- ************************************************/
+  [
+    "PAA 327",
+    "PEQ 519",
+    "AF676BF"
+  ].forEach(movil=>{
 
-function limpiarFormulario(
-  mostrarMensaje = true
-){
+    fotos[movil] = [];
 
-  document
-    .getElementById("chofer")
-    .value = "";
-
-
-  document
-    .querySelectorAll(".mobile-card")
-    .forEach(function(card){
-
-      card
-        .querySelectorAll("select")
-        .forEach(function(select){
-
-          select.value = "";
-
-        });
-
-
-      card
-        .querySelectorAll("textarea")
-        .forEach(function(textarea){
-
-          textarea.value = "";
-
-        });
-
-
-      const mobile =
-        card.dataset.mobile;
-
-
-      fotosPorMovil[mobile] =
-        [];
-
-
-      actualizarFotos(
-        mobile,
-        card
-      );
-
-    });
-
-
-  ponerFechaActual();
-
-
-  if(
-    mostrarMensaje
-  ){
-
-    mostrarStatus(
-      "success",
-      "Formulario limpiado."
-    );
-
-  }
-
-}
-
-
-/************************************************
- * MENSAJES
- ************************************************/
-
-function mostrarStatus(
-  tipo,
-  mensaje
-){
-
-  const status =
-    document.getElementById(
-      "status"
-    );
-
-
-  status.className =
-    "status " + tipo;
-
-
-  status.textContent =
-    mensaje;
-
-
-  window.scrollTo({
-
-    top:0,
-
-    behavior:"smooth"
+    actualizarPreview(movil);
 
   });
+
+
+  const hoy = new Date();
+
+  const yyyy =
+    hoy.getFullYear();
+
+  const mm =
+    String(hoy.getMonth()+1)
+      .padStart(2,"0");
+
+  const dd =
+    String(hoy.getDate())
+      .padStart(2,"0");
+
+
+  document.getElementById("fecha").value =
+    `${yyyy}-${mm}-${dd}`;
+
+
+  document.getElementById("status").className =
+    "status";
 
 }
 
